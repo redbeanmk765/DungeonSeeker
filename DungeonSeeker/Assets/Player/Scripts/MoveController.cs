@@ -16,12 +16,12 @@ public class MoveController : MonoBehaviour
     void Update()
     {
 
-    }
+    }   
 
     void FixedUpdate()
     {
         float Hor = Input.GetAxisRaw("Horizontal");
-
+        Debug.Log(Hor);
         rigid.AddForce(Vector2.right * Hor, ForceMode2D.Impulse);
 
         if (rigid.velocity.x > MaxSpeed)
