@@ -75,7 +75,7 @@ public class MoveController : MonoBehaviour
     {
         
        
-        rigid.AddForce(Vector2.right * Hor, ForceMode2D.Impulse);
+        rigid.AddForce(Vector2.right * Hor * MaxSpeed, ForceMode2D.Impulse);
 
         if (rigid.velocity.x > MaxSpeed)
         {
