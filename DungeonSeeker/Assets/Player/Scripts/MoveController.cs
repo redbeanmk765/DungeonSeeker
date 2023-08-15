@@ -8,6 +8,7 @@ public class MoveController : MonoBehaviour
     public Rigidbody2D rigid;
     public float Hor;
     public int JumpCount;
+    public int JumpCountMax;
     public bool IsGround;
     public float GroundDistance;
     public LayerMask LayerMask;
@@ -15,13 +16,16 @@ public class MoveController : MonoBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        JumpCount = 2;
-        GroundDistance = GetComponent<BoxCollider2D>().bounds.extents.y + 0.05f;
+        JumpCountMax = 2;
+        JumpCount = JumpCountMax;
+       
+        GroundDistance = GetComponent<BoxCollider2D>().bounds.extents.y + 0.1f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * GroundDistance, new Color(0, 1, 0));
         Hor = Input.GetAxisRaw("Horizontal");
         if (Input.GetButtonUp("Horizontal"))
         {
@@ -32,14 +36,15 @@ public class MoveController : MonoBehaviour
         {
             IsGround = false;
             RaycastHit2D GroundHit = Physics2D.Raycast(transform.position, Vector2.down, GroundDistance, LayerMask);
-
-            if (GroundHit)
+            
+            if (GroundHit != false)
             {
-
+                Debug.Log("test");
                 if (GroundHit.transform.CompareTag("Ground"))
                 {
-
-                    IsGround = true;
+                    JumpCount = JumpCountMax;
+                    //IsGround = true;
+                   // Debug.Log(IsGround);
                 }
                
             }
@@ -47,9 +52,9 @@ public class MoveController : MonoBehaviour
             
         }
 
-        if (rigid.velocity.y > 0)
+        if (rigid.velocity.y != 0)
         {
-            //IsGround = false;
+           // IsGround = false;
         }
 
 

@@ -1206,11 +1206,12 @@ MonoBehaviour:
   rigid: {fileID: 0}
   Hor: 0
   JumpCount: 0
+  JumpCountMax: 0
   IsGround: 0
   GroundDistance: 0
   LayerMask:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 128
 --- !u!68 &1883951107
 EdgeCollider2D:
   m_ObjectHideFlags: 0
