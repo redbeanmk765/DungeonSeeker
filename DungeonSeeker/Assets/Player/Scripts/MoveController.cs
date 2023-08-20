@@ -13,6 +13,7 @@ public class MoveController : MonoBehaviour
     public float GroundDistance;
     public float GroundScale;
     public LayerMask LayerMask;
+    public ConstantForce2D Gravity;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,13 +24,20 @@ public class MoveController : MonoBehaviour
         GroundDistance = GetComponent<BoxCollider2D>().bounds.extents.y + 0.1f;
         GroundScale = GetComponent<BoxCollider2D>().bounds.extents.x + 0.1f;
 
+        Gravity = this.GetComponent<ConstantForce2D>(); 
+        Gravity.force = new Vector2(0, -9.8f);
+        
+
     }
     
 
         // Update is called once per frame
         void Update()
         {
+            
+
             Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * GroundDistance, new Color(0, 1, 0));
+
             Hor = Input.GetAxisRaw("Horizontal");
             if (Input.GetButtonUp("Horizontal"))
             {
@@ -70,7 +78,7 @@ public class MoveController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-
+              Gravity.force = new Vector2(0, -2.8f);
                 if (JumpCount > 0)
                 {
                     rigid.velocity = new Vector2(rigid.velocity.x, 6);
@@ -78,6 +86,10 @@ public class MoveController : MonoBehaviour
                 }
             }
 
+            if (Input.GetButtonUp("Jump"))
+            {
+                Gravity.force = new Vector2(0, -9.8f);
+             }
 
         }
 
