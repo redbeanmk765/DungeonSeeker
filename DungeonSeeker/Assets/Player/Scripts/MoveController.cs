@@ -78,15 +78,19 @@ public class MoveController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-              Gravity.force = new Vector2(0, -2.8f);
-                if (JumpCount > 0)
+             
+                if (JumpCount > 0) 
                 {
                     rigid.velocity = new Vector2(rigid.velocity.x, 6);
                     JumpCount--;
                 }
             }
 
-            if (Input.GetButtonUp("Jump"))
+            if (Input.GetButtonDown("Horizontal"))
+            {
+                Gravity.force = new Vector2(0, -2.8f);
+            }
+            if (Input.GetButtonUp("Horizontal"))
             {
                 Gravity.force = new Vector2(0, -9.8f);
              }
