@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MoveController : MonoBehaviour
 {
-    public float MaxSpeed;
+    public float MaxSpeedX;
+    public float MaxSpeedY;
     public Rigidbody2D rigid;
     public float Hor;
     public int JumpCount;
@@ -17,6 +18,8 @@ public class MoveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MaxSpeedX = 5;
+        MaxSpeedY = 10;
         rigid = GetComponent<Rigidbody2D>();
         JumpCountMax = 2;
         JumpCount = JumpCountMax;
@@ -34,11 +37,12 @@ public class MoveController : MonoBehaviour
         // Update is called once per frame
         void Update()
         {
-            
 
-            Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * GroundDistance, new Color(0, 1, 0));
+            Debug.DrawRay(transform.position, new Vector3(1, 0, 0) * 0.4f, new Color(0, 1, 0));
+            Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
+            Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
 
-            Hor = Input.GetAxisRaw("Horizontal");
+        Hor = Input.GetAxisRaw("Horizontal");
             if (Input.GetButtonUp("Horizontal"))
             {
                 rigid.velocity = new Vector2(0, rigid.velocity.y);
@@ -69,8 +73,11 @@ public class MoveController : MonoBehaviour
                 // IsGround = false;
             }
 
-
-
+             RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.85f), 0, Vector2.right * Hor, 0.4f, LayerMask);
+        if (WallHit != false)
+        {
+            Debug.Log("Wall");
+        }
             if (IsGround == true)
             {
                 JumpCount = 2;
@@ -86,14 +93,14 @@ public class MoveController : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Horizontal"))
-            {
-                Gravity.force = new Vector2(0, -2.8f);
+            if (Input.GetButton("Horizontal") && (WallHit != false))
+            {        
+                rigid.velocity = new Vector2(0, -2f);
+                Gravity.force = new Vector2(0, 0);
             }
-            if (Input.GetButtonUp("Horizontal"))
-            {
+            
                 Gravity.force = new Vector2(0, -9.8f);
-             }
+            
 
         }
 
@@ -101,16 +108,26 @@ public class MoveController : MonoBehaviour
         {
 
 
-            rigid.AddForce(Vector2.right * Hor * MaxSpeed, ForceMode2D.Impulse);
+            rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
 
-            if (rigid.velocity.x > MaxSpeed)
+            if (rigid.velocity.x > MaxSpeedX)
             {
-                rigid.velocity = new Vector2(MaxSpeed, rigid.velocity.y);
+                rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
             }
 
-            else if (rigid.velocity.x < -1 * MaxSpeed)
+            else if (rigid.velocity.x < -1 * MaxSpeedX)
             {
-                rigid.velocity = new Vector2(-1 * MaxSpeed, rigid.velocity.y);
+                rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
+            }
+
+            if (rigid.velocity.y > MaxSpeedY)
+            {
+                rigid.velocity = new Vector2(rigid.velocity.x, MaxSpeedY);
+            }
+
+            else if (rigid.velocity.y < -1 * MaxSpeedY)
+            {
+                rigid.velocity = new Vector2(rigid.velocity.x, -1 * MaxSpeedY);
             }
 
             //if (rigid.velocity.y < 0) // 플레이어가 낙하중일 때 == velocity.y가 음수
