@@ -15,6 +15,8 @@ public class MoveController : MonoBehaviour
     public float GroundScale;
     public LayerMask LayerMask;
     public ConstantForce2D Gravity;
+    public bool IsWall;
+    public bool IsWallJump;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,13 +45,15 @@ public class MoveController : MonoBehaviour
             Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
 
         Hor = Input.GetAxisRaw("Horizontal");
-            if (Input.GetButtonUp("Horizontal"))
-            {
-                rigid.velocity = new Vector2(0, rigid.velocity.y);
-            }
+            
+        if (Input.GetButtonUp("Horizontal")) 
+        {       
+            rigid.velocity = new Vector2(0, rigid.velocity.y);
+        }
 
-            if (rigid.velocity.y < 0)
-            {
+            
+        if (rigid.velocity.y < 0)
+        {
                 IsGround = false;
                 RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
 
@@ -59,28 +63,36 @@ public class MoveController : MonoBehaviour
                     if (GroundHit.transform.CompareTag("Ground"))
                     {
                         JumpCount = JumpCountMax;
-                        //IsGround = true;
+                        IsGround = true;
                         // Debug.Log(IsGround);
                     }
 
                 }
 
 
-            }
+        }
 
-            if (rigid.velocity.y != 0)
+        if (rigid.velocity.y != 0)
             {
                 // IsGround = false;
             }
-
-             RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.85f), 0, Vector2.right * Hor, 0.4f, LayerMask);
+        
+        RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.85f), 0, Vector2.right * Hor, 0.4f, LayerMask);
         if (WallHit != false)
         {
             Debug.Log("Wall");
+            IsWall = true;
+
         }
+        else
+        {
+            IsWall = false;
+        }
+
+        
             if (IsGround == true)
             {
-                JumpCount = 2;
+                //JumpCount = 2;
             }
 
             if (Input.GetButtonDown("Jump"))
@@ -91,18 +103,32 @@ public class MoveController : MonoBehaviour
                     rigid.velocity = new Vector2(rigid.velocity.x, 6);
                     JumpCount--;
                 }
+
+                if(IsWall == true)
+                {
+                IsWallJump = true;
+                rigid.velocity = new Vector2(Hor * -1 * 3f, rigid.velocity.y);
+                }
             }
 
-            if (Input.GetButton("Horizontal") && (WallHit != false))
-            {        
-                rigid.velocity = new Vector2(0, -2f);
-                Gravity.force = new Vector2(0, 0);
-            }
-            
-                Gravity.force = new Vector2(0, -9.8f);
-            
+        if (Input.GetButton("Horizontal") && (WallHit != false))
+        {
+            //rigid.velocity = new Vector2(0, -2f);
+            MaxSpeedY = 2f;
 
+            Gravity.force = new Vector2(0, -20f);
+
+            JumpCount = 2;
         }
+        else
+        {
+            Gravity.force = new Vector2(0, -9.8f);
+            MaxSpeedY = 10;
+        }
+
+
+
+    }
 
         void FixedUpdate()
         {
