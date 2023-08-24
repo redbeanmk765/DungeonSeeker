@@ -8,8 +8,8 @@ public class MoveController : MonoBehaviour
     public float MaxSpeedY;
     public Rigidbody2D rigid;
     public float Hor;
-    public int JumpCount;
-    public int JumpCountMax;
+    public int AirJumpCount;
+    public int AirJumpCountMax;
     public bool IsGround;
     public float GroundDistance;
     public float GroundScale;
@@ -23,8 +23,8 @@ public class MoveController : MonoBehaviour
         MaxSpeedX = 5;
         MaxSpeedY = 10;
         rigid = GetComponent<Rigidbody2D>();
-        JumpCountMax = 2;
-        JumpCount = JumpCountMax;
+        AirJumpCountMax = 1;
+        AirJumpCount = AirJumpCountMax;
 
         GroundDistance = GetComponent<BoxCollider2D>().bounds.extents.y + 0.1f;
         GroundScale = GetComponent<BoxCollider2D>().bounds.extents.x + 0.1f;
@@ -45,32 +45,34 @@ public class MoveController : MonoBehaviour
             Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
 
         Hor = Input.GetAxisRaw("Horizontal");
-            
-        if (Input.GetButtonUp("Horizontal")) 
+
+        if ((Input.GetButtonUp("Horizontal") || Hor == 0 )&& IsWallJump == false ) 
         {       
             rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
 
             
-        if (rigid.velocity.y < 0)
-        {
-                IsGround = false;
+
                 RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
 
-                if (GroundHit != false)
-                {
-                    Debug.Log("test");
-                    if (GroundHit.transform.CompareTag("Ground"))
-                    {
-                        JumpCount = JumpCountMax;
+        if (GroundHit != false)
+        {
+            Debug.Log("test");
+            if (GroundHit.transform.CompareTag("Ground"))
+            {
+                        AirJumpCount = AirJumpCountMax;
                         IsGround = true;
                         // Debug.Log(IsGround);
-                    }
-
-                }
-
-
+            }
+           
         }
+        else
+        {
+            IsGround = false;
+        }
+
+
+
 
         if (rigid.velocity.y != 0)
             {
@@ -87,8 +89,9 @@ public class MoveController : MonoBehaviour
         else
         {
             IsWall = false;
+            
         }
-
+       
         
             if (IsGround == true)
             {
@@ -97,17 +100,23 @@ public class MoveController : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-             
-                if (JumpCount > 0) 
+
+                if (AirJumpCount > 0)
                 {
-                    rigid.velocity = new Vector2(rigid.velocity.x, 6);
-                    JumpCount--;
+                    rigid.velocity = new Vector2(rigid.velocity.x, 6f);
+
+                    if (IsGround == false && IsWall == false) 
+                    { 
+                        AirJumpCount--;
+                    }
                 }
 
                 if(IsWall == true)
                 {
-                IsWallJump = true;
-                rigid.velocity = new Vector2(Hor * -1 * 3f, rigid.velocity.y);
+                    rigid.AddForce(new Vector2(-1 * Hor * 5f, 6f), ForceMode2D.Impulse);
+                    StartCoroutine(WallJump());
+                    
+
                 }
             }
 
@@ -118,12 +127,12 @@ public class MoveController : MonoBehaviour
 
             Gravity.force = new Vector2(0, -20f);
 
-            JumpCount = 2;
         }
         else
         {
             Gravity.force = new Vector2(0, -9.8f);
             MaxSpeedY = 10;
+
         }
 
 
@@ -134,7 +143,10 @@ public class MoveController : MonoBehaviour
         {
 
 
-            rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
+            if (IsWallJump == false)
+            {
+                rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
+            }
 
             if (rigid.velocity.x > MaxSpeedX)
             {
@@ -169,5 +181,14 @@ public class MoveController : MonoBehaviour
             //    }
             //}
         }
-    
+
+        IEnumerator WallJump()
+        { 
+            IsWallJump = true;
+            yield return new WaitForSeconds(0.05f);
+            rigid.velocity = new Vector2(rigid.velocity.x, 6f);
+            yield return new WaitForSeconds(0.25f);
+            IsWallJump = false;
+        }
+
 }
