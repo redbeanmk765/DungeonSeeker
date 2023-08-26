@@ -8,6 +8,7 @@ public class MoveController : MonoBehaviour
     public float MaxSpeedY;
     public Rigidbody2D rigid;
     public float Hor;
+    public float LastHor;
     public int AirJumpCount;
     public int AirJumpCountMax;
     public bool IsGround;
@@ -17,6 +18,9 @@ public class MoveController : MonoBehaviour
     public ConstantForce2D Gravity;
     public bool IsWall;
     public bool IsWallJump;
+    public bool IsDash;
+    public bool IsDashReady;
+    public float DashCooltime;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,42 +33,52 @@ public class MoveController : MonoBehaviour
         GroundDistance = GetComponent<BoxCollider2D>().bounds.extents.y + 0.1f;
         GroundScale = GetComponent<BoxCollider2D>().bounds.extents.x + 0.1f;
 
-        Gravity = this.GetComponent<ConstantForce2D>(); 
+        Gravity = this.GetComponent<ConstantForce2D>();
         Gravity.force = new Vector2(0, -9.8f);
-        
 
+        IsDash = false;
+        IsDashReady = true;
+        LastHor = 1;
+        DashCooltime = 2f;
     }
-    
 
-        // Update is called once per frame
-        void Update()
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        Debug.DrawRay(transform.position, new Vector3(1, 0, 0) * 0.4f, new Color(0, 1, 0));
+        Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
+        Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
+        if (Hor != 0)
         {
+            LastHor = Hor;
+        }
 
-            Debug.DrawRay(transform.position, new Vector3(1, 0, 0) * 0.4f, new Color(0, 1, 0));
-            Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
-            Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
+        if (IsDash == false)
+        {
+            Hor = Input.GetAxisRaw("Horizontal");
+        }
 
-        Hor = Input.GetAxisRaw("Horizontal");
-
-        if ((Input.GetButtonUp("Horizontal") || Hor == 0 )&& IsWallJump == false ) 
-        {       
+        if ((Input.GetButtonUp("Horizontal") || Hor == 0) && IsWallJump == false && IsDash == false)
+        {
             rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
 
-            
 
-                RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
+
+        RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
 
         if (GroundHit != false)
         {
-            Debug.Log("test");
+
             if (GroundHit.transform.CompareTag("Ground"))
             {
-                        AirJumpCount = AirJumpCountMax;
-                        IsGround = true;
-                        // Debug.Log(IsGround);
+                AirJumpCount = AirJumpCountMax;
+                IsGround = true;
+                // Debug.Log(IsGround);
             }
-           
+
         }
         else
         {
@@ -75,10 +89,10 @@ public class MoveController : MonoBehaviour
 
 
         if (rigid.velocity.y != 0)
-            {
-                // IsGround = false;
-            }
-        
+        {
+            // IsGround = false;
+        }
+
         RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.85f), 0, Vector2.right * Hor, 0.4f, LayerMask);
         if (WallHit != false)
         {
@@ -89,38 +103,38 @@ public class MoveController : MonoBehaviour
         else
         {
             IsWall = false;
-            
+
         }
-       
-        
-            if (IsGround == true)
+
+
+        if (IsGround == true)
+        {
+            //JumpCount = 2;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+
+            if (AirJumpCount > 0)
             {
-                //JumpCount = 2;
-            }
+                rigid.velocity = new Vector2(rigid.velocity.x, 6f);
 
-            if (Input.GetButtonDown("Jump"))
-            {
-
-                if (AirJumpCount > 0)
+                if (IsGround == false && IsWall == false)
                 {
-                    rigid.velocity = new Vector2(rigid.velocity.x, 6f);
-
-                    if (IsGround == false && IsWall == false) 
-                    { 
-                        AirJumpCount--;
-                    }
-                }
-
-                if(IsWall == true)
-                {
-                    rigid.AddForce(new Vector2(-1 * Hor * 5f, 6f), ForceMode2D.Impulse);
-                    StartCoroutine(WallJump());
-                    
-
+                    AirJumpCount--;
                 }
             }
 
-        if (Input.GetButton("Horizontal") && (WallHit != false))
+            if (IsWall == true)
+            {
+                rigid.AddForce(new Vector2(-1 * Hor * 5f, 6f), ForceMode2D.Impulse);
+                StartCoroutine(WallJump());
+
+
+            }
+        }
+
+        if (Input.GetButton("Horizontal") && (WallHit != false) && IsDash == false)
         {
             //rigid.velocity = new Vector2(0, -2f);
             MaxSpeedY = 2f;
@@ -130,65 +144,98 @@ public class MoveController : MonoBehaviour
         }
         else
         {
-            Gravity.force = new Vector2(0, -9.8f);
+            if (IsDash == false)
+            {
+                Gravity.force = new Vector2(0, -9.8f);
+            }
             MaxSpeedY = 10;
 
         }
+
+        if (Input.GetButtonDown("Dash") && IsDashReady == true)
+        {
+            Debug.Log("test");
+            if (IsDash == false)
+            {
+                StartCoroutine(Dash());
+                StartCoroutine(DashCoolTime());
+            }
+
+        }
+
 
 
 
     }
 
-        void FixedUpdate()
+    void FixedUpdate()
+    {
+
+
+        if (IsWallJump == false)
         {
-
-
-            if (IsWallJump == false)
-            {
-                rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
-            }
-
-            if (rigid.velocity.x > MaxSpeedX)
-            {
-                rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
-            }
-
-            else if (rigid.velocity.x < -1 * MaxSpeedX)
-            {
-                rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
-            }
-
-            if (rigid.velocity.y > MaxSpeedY)
-            {
-                rigid.velocity = new Vector2(rigid.velocity.x, MaxSpeedY);
-            }
-
-            else if (rigid.velocity.y < -1 * MaxSpeedY)
-            {
-                rigid.velocity = new Vector2(rigid.velocity.x, -1 * MaxSpeedY);
-            }
-
-            //if (rigid.velocity.y < 0) // 플레이어가 낙하중일 때 == velocity.y가 음수
-            //{
-            //    Debug.DrawRay(rigid.position, Vector2.down, new Color(0, 1, 0)); //ray를 그리기
-            //    RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector2.down, 1, LayerMask.GetMask("Ground")); //ray 쏘기
-            //    if (rayHit.collider != null)
-            //    { // RayCastHit 변수의 콜라이더로 검색 확인 가능
-            //        if (rayHit.distance < 0.5f)
-            //        { // ray가 0.5 이상 들어갔을 때
-            //            JumpCount = 2;
-            //        }
-            //    }
-            //}
+            rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
         }
 
-        IEnumerator WallJump()
-        { 
-            IsWallJump = true;
-            yield return new WaitForSeconds(0.05f);
-            rigid.velocity = new Vector2(rigid.velocity.x, 6f);
-            yield return new WaitForSeconds(0.25f);
-            IsWallJump = false;
+        if (rigid.velocity.x > MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
         }
 
+        else if (rigid.velocity.x < -1 * MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
+        }
+
+        if (rigid.velocity.y > MaxSpeedY)
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, MaxSpeedY);
+        }
+
+        else if (rigid.velocity.y < -1 * MaxSpeedY)
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, -1 * MaxSpeedY);
+        }
+
+        //if (rigid.velocity.y < 0) // 플레이어가 낙하중일 때 == velocity.y가 음수
+        //{
+        //    Debug.DrawRay(rigid.position, Vector2.down, new Color(0, 1, 0)); //ray를 그리기
+        //    RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector2.down, 1, LayerMask.GetMask("Ground")); //ray 쏘기
+        //    if (rayHit.collider != null)
+        //    { // RayCastHit 변수의 콜라이더로 검색 확인 가능
+        //        if (rayHit.distance < 0.5f)
+        //        { // ray가 0.5 이상 들어갔을 때
+        //            JumpCount = 2;
+        //        }
+        //    }
+        //}
+    }
+
+    IEnumerator WallJump()
+    {
+        IsWallJump = true;
+        yield return new WaitForSeconds(0.05f);
+        rigid.velocity = new Vector2(rigid.velocity.x, 6f);
+        yield return new WaitForSeconds(0.25f);
+        IsWallJump = false;
+    }
+
+    IEnumerator Dash()
+    {
+        IsDash = true;
+        MaxSpeedX = 10;
+        rigid.velocity = new Vector2(LastHor * 10f, 0);
+        Gravity.force = new Vector2(0, 0);
+        yield return new WaitForSeconds(0.25f);
+        Gravity.force = new Vector2(0, -9.8F);
+        MaxSpeedX = 5;
+        IsDash = false;
+    }
+
+    IEnumerator DashCoolTime()
+    {
+        IsDashReady = false;
+        yield return new WaitForSeconds(DashCooltime);
+        IsDashReady = true;
+    }
 }
