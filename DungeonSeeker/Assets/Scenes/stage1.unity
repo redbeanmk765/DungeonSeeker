@@ -1093,6 +1093,7 @@ GameObject:
   - component: {fileID: 1883951108}
   - component: {fileID: 1883951109}
   - component: {fileID: 1883951110}
+  - component: {fileID: 1883951111}
   m_Layer: 6
   m_Name: Player_0
   m_TagString: Untagged
@@ -1226,11 +1227,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b50e26592b6ddb489bd58919677c83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 5
+  MaxSpeedX: 0
+  MaxSpeedY: 0
   rigid: {fileID: 0}
   Hor: 0
-  JumpCount: 0
-  JumpCountMax: 0
+  LastHor: 0
+  AirJumpCount: 0
+  AirJumpCountMax: 0
   IsGround: 0
   GroundDistance: 0
   GroundScale: 0
@@ -1238,6 +1241,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   Gravity: {fileID: 0}
+  IsWall: 0
+  IsWallJump: 0
+  IsDash: 0
+  IsDashReady: 0
+  DashCooltime: 0
 --- !u!68 &1883951107
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -1313,3 +1321,24 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!95 &1883951111
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883951101}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fb0d80534f46f2341959f5a2ea385052, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
