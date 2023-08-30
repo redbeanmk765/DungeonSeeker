@@ -7,6 +7,7 @@ public class MoveController : MonoBehaviour
     public float MaxSpeedX;
     public float MaxSpeedY;
     public Rigidbody2D rigid;
+    public Animator Animator;
     public float Hor;
     public float LastHor;
     public int AirJumpCount;
@@ -27,6 +28,7 @@ public class MoveController : MonoBehaviour
         MaxSpeedX = 5;
         MaxSpeedY = 10;
         rigid = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
         AirJumpCountMax = 1;
         AirJumpCount = AirJumpCountMax;
 
@@ -50,6 +52,7 @@ public class MoveController : MonoBehaviour
         Debug.DrawRay(transform.position, new Vector3(1, 0, 0) * 0.4f, new Color(0, 1, 0));
         Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
         Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
+        
         if (Hor != 0)
         {
             LastHor = Hor;
@@ -76,7 +79,6 @@ public class MoveController : MonoBehaviour
             {
                 AirJumpCount = AirJumpCountMax;
                 IsGround = true;
-                // Debug.Log(IsGround);
             }
 
         }
@@ -85,32 +87,17 @@ public class MoveController : MonoBehaviour
             IsGround = false;
         }
 
-
-
-
-        if (rigid.velocity.y != 0)
-        {
-            // IsGround = false;
-        }
-
         RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.85f), 0, Vector2.right * Hor, 0.4f, LayerMask);
         if (WallHit != false)
         {
-            Debug.Log("Wall");
             IsWall = true;
 
         }
         else
         {
             IsWall = false;
-
         }
 
-
-        if (IsGround == true)
-        {
-            //JumpCount = 2;
-        }
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -163,8 +150,30 @@ public class MoveController : MonoBehaviour
 
         }
 
+        if (Hor == 0 && IsGround == true && IsDash == false)
+        {
+            Animator.SetInteger("State", 1);
+        }
 
+        if (Hor != 0 && IsGround == true && IsDash == false)
+        {
+            Animator.SetInteger("State", 2);
+        }
 
+        if(IsDash == true)
+        {
+            Animator.SetInteger("State", 3);
+        }
+
+        if (IsGround == false && rigid.velocity.y > 0)
+        {
+            Animator.SetInteger("State", 4);
+        }
+
+        if(IsGround == false && rigid.velocity.y < 0)
+        {
+            Animator.SetInteger("State", 5);
+        }
 
     }
 
@@ -197,18 +206,6 @@ public class MoveController : MonoBehaviour
             rigid.velocity = new Vector2(rigid.velocity.x, -1 * MaxSpeedY);
         }
 
-        //if (rigid.velocity.y < 0) // 플레이어가 낙하중일 때 == velocity.y가 음수
-        //{
-        //    Debug.DrawRay(rigid.position, Vector2.down, new Color(0, 1, 0)); //ray를 그리기
-        //    RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector2.down, 1, LayerMask.GetMask("Ground")); //ray 쏘기
-        //    if (rayHit.collider != null)
-        //    { // RayCastHit 변수의 콜라이더로 검색 확인 가능
-        //        if (rayHit.distance < 0.5f)
-        //        { // ray가 0.5 이상 들어갔을 때
-        //            JumpCount = 2;
-        //        }
-        //    }
-        //}
     }
 
     IEnumerator WallJump()
