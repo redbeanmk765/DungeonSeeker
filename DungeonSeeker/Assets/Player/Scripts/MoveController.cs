@@ -175,6 +175,15 @@ public class MoveController : MonoBehaviour
             Animator.SetInteger("State", 5);
         }
 
+        if (IsWall == true)
+        {
+            Animator.SetInteger("State", 6);
+        }
+
+        if (IsWallJump == true)
+        {
+            Animator.SetInteger("State", 10);
+        }
     }
 
     void FixedUpdate()
