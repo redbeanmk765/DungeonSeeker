@@ -53,14 +53,24 @@ public class MoveController : MonoBehaviour
         Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
         Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
         
-        if (Hor != 0)
+        if (Hor != 0 && IsWallJump == false)
         {
             LastHor = Hor;
         }
 
-        if (IsDash == false)
+        if (IsDash == false && IsWallJump == false)
         {
             Hor = Input.GetAxisRaw("Horizontal");
+          
+        }
+
+        if (Hor == 1 && Hor != LastHor)
+        {
+            this.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        else if (Hor == -1 && Hor != LastHor)
+        {
+            this.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
 
         if ((Input.GetButtonUp("Horizontal") || Hor == 0) && IsWallJump == false && IsDash == false)
@@ -87,10 +97,11 @@ public class MoveController : MonoBehaviour
             IsGround = false;
         }
 
-        RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.85f), 0, Vector2.right * Hor, 0.4f, LayerMask);
+        RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.70f), 0, Vector2.right * Hor, 0.4f, LayerMask);
         if (WallHit != false)
         {
             IsWall = true;
+            AirJumpCount = AirJumpCountMax;
 
         }
         else
@@ -182,7 +193,7 @@ public class MoveController : MonoBehaviour
 
         if (IsWallJump == true)
         {
-            Animator.SetInteger("State", 10);
+            Animator.SetInteger("State", 4);
         }
     }
 
@@ -220,6 +231,7 @@ public class MoveController : MonoBehaviour
     IEnumerator WallJump()
     {
         IsWallJump = true;
+        Hor = LastHor * - 1; 
         yield return new WaitForSeconds(0.05f);
         rigid.velocity = new Vector2(rigid.velocity.x, 6f);
         yield return new WaitForSeconds(0.25f);
