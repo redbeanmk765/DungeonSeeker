@@ -20,6 +20,7 @@ public class MoveController : MonoBehaviour
     public bool IsWall;
     public bool IsWallJump;
     public bool IsDash;
+    public bool IsFall;
     public bool IsDashReady;
     public float DashCooltime;
     // Start is called before the first frame update
@@ -40,6 +41,7 @@ public class MoveController : MonoBehaviour
 
         IsDash = false;
         IsDashReady = true;
+        IsFall = false;
         LastHor = 1;
         DashCooltime = 2f;
     }
@@ -89,12 +91,25 @@ public class MoveController : MonoBehaviour
             {
                 AirJumpCount = AirJumpCountMax;
                 IsGround = true;
+                IsFall = false;
             }
 
         }
         else
         {
             IsGround = false;
+        }
+
+        if (IsGround == false)
+        {
+            if (rigid.velocity.y < 0)
+            {
+                IsFall = true;
+            }
+            else
+            {
+                IsFall = false;
+            }
         }
 
         RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.70f), 0, Vector2.right * Hor, 0.4f, LayerMask);
@@ -127,8 +142,6 @@ public class MoveController : MonoBehaviour
             {
                 rigid.AddForce(new Vector2(-1 * Hor * 5f, 6f), ForceMode2D.Impulse);
                 StartCoroutine(WallJump());
-
-
             }
         }
 
@@ -152,13 +165,30 @@ public class MoveController : MonoBehaviour
 
         if (Input.GetButtonDown("Dash") && IsDashReady == true)
         {
-            Debug.Log("test");
             if (IsDash == false)
             {
                 StartCoroutine(Dash());
                 StartCoroutine(DashCoolTime());
             }
 
+        }
+
+        if (Input.GetButtonDown("Attack") && IsDash == false)
+        {
+            if (IsGround == true)
+            {
+                StartCoroutine(Attack());
+            }
+
+            else if (IsWall == true)
+            {
+                StartCoroutine(WallAttack());
+            }
+
+            else if (IsWall == false && IsGround == false)
+            {
+                StartCoroutine(JumpAttack());
+            }
         }
 
         if (Hor == 0 && IsGround == true && IsDash == false)
@@ -176,12 +206,12 @@ public class MoveController : MonoBehaviour
             Animator.SetInteger("State", 3);
         }
 
-        if (IsGround == false && rigid.velocity.y > 0)
+        if (IsGround == false && IsFall == false && IsDash == false)
         {
             Animator.SetInteger("State", 4);
         }
 
-        if(IsGround == false && rigid.velocity.y < 0)
+        if(IsGround == false && IsFall == true && IsDash == false)
         {
             Animator.SetInteger("State", 5);
         }
@@ -255,5 +285,26 @@ public class MoveController : MonoBehaviour
         IsDashReady = false;
         yield return new WaitForSeconds(DashCooltime);
         IsDashReady = true;
+    }
+
+    IEnumerator Attack()
+    {
+        
+        yield return 0 ;
+      
+    }
+
+    IEnumerator WallAttack()
+    {
+
+        yield return 0;
+
+    }
+
+    IEnumerator JumpAttack()
+    {
+
+        yield return 0;
+
     }
 }
