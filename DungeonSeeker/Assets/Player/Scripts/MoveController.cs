@@ -23,6 +23,10 @@ public class MoveController : MonoBehaviour
     public bool IsFall;
     public bool IsDashReady;
     public float DashCooltime;
+    public bool IsAttack;
+    public bool IsAttack2;
+    public bool callAttack2;
+    public bool readyAttack;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +46,10 @@ public class MoveController : MonoBehaviour
         IsDash = false;
         IsDashReady = true;
         IsFall = false;
+        IsAttack = false;
+        IsAttack2 = false;
+        readyAttack = false;
+        callAttack2 = false;
         LastHor = 1;
         DashCooltime = 2f;
     }
@@ -65,12 +73,21 @@ public class MoveController : MonoBehaviour
             Hor = Input.GetAxisRaw("Horizontal");
           
         }
-
-        if (Hor == 1 && Hor != LastHor)
+        
+        if (Hor == 1 && Hor != LastHor && IsAttack == false && IsAttack2 == false)
         {
             this.transform.localEulerAngles = new Vector3(0, 0, 0);
         }
-        else if (Hor == -1 && Hor != LastHor)
+        else if (Hor == -1 && Hor != LastHor && IsAttack == false && IsAttack == false)
+        {
+            this.transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+        if( rigid.velocity.x > 0.1)
+           
+        {
+            this.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        else if(rigid.velocity.x < -0.1)
         {
             this.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
@@ -172,8 +189,11 @@ public class MoveController : MonoBehaviour
             }
 
         }
-
-        if (Input.GetButtonDown("Attack") && IsDash == false)
+        if (Input.GetButtonDown("Attack") && IsDash == false && readyAttack == true && IsAttack2 == false)
+        {
+            StartCoroutine(Attack2());
+        }
+        if (Input.GetButtonDown("Attack") && IsDash == false && IsAttack == false && readyAttack == false && IsAttack2 == false)
         {
             if (IsGround == true)
             {
@@ -225,13 +245,24 @@ public class MoveController : MonoBehaviour
         {
             Animator.SetInteger("State", 4);
         }
+
+        if (IsAttack == true && IsAttack2 == false)
+        {
+            Animator.SetInteger("State", 7);
+        }
+
+        if (IsAttack2 == true)
+        {
+            Animator.SetInteger("State", 11);
+        }
+
     }
 
     void FixedUpdate()
     {
 
 
-        if (IsWallJump == false)
+        if (IsWallJump == false)// && IsAttack == false && IsAttack2 == false)
         {
             rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
         }
@@ -289,9 +320,25 @@ public class MoveController : MonoBehaviour
 
     IEnumerator Attack()
     {
-        
-        yield return 0 ;
-      
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        IsAttack = true;
+        yield return new WaitForSeconds(0.2f);
+        readyAttack = true;
+        yield return new WaitForSeconds(0.2f);
+        IsAttack = false;
+        readyAttack = false;
+
+
+    }
+
+    IEnumerator Attack2()
+    {
+        IsAttack = true;
+        IsAttack2 = true;
+        yield return new WaitForSeconds(0.3f);
+        IsAttack = false;
+        IsAttack2 = false;
+
     }
 
     IEnumerator WallAttack()

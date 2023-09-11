@@ -1245,8 +1245,13 @@ MonoBehaviour:
   IsWall: 0
   IsWallJump: 0
   IsDash: 0
+  IsFall: 0
   IsDashReady: 0
   DashCooltime: 0
+  IsAttack: 0
+  IsAttack2: 0
+  callAttack2: 0
+  readyAttack: 0
 --- !u!68 &1883951107
 EdgeCollider2D:
   m_ObjectHideFlags: 0
