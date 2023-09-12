@@ -78,7 +78,7 @@ public class MoveController : MonoBehaviour
         {
             this.transform.localEulerAngles = new Vector3(0, 0, 0);
         }
-        else if (Hor == -1 && Hor != LastHor && IsAttack == false && IsAttack == false)
+        else if (Hor == -1 && Hor != LastHor && IsAttack == false && IsAttack2 == false)
         {
             this.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
@@ -262,7 +262,7 @@ public class MoveController : MonoBehaviour
     {
 
 
-        if (IsWallJump == false)// && IsAttack == false && IsAttack2 == false)
+        if (IsWallJump == false && IsAttack == false && IsAttack2 == false)
         {
             rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
         }
