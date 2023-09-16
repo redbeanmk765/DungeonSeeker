@@ -301,6 +301,8 @@ public class MoveController : MonoBehaviour
 
     IEnumerator Dash()
     {
+        IsAttack = false;
+        readyAttack = false;
         IsDash = true;
         MaxSpeedX = 10;
         rigid.velocity = new Vector2(LastHor * 10f, 0);
