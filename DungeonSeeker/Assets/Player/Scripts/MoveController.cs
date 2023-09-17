@@ -27,6 +27,8 @@ public class MoveController : MonoBehaviour
     public bool IsAttack2;
     public bool callAttack2;
     public bool readyAttack;
+    public bool IsWallAttack;
+    public bool IsJumpAttack;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +52,8 @@ public class MoveController : MonoBehaviour
         IsAttack2 = false;
         readyAttack = false;
         callAttack2 = false;
+        IsWallAttack = false;
+        IsJumpAttack = false;
         LastHor = 1;
         DashCooltime = 2f;
     }
@@ -256,6 +260,11 @@ public class MoveController : MonoBehaviour
             Animator.SetInteger("State", 11);
         }
 
+        if (IsWallAttack == true)
+        {
+            Animator.SetInteger("State", 12);
+        }
+
     }
 
     void FixedUpdate()
@@ -337,7 +346,7 @@ public class MoveController : MonoBehaviour
     {
         IsAttack = true;
         IsAttack2 = true;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         IsAttack = false;
         IsAttack2 = false;
 
@@ -346,14 +355,22 @@ public class MoveController : MonoBehaviour
     IEnumerator WallAttack()
     {
 
-        yield return 0;
+        IsWallAttack = true;
+
+        yield return new WaitForSeconds(0.2f);
+
+        IsWallAttack = false;
 
     }
 
     IEnumerator JumpAttack()
     {
 
-        yield return 0;
+        IsJumpAttack = true;
+
+        yield return new WaitForSeconds(0.25f);
+
+        IsJumpAttack = false;
 
     }
 }
