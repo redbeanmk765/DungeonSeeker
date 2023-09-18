@@ -29,6 +29,8 @@ public class MoveController : MonoBehaviour
     public bool readyAttack;
     public bool IsWallAttack;
     public bool IsJumpAttack;
+    public GameObject HitBox;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,9 @@ public class MoveController : MonoBehaviour
         IsJumpAttack = false;
         LastHor = 1;
         DashCooltime = 2f;
+        HitBox = this.transform.Find("HitBox").gameObject;
+        HitBox.SetActive(false);
+
     }
 
 
@@ -230,12 +235,12 @@ public class MoveController : MonoBehaviour
             Animator.SetInteger("State", 3);
         }
 
-        if (IsGround == false && IsFall == false && IsDash == false)
+        if (IsGround == false && IsFall == false && IsDash == false && IsJumpAttack == false)
         {
             Animator.SetInteger("State", 4);
         }
 
-        if(IsGround == false && IsFall == true && IsDash == false)
+        if(IsGround == false && IsFall == true && IsDash == false && IsJumpAttack == false)
         {
             Animator.SetInteger("State", 5);
         }
@@ -263,6 +268,16 @@ public class MoveController : MonoBehaviour
         if (IsWallAttack == true)
         {
             Animator.SetInteger("State", 12);
+        }
+
+        if (IsJumpAttack == true && IsFall == false)
+        {
+            Animator.SetInteger("State", 8);
+        }
+
+        if (IsJumpAttack == true && IsFall == true)
+        {
+            Animator.SetInteger("State", 9);
         }
 
     }
@@ -333,7 +348,9 @@ public class MoveController : MonoBehaviour
     {
         rigid.velocity = new Vector2(0, rigid.velocity.y);
         IsAttack = true;
+        HitBox.SetActive(true);
         yield return new WaitForSeconds(0.2f);
+        HitBox.SetActive(false);
         readyAttack = true;
         yield return new WaitForSeconds(0.2f);
         IsAttack = false;
@@ -346,7 +363,9 @@ public class MoveController : MonoBehaviour
     {
         IsAttack = true;
         IsAttack2 = true;
+        HitBox.SetActive(true);
         yield return new WaitForSeconds(0.15f);
+        HitBox.SetActive(false);
         IsAttack = false;
         IsAttack2 = false;
 
@@ -368,7 +387,7 @@ public class MoveController : MonoBehaviour
 
         IsJumpAttack = true;
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.2f);
 
         IsJumpAttack = false;
 
