@@ -62,16 +62,16 @@ public class MoveController : MonoBehaviour
         HitBox.SetActive(false);
 
     }
+       
 
-
-    // Update is called once per frame
+// Update is called once per frame
     void Update()
     {
 
         Debug.DrawRay(transform.position, new Vector3(1, 0, 0) * 0.4f, new Color(0, 1, 0));
         Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
         Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
-        
+
         if (Hor != 0 && IsWallJump == false)
         {
             LastHor = Hor;
@@ -80,9 +80,9 @@ public class MoveController : MonoBehaviour
         if (IsDash == false && IsWallJump == false)
         {
             Hor = Input.GetAxisRaw("Horizontal");
-          
+
         }
-        
+
         if (Hor == 1 && Hor != LastHor && IsAttack == false && IsAttack2 == false)
         {
             this.transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -91,12 +91,12 @@ public class MoveController : MonoBehaviour
         {
             this.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
-        if( rigid.velocity.x > 0.1)
-           
+        if (rigid.velocity.x > 0.1)
+
         {
             this.transform.localEulerAngles = new Vector3(0, 0, 0);
         }
-        else if(rigid.velocity.x < -0.1)
+        else if (rigid.velocity.x < -0.1)
         {
             this.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
@@ -198,15 +198,28 @@ public class MoveController : MonoBehaviour
             }
 
         }
-        if (Input.GetButtonDown("Attack") && IsDash == false && readyAttack == true && IsAttack2 == false)
-        {
-            StartCoroutine(Attack2());
-        }
-        if (Input.GetButtonDown("Attack") && IsDash == false && IsAttack == false && readyAttack == false && IsAttack2 == false)
+        //if (Input.GetButtonDown("Attack") && IsDash == false && readyAttack == true && IsAttack2 == false)
+        //{
+        //    IsAttack2 = true;
+        //   Debug.Log("test");
+        //    //StartCoroutine(Attack2());
+        //}
+        if (Input.GetButtonDown("Attack") && IsDash == false && IsAttack == false  && IsAttack2 == false)
         {
             if (IsGround == true)
             {
-                StartCoroutine(Attack());
+                if (readyAttack == false)
+                {
+                    IsAttack = true;
+                }
+                else
+                {
+                    IsAttack2 = true;
+                }
+
+               
+                //StartCoroutine(Attack());
+
             }
 
             else if (IsWall == true)
@@ -220,6 +233,8 @@ public class MoveController : MonoBehaviour
             }
         }
 
+        
+
         if (Hor == 0 && IsGround == true && IsDash == false)
         {
             Animator.SetInteger("State", 1);
@@ -230,7 +245,7 @@ public class MoveController : MonoBehaviour
             Animator.SetInteger("State", 2);
         }
 
-        if(IsDash == true)
+        if (IsDash == true)
         {
             Animator.SetInteger("State", 3);
         }
@@ -240,7 +255,7 @@ public class MoveController : MonoBehaviour
             Animator.SetInteger("State", 4);
         }
 
-        if(IsGround == false && IsFall == true && IsDash == false && IsJumpAttack == false)
+        if (IsGround == false && IsFall == true && IsDash == false && IsJumpAttack == false)
         {
             Animator.SetInteger("State", 5);
         }
@@ -264,6 +279,8 @@ public class MoveController : MonoBehaviour
         {
             Animator.SetInteger("State", 11);
         }
+
+
 
         if (IsWallAttack == true)
         {
@@ -312,11 +329,40 @@ public class MoveController : MonoBehaviour
         }
 
     }
+    public void Attack1()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);    
+    }
+
+    public void Attack2()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        HitBox.SetActive(true);
+
+    }
+
+    public void Attack3()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        HitBox.SetActive(false);
+        IsAttack = false;
+        StartCoroutine(ReadyAttack2());
+    }
+
+    public void Attack4()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        HitBox.SetActive(false);
+        IsAttack = false;
+        IsAttack2 = false;
+        readyAttack = false;
+    }
+
 
     IEnumerator WallJump()
     {
         IsWallJump = true;
-        Hor = LastHor * - 1; 
+        Hor = LastHor * -1;
         yield return new WaitForSeconds(0.05f);
         rigid.velocity = new Vector2(rigid.velocity.x, 6f);
         yield return new WaitForSeconds(0.25f);
@@ -344,30 +390,41 @@ public class MoveController : MonoBehaviour
         IsDashReady = true;
     }
 
-    IEnumerator Attack()
+    //IEnumerator Attack()
+    //{
+    //    rigid.velocity = new Vector2(0, rigid.velocity.y);
+    //    IsAttack = true;
+    //    HitBox.SetActive(true);
+    //    yield return new WaitForSeconds(0.2f);
+    //    HitBox.SetActive(false);
+    //    readyAttack = true;
+    //    yield return new WaitForSeconds(0.2f);
+    //    IsAttack = false;
+    //    readyAttack = false;
+
+
+    //}
+
+    //IEnumerator Attack2()
+    //{
+    //    IsAttack = true;
+    //    IsAttack2 = true;
+    //    HitBox.SetActive(true);
+    //    yield return new WaitForSeconds(0.15f);
+    //    HitBox.SetActive(false);
+    //    IsAttack = false;
+    //    IsAttack2 = false;
+
+    //}
+
+    IEnumerator ReadyAttack2()
     {
-        rigid.velocity = new Vector2(0, rigid.velocity.y);
-        IsAttack = true;
-        HitBox.SetActive(true);
-        yield return new WaitForSeconds(0.2f);
-        HitBox.SetActive(false);
+
         readyAttack = true;
-        yield return new WaitForSeconds(0.2f);
-        IsAttack = false;
+
+        yield return new WaitForSeconds(1f);
+
         readyAttack = false;
-
-
-    }
-
-    IEnumerator Attack2()
-    {
-        IsAttack = true;
-        IsAttack2 = true;
-        HitBox.SetActive(true);
-        yield return new WaitForSeconds(0.15f);
-        HitBox.SetActive(false);
-        IsAttack = false;
-        IsAttack2 = false;
 
     }
 
@@ -392,4 +449,11 @@ public class MoveController : MonoBehaviour
         IsJumpAttack = false;
 
     }
+
+    
+    
 }
+
+
+
+
