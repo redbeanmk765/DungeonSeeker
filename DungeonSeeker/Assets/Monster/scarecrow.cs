@@ -9,17 +9,24 @@ public class scarecrow : MonoBehaviour
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
     public bool onFlash = false;
+    public float maxHp;
+    public float nowHp;
 
     // Start is called before the first frame update
     void Start()
     {
         onFlash = false;
+        maxHp = 20;
+        nowHp = maxHp;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(nowHp <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -27,6 +34,7 @@ public class scarecrow : MonoBehaviour
         if (col.CompareTag("Attack"))
         {
             onFlash = true;
+            nowHp = nowHp - col.GetComponent<HitBox>().Dmg;
             StartCoroutine(FlashWhite());
         }
     }
