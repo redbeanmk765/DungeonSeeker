@@ -17,7 +17,7 @@ public class slime : enemy
     public Vector3 targetPos;
     public bool isDash;
     public float nowHp;
-    public int damaged;
+    public float damaged;
     public Vector3 MoveTowardsVector;
 
     private enum State
@@ -434,7 +434,7 @@ public class slime : enemy
                 this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
                 onTrigger = true;
-                col.gameObject.GetComponent<playerStat>().damaged = monsterStat.damage;
+                col.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
                 colPlayer = col.gameObject;
                 StartCoroutine(WaitForDamage());
             }
@@ -461,7 +461,7 @@ public class slime : enemy
             {
                 yield break;
             }
-            colPlayer.gameObject.GetComponent<playerStat>().damaged = monsterStat.damage;
+            colPlayer.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
         }
         if (onTrigger == false)
         {
@@ -478,7 +478,7 @@ public class slime : enemy
             if (col.CompareTag("attack"))
             {
                
-                this.damaged += col.gameObject.GetComponent<weaponStat>().dmg;
+                this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
 
             }
         }
