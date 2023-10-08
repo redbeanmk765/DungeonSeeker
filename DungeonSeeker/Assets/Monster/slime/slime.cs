@@ -219,7 +219,7 @@ public class slime : enemy
 
     private bool CanSeePlayer()
     {
-        if (Vector2.Distance(enemy.GetComponent<Transform>().position, player.GetComponent<Transform>().position) <= 10)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 5)
         {
 
             return true;
@@ -363,7 +363,7 @@ public class slime : enemy
         public override void OnStateUpdate()
         {
             
-            float angle = Mathf.Atan2(curPlayer.transform.position.y - curEnemy.transform.position.y, curPlayer.transform.position.x - curEnemy.transform.position.x) * Mathf.Rad2Deg;
+            bool angle = Mathf.Atan2(curPlayer.transform.position.x - curEnemy.transform.position.x, curPlayer.transform.position.x - curEnemy.transform.position.x) * Mathf.Rad2Deg;
             
             if (angle >= -90 && angle < 90)
             {
