@@ -19,6 +19,8 @@ public class slime : enemy
     public float nowHp;
     public float damaged;
     public Vector3 MoveTowardsVector;
+    public float MaxSpeedX;
+    public Rigidbody2D rigid;
 
     private enum State
     {
@@ -35,6 +37,8 @@ public class slime : enemy
 
     private void Start()
     {
+        rigid = GetComponent<Rigidbody2D>();
+        MaxSpeedX = 3;
         players = GameObject.FindGameObjectsWithTag("Player");
         player = players[0];
         curState = State.sleep;
@@ -144,8 +148,21 @@ public class slime : enemy
 
         fsm.UpdateState();
     }
+    private void FixedUpdate()
+    {
+        if (rigid.velocity.x > MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
+        }
 
-    IEnumerator FlashWhite()
+        else if (rigid.velocity.x < -1 * MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
+        }
+    }
+     
+
+IEnumerator FlashWhite()
     {
         while (onFlash)
         {
@@ -219,7 +236,8 @@ public class slime : enemy
 
     private bool CanSeePlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 5)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 8    
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <=  2)
         {
 
             return true;
@@ -232,7 +250,7 @@ public class slime : enemy
 
     private bool CanAttackPlayer()
     {
-        if (Vector2.Distance(enemy.GetComponent<Transform>().position, player.GetComponent<Transform>().position) <= 2.3)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 2)
         {
 
             return true;
@@ -337,7 +355,8 @@ public class slime : enemy
     {
         public IdleState(enemy enemy, GameObject player) : base(enemy, player) { }
         public override void OnStateEnter()
-        {          
+        {
+            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
         }
 
         public override void OnStateUpdate()
@@ -362,10 +381,19 @@ public class slime : enemy
 
         public override void OnStateUpdate()
         {
+
+            int angle = 1; 
+            if((curEnemy.transform.position.x - curPlayer.transform.position.x) < 0)
+            {
+                angle = 1;
+            }
+            else
+            {
+                angle = -1;
+            }
             
-            bool angle = Mathf.Atan2(curPlayer.transform.position.x - curEnemy.transform.position.x, curPlayer.transform.position.x - curEnemy.transform.position.x) * Mathf.Rad2Deg;
             
-            if (angle >= -90 && angle < 90)
+            if (angle == 1)
             {
                 curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
             }
@@ -373,8 +401,9 @@ public class slime : enemy
             {
                 curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
             }
-            curEnemy.transform.position = Vector3.MoveTowards(curEnemy.transform.position, curPlayer.transform.position, curEnemy.monsterStat.moveSpeed * Time.deltaTime);
-            
+
+            //curEnemy.transform.position = Vector2.MoveTowards(curEnemy.transform.position, new Vector2 (curPlayer.transform.position.x, curEnemy.transform.position.y), curEnemy.monsterStat.moveSpeed * Time.deltaTime);
+            curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
         }
 
         public override void OnStateExit()
@@ -388,7 +417,8 @@ public class slime : enemy
 
 
         public override void OnStateEnter()
-        {                 
+        {
+            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
         }
 
         public override void OnStateUpdate()
