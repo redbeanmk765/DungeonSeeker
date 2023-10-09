@@ -21,6 +21,8 @@ public class slime : enemy
     public Vector3 MoveTowardsVector;
     public float MaxSpeedX;
     public Rigidbody2D rigid;
+    public int angle;
+
 
     private enum State
     {
@@ -50,7 +52,12 @@ public class slime : enemy
         onFlash = false;
         IsDie = false;
 
-        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
+        //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1],true);
+        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Ground"), true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"), true);
+
     }
 
 
@@ -264,13 +271,16 @@ IEnumerator FlashWhite()
 
     public void AttackDash1()
     {
-        targetPos = player.transform.position;
-        MoveTowardsVector = Vector3.Normalize(targetPos - this.transform.position);
-        //MoveTowardsVector = MoveTowardsVector * 1f;
+        if ((this.transform.position.x - player.transform.position.x) < 0)
+        {
+            angle = 1;
+        }
+        else
+        {
+            angle = -1;
+        }
 
-        float angle = Mathf.Atan2(player.transform.position.y - this.transform.position.y, player.transform.position.x - this.transform.position.x) * Mathf.Rad2Deg;
-
-        if (angle >= -90 && angle < 90)
+        if (angle == 1)
         {
             this.transform.localEulerAngles = new Vector3(0, 0, 0);
         }
@@ -278,6 +288,7 @@ IEnumerator FlashWhite()
         {
             this.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
+
         attackMotionDone = false;
     }
     public void AttackDash2()
@@ -288,23 +299,17 @@ IEnumerator FlashWhite()
     public void AttackDash3()
     {
 
-        float angle = Mathf.Atan2(targetPos.y - this.transform.position.y, targetPos.x - this.transform.position.x) * Mathf.Rad2Deg;
-
-        if (angle >= -90 && angle < 90)
-        {
-            this.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        else
-        {
-            this.transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
         isDash = true;
+        MaxSpeedX = 8;
+        
         StartCoroutine(dash());
     } 
     public void AttackDash4()
     {
         isDash = false;
         attackMotionDone = true;
+        
+        MaxSpeedX = 2;
     }
     IEnumerator dash()
     {
@@ -314,7 +319,7 @@ IEnumerator FlashWhite()
             // this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, 0.05f);
             if (this.curState != State.die)
             {
-                transform.position += MoveTowardsVector * 10f * Time.deltaTime;
+                this.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * this.monsterStat.moveSpeed, ForceMode2D.Impulse);
             }
             if (isDash == false)
             {
@@ -514,7 +519,16 @@ IEnumerator FlashWhite()
 
             }
         }
+
+        if (col.CompareTag("PlayerHitBox"))
+        {
+            Debug.Log("test");
+            player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+            
+        }
     }
 
-    
+   
+
+
 }

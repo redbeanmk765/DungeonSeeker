@@ -8,6 +8,7 @@ TagManager:
   - Monster
   - Attack
   - Trap
+  - PlayerHitBox
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - UI
   - Player
   - Ground
-  - 
-  - 
+  - Monster
+  - PlayerHitBox
   - 
   - 
   - 
