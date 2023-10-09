@@ -38,7 +38,7 @@ public class slime : enemy
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        MaxSpeedX = 3;
+        MaxSpeedX = 2;
         players = GameObject.FindGameObjectsWithTag("Player");
         player = players[0];
         curState = State.sleep;
@@ -49,6 +49,8 @@ public class slime : enemy
 
         onFlash = false;
         IsDie = false;
+
+        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
     }
 
 
@@ -505,7 +507,7 @@ IEnumerator FlashWhite()
         if (this.curState != State.die)
         {
             
-            if (col.CompareTag("attack"))
+            if (col.CompareTag("Attack"))
             {
                
                 this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;

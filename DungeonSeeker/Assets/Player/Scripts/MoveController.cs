@@ -61,6 +61,8 @@ public class MoveController : MonoBehaviour
         HitBox = this.transform.Find("HitBox").gameObject;
         HitBox.SetActive(false);
 
+        Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
+
     }
        
 
