@@ -26,7 +26,7 @@ public class PlayerStat : MonoBehaviour
     {
         if (this.damaged != 0)
         {
-            if (!onFlash)
+            if (!onFlash && !this.GetComponent<MoveController>().IsDash)
             {
                 nowHp = nowHp - damaged;
                 onFlash = true;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: slime
   m_EditorClassIdentifier: 
   name: slime
-  maxHp: 100
+  maxHp: 50
   level: 1
   enemyDamage: 10
   race: 0

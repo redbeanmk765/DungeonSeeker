@@ -245,7 +245,7 @@ IEnumerator FlashWhite()
 
     private bool CanSeePlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 8    
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 6    
             && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <=  2)
         {
 
