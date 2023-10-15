@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStat : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class PlayerStat : MonoBehaviour
     public bool onFlash;
     public float damaged;
     public float cure;
+    public Image item1;
+    public Image item2;
+    public Image item3;
+    public Image PlayerHpBar;
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
     // Start is called before the first frame update
@@ -37,6 +42,9 @@ public class PlayerStat : MonoBehaviour
 
         }
         nowHp = nowHp + cure;
+
+        float hpRatio = nowHp / maxHp;
+        PlayerHpBar.fillAmount = Mathf.Lerp(PlayerHpBar.fillAmount, hpRatio, Time.deltaTime * 10);
 
 
         //if (nowHp <= 0)

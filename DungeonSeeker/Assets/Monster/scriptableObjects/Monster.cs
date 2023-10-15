@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Monster : ScriptableObject
 {
-    public string name;
+    public string enemyName;
     public float maxHp;
     public int level;
     public int enemyDamage;

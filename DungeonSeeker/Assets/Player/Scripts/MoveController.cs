@@ -195,8 +195,11 @@ public class MoveController : MonoBehaviour
         {
             if (IsDash == false)
             {
+
                 StartCoroutine(Dash());
                 StartCoroutine(DashCoolTime());
+                StartCoroutine(DashCoolTimeBar());
+                this.gameObject.transform.Find("DashCooltime").gameObject.SetActive(true);
             }
 
         }
@@ -409,12 +412,40 @@ public class MoveController : MonoBehaviour
         IsDash = false;
     }
 
-    IEnumerator DashCoolTime()
+    IEnumerator DashCoolTimeBar()
     {
+
+        float coolTime = 0;
+        float coolTImeRatio = 1;
+        while (coolTime <= DashCooltime)
+        {
+            coolTime += Time.deltaTime;
+            coolTImeRatio = 1 - (coolTime / DashCooltime);
+            this.gameObject.transform.Find("DashCooltime").GetComponent<RectTransform>().localScale = new Vector3(coolTImeRatio * 0.7f, 0.05f, 0);
+            yield return new WaitForFixedUpdate();
+        }
+        this.gameObject.transform.Find("DashCooltime").gameObject.SetActive(false);
+    }
+
+    IEnumerator DashCoolTime() 
+    { 
         IsDashReady = false;
         yield return new WaitForSeconds(DashCooltime);
         IsDashReady = true;
     }
+
+    //IEnumerator DashCooltime()
+    //{
+    //    float coolTime = 0;
+    //    float coolTImeRatio = 1;
+    //    while (coolTime <= this.gameObject.GetComponent<playerStat>().dashCooltime)
+    //    {
+    //        coolTime += Time.deltaTime;
+    //        coolTImeRatio = 1 - (coolTime / this.gameObject.GetComponent<playerStat>().dashCooltime);
+    //        this.gameObject.transform.Find("DashCooltime").GetComponent<RectTransform>().localScale = new Vector3(coolTImeRatio, 0.1f, 0);
+    //        yield return new WaitForFixedUpdate();
+    //    }
+    //}
 
     //IEnumerator Attack()
     //{

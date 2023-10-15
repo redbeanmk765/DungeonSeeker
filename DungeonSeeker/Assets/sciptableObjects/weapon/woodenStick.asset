@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df79217be29cff144a2eaef27daf5751, type: 3}
+  m_Name: woodenStick
+  m_EditorClassIdentifier: 
+  dmg: 2
+  weaponNumber: 101
+  objectSprite: {fileID: 21300000, guid: 0754b244926d64d449b924dad99f13d5, type: 3}
+  objectName: WoodenStick
+  playerHitBox: {fileID: 2154532109531154345, guid: 03e4d5fdacb06f745abb5069119a798a, type: 3}
+  weaponAnimator: {fileID: 9100000, guid: ffc0cd2974d648a4392f0b2a7196dedb, type: 2}
+  type: 0
+  attackSpeed: 0.5

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6294c5b5edd074b9a8dc530be64e44, type: 3}
+  m_Name: Stage1Wall
+  m_EditorClassIdentifier: 
+  Wall_U: {fileID: 8903262749899574319, guid: 3cf32e9a29e38a248a38092a2d19d997, type: 3}
+  Wall_R: {fileID: 8903262749899574319, guid: c7e9a8146f1ce8343a4aeb26e08825a9, type: 3}
+  Wall_D: {fileID: 8903262749899574319, guid: 6a668dcc27a542448a92c946c3ecc4ea, type: 3}
+  Wall_L: {fileID: 8903262749899574319, guid: 08f1609fd322ce046ae044a482c6a63f, type: 3}
+  Wall_UR: {fileID: 8903262749899574319, guid: 6d02e22f1c2da024aa99640c035bf3d5, type: 3}
+  Wall_UD: {fileID: 8903262749899574319, guid: d1269fbf655aeb94da7a5c6fa7eff039, type: 3}
+  Wall_UL: {fileID: 8903262749899574319, guid: b58bea462e6e381419cc2272ed800e87, type: 3}
+  Wall_RD: {fileID: 8903262749899574319, guid: d76265d461c80574a90ed27f87791546, type: 3}
+  Wall_RL: {fileID: 8903262749899574319, guid: 766e4dfab5b349f42b174ac83d6ed0d7, type: 3}
+  Wall_DL: {fileID: 8903262749899574319, guid: 42ee2968a5a1785408b765b1258722ac, type: 3}
+  Wall_URD: {fileID: 7483854080989549052, guid: 07e1c64c8032d9449bedff6220c1f0ef, type: 3}
+  Wall_URL: {fileID: 7483854080989549052, guid: bdb419c093af9bb4bb8bbce5667821a0, type: 3}
+  Wall_UDL: {fileID: 6386494114645232916, guid: d0889131c13aa4d4b9ef4cbcfcb75630, type: 3}
+  Wall_RDL: {fileID: 8903262749899574319, guid: e91c83ff34cf5ea4795633a56f271f38, type: 3}
+  Wall_URDL: {fileID: 8903262749899574319, guid: 2e5d9a4041b451a4e8801fd40cc8d0b1, type: 3}
