@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4271b76275e3a274b8fffdb2fd191d61, type: 3}
   m_Name: slime
   m_EditorClassIdentifier: 
-  name: slime
+  enemyName: 
   maxHp: 50
   level: 1
   enemyDamage: 10
@@ -20,5 +20,6 @@ MonoBehaviour:
   moveSpeed: 1
   projectileSpeed: 0
   projectile: {fileID: 0}
+  enemyGold: 5
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}

@@ -55,8 +55,8 @@ public class slime : enemy
         //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1],true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Ground"), true);
-        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"), true);
+        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Ground"), true);
+        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"), true);
 
     }
 
@@ -149,6 +149,7 @@ public class slime : enemy
             case State.die:
                 if (this.gameObject.GetComponent<SpriteRenderer>().color.a <= 0)
                 {
+                    player.GetComponent<PlayerStat>().PlayerGold += monsterStat.enemyGold;
                     Destroy(this.gameObject);
                 }
                 break;

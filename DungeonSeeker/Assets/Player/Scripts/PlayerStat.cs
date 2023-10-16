@@ -11,10 +11,14 @@ public class PlayerStat : MonoBehaviour
     public bool onFlash;
     public float damaged;
     public float cure;
+    public int PlayerGold;
     public Image item1;
     public Image item2;
     public Image item3;
     public Image PlayerHpBar;
+    public Text PlayerHpText;
+    public Text PlayerGoldText;
+
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
     // Start is called before the first frame update
@@ -24,11 +28,13 @@ public class PlayerStat : MonoBehaviour
         onFlash = false;
         maxHp = 100;
         nowHp = maxHp;
+        PlayerGold = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        PlayerGoldText.text = PlayerGold.ToString();
         if (this.damaged != 0)
         {
             if (!onFlash && !this.GetComponent<MoveController>().IsDash)
@@ -42,6 +48,8 @@ public class PlayerStat : MonoBehaviour
 
         }
         nowHp = nowHp + cure;
+
+        PlayerHpText.text = nowHp + "  /  " + maxHp;
 
         float hpRatio = nowHp / maxHp;
         PlayerHpBar.fillAmount = Mathf.Lerp(PlayerHpBar.fillAmount, hpRatio, Time.deltaTime * 10);
