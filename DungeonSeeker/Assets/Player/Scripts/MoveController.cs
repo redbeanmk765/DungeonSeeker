@@ -9,6 +9,7 @@ public class MoveController : MonoBehaviour
     public Rigidbody2D rigid;
     public Animator Animator;
     public float Hor;
+    public float Ver;
     public float LastHor;
     public int AirJumpCount;
     public int AirJumpCountMax;
@@ -29,7 +30,10 @@ public class MoveController : MonoBehaviour
     public bool readyAttack;
     public bool IsWallAttack;
     public bool IsJumpAttack;
+    public bool IsUpAttack;
     public GameObject HitBox;
+    public GameObject UpHitBox;
+    public GameObject DownHitBox;
 
     // Start is called before the first frame update
     void Start()
@@ -60,6 +64,10 @@ public class MoveController : MonoBehaviour
         DashCooltime = 2f;
         HitBox = this.transform.Find("HitBox").gameObject;
         HitBox.SetActive(false);
+        UpHitBox = this.transform.Find("UpHitBox").gameObject;
+        UpHitBox.SetActive(false);
+        DownHitBox = this.transform.Find("DownHitBox").gameObject;
+        DownHitBox.SetActive(false);
 
         //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
 
@@ -82,8 +90,9 @@ public class MoveController : MonoBehaviour
         if (IsDash == false && IsWallJump == false)
         {
             Hor = Input.GetAxisRaw("Horizontal");
-
+            Ver = Input.GetAxisRaw("Vertical");
         }
+        Input.GetAxisRaw("Horizontal");
 
         if (Hor == 1 && Hor != LastHor && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
         {
@@ -289,7 +298,14 @@ public class MoveController : MonoBehaviour
 
         if (IsAttack == true && IsAttack2 == false)
         {
-            Animator.SetInteger("State", 7);
+            if (Ver == 1 || IsUpAttack == true)
+            {
+                Animator.SetInteger("State", 13);
+            }
+            else
+            {
+                Animator.SetInteger("State", 7);
+            }
         }
 
         if (IsAttack2 == true)
@@ -381,6 +397,25 @@ public class MoveController : MonoBehaviour
     {
         HitBox.SetActive(true);
     }
+    public void UpAttack1()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        IsUpAttack = true;
+
+    }
+    public void UpAttack2()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        UpHitBox.SetActive(true);
+    }
+
+    public void UpAttack3()
+    {
+        rigid.velocity = new Vector2(0, rigid.velocity.y);
+        UpHitBox.SetActive(false);
+        IsAttack = false;
+        IsUpAttack = false;
+    }
 
 
     IEnumerator WallJump()
@@ -397,10 +432,12 @@ public class MoveController : MonoBehaviour
     {
         rigid.velocity = new Vector2(0, rigid.velocity.y);
         HitBox.SetActive(false);
+        UpHitBox.SetActive(false);
         IsAttack = false;
         IsAttack2 = false;
         IsJumpAttack = false;
         IsWallAttack = false;
+        IsUpAttack = false;
         readyAttack = false;
         IsDash = true;
         MaxSpeedX = 10;
