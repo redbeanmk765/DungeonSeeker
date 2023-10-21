@@ -20,11 +20,11 @@ public class enemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!col.gameObject.CompareTag("Enemy") && !col.gameObject.CompareTag("attack"))
+        if (!col.gameObject.CompareTag("Monster") && !col.gameObject.CompareTag("Attack"))
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                col.gameObject.GetComponent<playerStat>().damaged = this.dmg;
+                col.gameObject.GetComponent<PlayerStat>().damaged = this.dmg;
 
             }
             Destroy(this.gameObject);

@@ -19,7 +19,7 @@ public class mushroom : enemy
     public bool onFlash = false;
     public bool IsDie = false;
     public float nowHp;
-    public int damaged;
+    public float damaged;
 
 
     private enum State
@@ -132,25 +132,25 @@ public class mushroom : enemy
     
     public void AttackShoot()
     {
-        enemyProjectileUp = Instantiate(monsterStat.projectile);
-        enemyProjectileUp.transform.position = this.transform.position;
-        enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().pos = new Vector3 (0,1,0);
-        enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
+        //enemyProjectileUp = Instantiate(monsterStat.projectile);
+        //enemyProjectileUp.transform.position = this.transform.position;
+        //enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().pos = new Vector3 (0,1,0);
+        //enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
 
-        enemyProjectileDown = Instantiate(monsterStat.projectile);
-        enemyProjectileDown.transform.position = this.transform.position;
-        enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(0, -1, 0);
-        enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
+        //enemyProjectileDown = Instantiate(monsterStat.projectile);
+        //enemyProjectileDown.transform.position = this.transform.position;
+        //enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(0, -1, 0);
+        //enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
 
         enemyProjectileLeft = Instantiate(monsterStat.projectile);
         enemyProjectileLeft.transform.position = this.transform.position;
         enemyProjectileLeft.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(-1, 0, 0);
-        enemyProjectileLeft.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
+        enemyProjectileLeft.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
 
         enemyProjectileRight = Instantiate(monsterStat.projectile);
         enemyProjectileRight.transform.position = this.transform.position;
         enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(1, 0, 0);
-        enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
+        enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
 
     }
   
@@ -203,7 +203,7 @@ public class mushroom : enemy
                 this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
                 onTrigger = true;
-                col.gameObject.GetComponent<playerStat>().damaged = monsterStat.damage;
+                col.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
                 colPlayer = col.gameObject;
                 StartCoroutine(WaitForDamage());
             }
@@ -228,7 +228,7 @@ public class mushroom : enemy
             {
                 yield break;
             }
-            colPlayer.gameObject.GetComponent<playerStat>().damaged = monsterStat.damage;
+            colPlayer.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
         }
         if (onTrigger == false)
         {
@@ -245,7 +245,7 @@ public class mushroom : enemy
             if (col.CompareTag("attack"))
             {
 
-                this.damaged += col.gameObject.GetComponent<weaponStat>().dmg;
+                this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
 
             }
         }
