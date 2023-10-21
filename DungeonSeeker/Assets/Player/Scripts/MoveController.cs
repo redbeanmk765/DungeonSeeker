@@ -256,6 +256,8 @@ public class MoveController : MonoBehaviour
                 IsJumpAttack = false;
                 IsWallAttack = false;
                 HitBox.SetActive(false);
+                UpHitBox.SetActive(false);
+                DownHitBox.SetActive(false);
             }
             Animator.SetInteger("State", 1);
         }
@@ -267,6 +269,8 @@ public class MoveController : MonoBehaviour
                 IsJumpAttack = false;
                 IsWallAttack = false;
                 HitBox.SetActive(false);
+                UpHitBox.SetActive(false);
+                DownHitBox.SetActive(false);
             }
             Animator.SetInteger("State", 2);
         }
@@ -322,12 +326,34 @@ public class MoveController : MonoBehaviour
 
         if (IsJumpAttack == true && IsFall == false)
         {
-            Animator.SetInteger("State", 8);
+            if (Ver == 1 || IsUpAttack == true)
+            {
+                Animator.SetInteger("State", 14);
+            }
+            else if (Ver == -1 || IsUpAttack == true)
+            {
+                Animator.SetInteger("State", 15);
+            }
+            else
+            {
+                Animator.SetInteger("State", 8);
+            }
         }
 
         if (IsJumpAttack == true && IsFall == true)
         {
-            Animator.SetInteger("State", 9);
+            if (Ver == 1 || IsUpAttack == true)
+            {
+                Animator.SetInteger("State", 16);
+            }
+            else if (Ver == -1 || IsUpAttack == true)
+            {
+                Animator.SetInteger("State", 17);
+            }
+            else
+            {
+                Animator.SetInteger("State", 9);
+            }
         }
 
     }
@@ -384,7 +410,6 @@ public class MoveController : MonoBehaviour
 
     public void Attack4()
     {
-        rigid.velocity = new Vector2(0, rigid.velocity.y);
         HitBox.SetActive(false);
         IsAttack = false;
         IsAttack2 = false;
@@ -411,10 +436,21 @@ public class MoveController : MonoBehaviour
 
     public void UpAttack3()
     {
-        rigid.velocity = new Vector2(0, rigid.velocity.y);
         UpHitBox.SetActive(false);
+        DownHitBox.SetActive(false);
         IsAttack = false;
         IsUpAttack = false;
+        IsJumpAttack = false;
+    }
+
+    public void JumpUpAttack1()
+    {
+        UpHitBox.SetActive(true);
+    }
+
+    public void JumpDownAttack1()
+    {
+        DownHitBox.SetActive(true);
     }
 
 
