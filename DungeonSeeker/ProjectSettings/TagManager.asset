@@ -9,6 +9,7 @@ TagManager:
   - Attack
   - Trap
   - PlayerHitBox
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

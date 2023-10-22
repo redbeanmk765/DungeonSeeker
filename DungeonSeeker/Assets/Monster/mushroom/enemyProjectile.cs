@@ -20,7 +20,7 @@ public class enemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!col.gameObject.CompareTag("Monster") && !col.gameObject.CompareTag("Attack"))
+        if (!col.gameObject.CompareTag("Monster") && !col.gameObject.CompareTag("EnemyAttack") && !col.gameObject.CompareTag("Attack"))
         {
             if (col.gameObject.CompareTag("Player"))
             {
@@ -28,6 +28,7 @@ public class enemyProjectile : MonoBehaviour
 
             }
             Destroy(this.gameObject);
+            Debug.Log("test");
         }
     }
 

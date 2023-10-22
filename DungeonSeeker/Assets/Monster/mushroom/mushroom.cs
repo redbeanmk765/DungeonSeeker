@@ -42,6 +42,9 @@ public class mushroom : enemy
         animator = GetComponent<Animator>();
         onFlash = false;
         IsDie = false;
+
+        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
     }
 
 
@@ -77,6 +80,7 @@ public class mushroom : enemy
             case State.die:
                 if (this.gameObject.GetComponent<SpriteRenderer>().color.a <= 0)
                 {
+                    player.GetComponent<PlayerStat>().PlayerGold += monsterStat.enemyGold;
                     Destroy(this.gameObject);
                 }
                 break;
@@ -242,7 +246,7 @@ public class mushroom : enemy
         if (this.curState != State.die)
         {
 
-            if (col.CompareTag("attack"))
+            if (col.CompareTag("Attack"))
             {
 
                 this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
