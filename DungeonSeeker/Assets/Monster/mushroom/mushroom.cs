@@ -136,15 +136,15 @@ public class mushroom : enemy
     
     public void AttackShoot()
     {
-        //enemyProjectileUp = Instantiate(monsterStat.projectile);
-        //enemyProjectileUp.transform.position = this.transform.position;
-        //enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().pos = new Vector3 (0,1,0);
-        //enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
+        enemyProjectileUp = Instantiate(monsterStat.projectile);
+        enemyProjectileUp.transform.position = this.transform.position;
+        enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().pos = new Vector3 (0,1,0);
+        enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
 
-        //enemyProjectileDown = Instantiate(monsterStat.projectile);
-        //enemyProjectileDown.transform.position = this.transform.position;
-        //enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(0, -1, 0);
-        //enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.damage;
+        enemyProjectileDown = Instantiate(monsterStat.projectile);
+        enemyProjectileDown.transform.position = this.transform.position;
+        enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(0, -1, 0);
+        enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
 
         enemyProjectileLeft = Instantiate(monsterStat.projectile);
         enemyProjectileLeft.transform.position = this.transform.position;
