@@ -247,7 +247,8 @@ IEnumerator FlashWhite()
     private bool CanSeePlayer()
     {
         if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 6    
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <=  2)
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <=  5
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -5)
         {
 
             return true;
@@ -479,15 +480,15 @@ IEnumerator FlashWhite()
         }
     }
 
-    private void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Player"))
-        {
-           // this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-           // this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
-            onTrigger = false;
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D col)
+    //{
+    //    if (col.gameObject.CompareTag("Player"))
+    //    {
+    //       // this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+    //       // this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+    //        onTrigger = false;
+    //    }
+    //}
 
     IEnumerator WaitForDamage()
     {
@@ -521,7 +522,7 @@ IEnumerator FlashWhite()
             }
         }
 
-        if (col.CompareTag("PlayerHitBox"))
+        if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
         {
             Debug.Log("test");
             player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;

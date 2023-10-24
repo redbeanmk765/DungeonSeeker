@@ -24,6 +24,7 @@ public class mushroom : enemy
 
     private enum State
     {
+        idle,
         attack,
         die
     }
@@ -75,7 +76,21 @@ public class mushroom : enemy
 
         switch (curState)
         {
+           
+            case State.idle:
+                if (CanSeePlayer())
+                {
+                    Debug.Log("true");
+
+                    ChangeState(State.attack);                  
+                }
+                break;
             case State.attack:
+                if (!CanSeePlayer())
+                {
+                    
+                    ChangeState(State.idle);
+                }
                 break;
             case State.die:
                 if (this.gameObject.GetComponent<SpriteRenderer>().color.a <= 0)
@@ -118,6 +133,10 @@ public class mushroom : enemy
         curState = nextState;
         switch (curState)
         {
+            case State.idle:
+                fsm.ChangeState(new IdleState(this, player));
+                animator.SetInteger("State", 0);
+                break;
             case State.attack:
                 fsm.ChangeState(new AttackState(this, player));
                 animator.SetInteger("State", 1);
@@ -157,7 +176,23 @@ public class mushroom : enemy
         enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
 
     }
-  
+
+    public class IdleState : BaseState
+    {
+        public IdleState(enemy enemy, GameObject player) : base(enemy, player) { }
+        public override void OnStateEnter()
+        {
+            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+        }
+
+        public override void OnStateUpdate()
+        {
+        }
+
+        public override void OnStateExit()
+        {
+        }
+    }
 
     public class AttackState : BaseState
     {
@@ -198,21 +233,21 @@ public class mushroom : enemy
 
 
 
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if (this.curState != State.die)
-        {
-            if (col.gameObject.CompareTag("Player"))
-            {
-                this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-                this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
-                onTrigger = true;
-                col.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
-                colPlayer = col.gameObject;
-                StartCoroutine(WaitForDamage());
-            }
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D col)
+    //{
+    //    if (this.curState != State.die)
+    //    {
+    //        if (col.gameObject.CompareTag("Player"))
+    //        {
+    //            this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+    //            this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
+    //            onTrigger = true;
+    //            col.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+    //            colPlayer = col.gameObject;
+    //            StartCoroutine(WaitForDamage());
+    //        }
+    //    }
+    //}
 
     private void OnCollisionExit2D(Collision2D col)
     {
@@ -253,7 +288,28 @@ public class mushroom : enemy
 
             }
         }
+
+        if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
+        {
+
+            player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+
+        }
     }
 
+    private bool CanSeePlayer()
+    {
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 10
+            && Mathf.Abs(player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y) <= 6)
+        {
+
+            return true;
+
+        }
+        else
+
+        return false;
+        //  플레이어 탐지 구현
+    }
 
 }
