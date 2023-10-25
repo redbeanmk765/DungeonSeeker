@@ -25,5 +25,6 @@ public enum Race
 {
     slime,
     skeletonArcher,
-    mushroom
+    mushroom,
+    bat
 }

@@ -249,31 +249,31 @@ public class mushroom : enemy
     //    }
     //}
 
-    private void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Player"))
-        {
-            onTrigger = false;
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D col)
+    //{
+    //    if (col.gameObject.CompareTag("Player"))
+    //    {
+    //        onTrigger = false;
+    //    }
+    //}
 
-    IEnumerator WaitForDamage()
-    {
-        while (onTrigger)
-        {
-            yield return new WaitForSeconds(1.0f);
+    //IEnumerator WaitForDamage()
+    //{
+    //    while (onTrigger)
+    //    {
+    //        yield return new WaitForSeconds(1.0f);
 
-            if (onTrigger == false)
-            {
-                yield break;
-            }
-            colPlayer.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
-        }
-        if (onTrigger == false)
-        {
-            yield break;
-        }
-    }
+    //        if (onTrigger == false)
+    //        {
+    //            yield break;
+    //        }
+    //        colPlayer.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+    //    }
+    //    if (onTrigger == false)
+    //    {
+    //        yield break;
+    //    }
+    //}
 
     private void OnTriggerEnter2D(Collider2D col)
     {

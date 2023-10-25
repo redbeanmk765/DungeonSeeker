@@ -2,32 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class slime : enemy
+public class bat : enemy
 {
     public GameObject enemy;
     public GameObject player;
     public GameObject colPlayer;
     public GameObject[] players;
     public Animator animator;
+    public GameObject enemyProjectile;
     public bool onWake = false;
     public bool onTrigger = false;
     public bool attackMotionDone = true;
     public bool onFlash = false;
     public bool IsDie = false;
     public Vector3 targetPos;
-    public bool isDash;
     public float nowHp;
     public float damaged;
     public Vector3 MoveTowardsVector;
     public float MaxSpeedX;
     public Rigidbody2D rigid;
     public int angle;
+    public bool isRun;
+    public bool attackCoolTime;
+
 
 
     private enum State
     {
-        sleep,
-        wake,
         idle,
         move,
         attack,
@@ -43,8 +44,8 @@ public class slime : enemy
         MaxSpeedX = 2;
         players = GameObject.FindGameObjectsWithTag("Player");
         player = players[0];
-        curState = State.sleep;
-        fsm = new FSM(new sleepState(this,player));
+        curState = State.idle;
+        fsm = new FSM(new IdleState(this, player));
 
         nowHp = monsterStat.maxHp;
         animator = GetComponent<Animator>();
@@ -52,11 +53,8 @@ public class slime : enemy
         onFlash = false;
         IsDie = false;
 
-        //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1],true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
-        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Ground"), true);
-        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Monster"), true);
 
     }
 
@@ -88,18 +86,6 @@ public class slime : enemy
 
         switch (curState)
         {
-            case State.sleep:
-                if (CanSeePlayer())
-                {
-                    onWake = true;
-                    ChangeState(State.wake);
-                }
-                break;
-            case State.wake:
-                {
-                    StartCoroutine(EnterIdle());
-                    break;
-                }
             case State.idle:
 
                 if (CanSeePlayer())
@@ -108,20 +94,22 @@ public class slime : enemy
                     if (CanAttackPlayer())
                     {
                         // attackMotionDone = true;
-                         ChangeState(State.attack);
+                        ChangeState(State.attack);
                     }
-                else
-                    ChangeState(State.move);
+                    else
+                        ChangeState(State.move);
                 }
                 break;
             case State.move:
                 if (CanSeePlayer())
                 {
-                    
+
                     if (CanAttackPlayer())
                     {
-                        // attackMotionDone = true;
-                        ChangeState(State.attack);
+                        if (attackCoolTime == false) 
+                        {
+                            ChangeState(State.attack); 
+                        }
                     }
                 }
                 else
@@ -129,23 +117,23 @@ public class slime : enemy
                     ChangeState(State.idle);
                 }
                 break;
-            case State.attack:               
-                    if (attackMotionDone)
+            case State.attack:
+                if (attackMotionDone)
+                {
+                    if (CanSeePlayer())
                     {
-                        if (CanSeePlayer())
+                        if (attackCoolTime == true)
                         {
-                            if (!CanAttackPlayer())
-                            {
-                                ChangeState(State.move);
-                            }
+                            ChangeState(State.move);
+                        }
 
-                        }
-                        else
-                        {
-                            ChangeState(State.idle);
-                        }
                     }
-                    break;
+                    else
+                    {
+                        ChangeState(State.idle);
+                    }
+                }
+                break;
             case State.die:
                 if (this.gameObject.GetComponent<SpriteRenderer>().color.a <= 0)
                 {
@@ -170,23 +158,23 @@ public class slime : enemy
             rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
         }
     }
-     
 
-IEnumerator FlashWhite()
+
+    IEnumerator FlashWhite()
     {
         while (onFlash)
         {
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.flashMaterial;
             yield return new WaitForSeconds(0.1f);
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
-            
+
             if (onFlash == false)
             {
                 yield break;
             }
             onFlash = false;
-            
-            
+
+
         }
         if (onFlash == false)
         {
@@ -194,65 +182,40 @@ IEnumerator FlashWhite()
         }
     }
 
-    IEnumerator EnterIdle()
-    {         
-        while (onWake)
-        {           
-            yield return new WaitForSeconds(1.0f);
-
-            if (onWake == false)
-            {
-                yield break;
-            }
-            if (this.curState != State.die)
-            {
-                ChangeState(State.idle);
-            }
-            onWake = false;
-        }
-        if (onWake == false)
-        {
-            yield break;
-        }
-    }
 
     private void ChangeState(State nextState)
     {
         curState = nextState;
         switch (curState)
         {
-            case State.wake:
-                fsm.ChangeState(new wakeState(this,player));
-                animator.SetInteger("State", 1);
-                break;
             case State.idle:
                 fsm.ChangeState(new IdleState(this, player));
-                animator.SetInteger("State", 2);
+                animator.SetInteger("State", 1);
                 break;
             case State.move:
                 fsm.ChangeState(new MoveState(this, player));
-                animator.SetInteger("State", 3);
+                animator.SetInteger("State", 2);
                 break;
             case State.attack:
                 fsm.ChangeState(new AttackState(this, player));
-                animator.SetInteger("State", 4);
+                animator.SetInteger("State", 3);
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
-                animator.SetInteger("State", 5);
+                animator.SetInteger("State", 4);
                 break;
         }
     }
 
     private bool CanSeePlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 6    
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <=  5
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -5)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 9
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
         {
 
             return true;
-            
+
         }
         else
             return false;
@@ -261,7 +224,9 @@ IEnumerator FlashWhite()
 
     private bool CanAttackPlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 2)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 5.3
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
         {
 
             return true;
@@ -271,7 +236,7 @@ IEnumerator FlashWhite()
         //  사정거리 체크 구현
     }
 
-    public void AttackDash1()
+    public void AttackShoot1()
     {
         if ((this.transform.position.x - player.transform.position.x) < 0)
         {
@@ -293,73 +258,31 @@ IEnumerator FlashWhite()
 
         attackMotionDone = false;
     }
-    public void AttackDash2()
+    public void AttackShoot2()
     {
-        
-        
+        enemyProjectile = Instantiate(monsterStat.projectile);
+        enemyProjectile.transform.position = this.transform.position;
+        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().target = player;
+        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().dmg = monsterStat.enemyDamage;
+        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed;
+
     }
-    public void AttackDash3()
+    public void AttackShoot3()
     {
 
-        isDash = true;
-        MaxSpeedX = 8;
-        
-        StartCoroutine(dash());
-    } 
-    public void AttackDash4()
-    {
-        isDash = false;
         attackMotionDone = true;
-        
-        MaxSpeedX = 2;
+        attackCoolTime = true;
+        StartCoroutine(attackCoolTimeCor());
     }
-    IEnumerator dash()
+    IEnumerator attackCoolTimeCor()
     {
-        while (isDash)
-        {            
-             yield return new WaitForEndOfFrame();
-            // this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, 0.05f);
-            if (this.curState != State.die)
-            {
-                this.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * this.monsterStat.moveSpeed, ForceMode2D.Impulse);
-            }
-            if (isDash == false)
-            {
-                yield break;
-            }                        
-        }
-        if (isDash == false)
-        {
-            yield break;
-        }
-    }
-    public class sleepState : BaseState
-    {
-        public sleepState(enemy enemy, GameObject player) : base(enemy,player) { }
 
-        public override void OnStateEnter()
-        {           
-        }
-        public override void OnStateUpdate()
-        {
-        }
-        public override void OnStateExit()
-        {
-        }
+        yield return new WaitForSeconds(4);
+        attackCoolTime = false;
+        yield break;
+        
     }
-    public class wakeState : BaseState
-    {
-        public wakeState(enemy enemy, GameObject player) : base(enemy, player) { }
-        public override void OnStateEnter()
-        {
-        }
-        public override void OnStateUpdate()
-        {
-        }
-        public override void OnStateExit()
-        {
-        }
-    }
+    
     public class IdleState : BaseState
     {
         public IdleState(enemy enemy, GameObject player) : base(enemy, player) { }
@@ -376,10 +299,10 @@ IEnumerator FlashWhite()
         {
         }
     }
-    
+
     public class MoveState : BaseState
     {
-        
+
         public MoveState(enemy enemy, GameObject player) : base(enemy, player) { }
 
 
@@ -391,8 +314,8 @@ IEnumerator FlashWhite()
         public override void OnStateUpdate()
         {
 
-            int angle = 1; 
-            if((curEnemy.transform.position.x - curPlayer.transform.position.x) < 0)
+            int angle = 1;
+            if ((curEnemy.transform.position.x - curPlayer.transform.position.x) < 0)
             {
                 angle = 1;
             }
@@ -400,19 +323,48 @@ IEnumerator FlashWhite()
             {
                 angle = -1;
             }
-            
-            
+
+
             if (angle == 1)
             {
-                curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
+                if (curEnemy.gameObject.GetComponent<bat>().isRun == false)
+                {
+                    curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
+                else 
+                {
+                    curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
+                }
             }
             else
             {
-                curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
+                if (curEnemy.gameObject.GetComponent<bat>().isRun == false)
+                {
+                    curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
+                }
+                else
+                {
+                    curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
             }
 
             //curEnemy.transform.position = Vector2.MoveTowards(curEnemy.transform.position, new Vector2 (curPlayer.transform.position.x, curEnemy.transform.position.y), curEnemy.monsterStat.moveSpeed * Time.deltaTime);
-            curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
+            if (Mathf.Abs(curEnemy.GetComponent<Transform>().position.x - curPlayer.GetComponent<Transform>().position.x) >= 5)
+            {
+                curEnemy.gameObject.GetComponent<bat>().isRun = false;
+                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
+            }
+            else if (Mathf.Abs(curEnemy.GetComponent<Transform>().position.x - curPlayer.GetComponent<Transform>().position.x) >4.7 
+                && Mathf.Abs(curEnemy.GetComponent<Transform>().position.x - curPlayer.GetComponent<Transform>().position.x) < 5.3)
+            {
+                curEnemy.gameObject.GetComponent<bat>().isRun = false;
+                curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else
+            {
+                curEnemy.gameObject.GetComponent<bat>().isRun = true;
+                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * -angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
+            }
         }
 
         public override void OnStateExit()
@@ -432,7 +384,7 @@ IEnumerator FlashWhite()
 
         public override void OnStateUpdate()
         {
-            
+
         }
 
         public override void OnStateExit()
@@ -452,9 +404,9 @@ IEnumerator FlashWhite()
 
         public override void OnStateUpdate()
         {
-            
+
             curEnemy.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, ((curEnemy.gameObject.GetComponent<SpriteRenderer>().color.a) - 1 * Time.deltaTime));
-          
+
         }
 
         public override void OnStateExit()
@@ -462,61 +414,15 @@ IEnumerator FlashWhite()
         }
     }
 
-
-
-    //private void OnCollisionEnter2D(Collision2D col)
-    //{
-    //    if (this.curState != State.die)
-    //    {
-    //        if (col.gameObject.CompareTag("Player"))
-    //        {
-    //            this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-    //            this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
-    //            onTrigger = true;
-    //            col.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
-    //            colPlayer = col.gameObject;
-    //            StartCoroutine(WaitForDamage());
-    //        }
-    //    }
-    //}
-
-    //private void OnCollisionExit2D(Collision2D col)
-    //{
-    //    if (col.gameObject.CompareTag("Player"))
-    //    {
-    //       // this.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-    //       // this.gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
-    //        onTrigger = false;
-    //    }
-    //}
-
-    IEnumerator WaitForDamage()
-    {
-        while (onTrigger)
-        {
-            yield return new WaitForSeconds(1.0f);
-
-            if (onTrigger == false)
-            {
-                yield break;
-            }
-            colPlayer.gameObject.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
-        }
-        if (onTrigger == false)
-        {
-            yield break;
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D col)
     {
-       
+
         if (this.curState != State.die)
         {
-            
+
             if (col.CompareTag("Attack"))
             {
-               
+
                 this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
 
             }
@@ -525,11 +431,11 @@ IEnumerator FlashWhite()
         if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
         {
             player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
-            
+
         }
     }
 
-   
+
 
 
 }

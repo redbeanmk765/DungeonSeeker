@@ -28,7 +28,7 @@ public class enemyProjectile : MonoBehaviour
 
             }
             Destroy(this.gameObject);
-            Debug.Log("test");
+ 
         }
     }
 

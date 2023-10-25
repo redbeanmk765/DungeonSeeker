@@ -150,7 +150,7 @@ public class MoveController : MonoBehaviour
         }
 
         RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.70f), 0, Vector2.right * Hor, 0.4f, LayerMask);
-        if (WallHit != false)
+        if (WallHit != false && IsDash == false)
         {
             IsWall = true;
             AirJumpCount = AirJumpCountMax;
@@ -186,7 +186,7 @@ public class MoveController : MonoBehaviour
         {
             //rigid.velocity = new Vector2(0, -2f);
             MaxSpeedY = 2f;
-
+            LastHor = LastHor * -1;
             Gravity.force = new Vector2(0, -20f);
 
         }
@@ -202,7 +202,7 @@ public class MoveController : MonoBehaviour
 
         if (Input.GetButtonDown("Dash") && IsDashReady == true)
         {
-            if (IsDash == false)
+            if (IsDash == false && IsWallJump == false)
             {
 
                 StartCoroutine(Dash());
@@ -460,7 +460,7 @@ public class MoveController : MonoBehaviour
         Hor = LastHor * -1;
         yield return new WaitForSeconds(0.05f);
         rigid.velocity = new Vector2(rigid.velocity.x, 6f);
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.1f);
         IsWallJump = false;
     }
 
