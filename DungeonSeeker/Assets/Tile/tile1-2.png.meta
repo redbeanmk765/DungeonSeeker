@@ -152,7 +152,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9f1dfec365bcf94e9337bcffab3117d
+      spriteID: a69989a84aa61264c91aa0d83d998272
       internalID: 239408156
       vertices: []
       indices: 
@@ -173,8 +173,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c8533ecf5064cd4dbb4ddf0d8ba500a
+      spriteID: 2b548c8881024b24d9ceb13f64fb44e5
       internalID: -959501602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tile1-2_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e04f1b30e1af104fae0da17b451e908
+      internalID: 854225357
       vertices: []
       indices: 
       edges: []
@@ -193,6 +214,7 @@ TextureImporter:
       tile1-2_0: 1949817967
       tile1-2_1: 239408156
       tile1-2_2: -959501602
+      tile1-2_3: 854225357
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

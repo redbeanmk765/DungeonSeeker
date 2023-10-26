@@ -21,7 +21,7 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: -489765734, guid: 256e01c462817ce4bacbc0fd412191a9, type: 3}
-    - time: 0.06666667
+    - time: 0.1
       value: {fileID: 1150143300, guid: 256e01c462817ce4bacbc0fd412191a9, type: 3}
     - time: 0.23333333
       value: {fileID: 1150143300, guid: 256e01c462817ce4bacbc0fd412191a9, type: 3}
@@ -72,7 +72,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.06666667
+  - time: 0.1
     functionName: JumpAttack
     data: 
     objectReferenceParameter: {fileID: 0}
