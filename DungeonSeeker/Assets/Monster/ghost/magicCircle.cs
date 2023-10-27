@@ -43,11 +43,11 @@ public class magicCircle : MonoBehaviour
         Debug.DrawRay(this.transform.position, pos, Color.red);
         Debug.DrawRay(this.transform.position,  playerPositon - this.transform.position , Color.blue);
 
-        Ray ray = new Ray(this.transform.position, playerPositon - this.transform.position);
+        RaycastHit2D ray = Physics2D.Raycast(this.transform.position, playerPositon - this.transform.position, layermask);
 
-        if (Physics.Raycast(ray, 10))
+        if (ray != false)
         {
-            Debug.Log("Stuck");
+            Debug.Log("stuck");
         }
     }
 
