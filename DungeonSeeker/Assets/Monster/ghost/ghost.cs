@@ -8,20 +8,29 @@ public class ghost : enemy
     public GameObject player;
     public GameObject colPlayer;
     public GameObject[] players;
-    public GameObject enemyProjectile;
     public Animator animator;
+    public GameObject enemyProjectile;
     public bool onWake = false;
     public bool onTrigger = false;
     public bool attackMotionDone = true;
     public bool onFlash = false;
     public bool IsDie = false;
+    public Vector3 targetPos;
     public float nowHp;
     public float damaged;
+    public Vector3 MoveTowardsVector;
+    public float MaxSpeedX;
+    public Rigidbody2D rigid;
+    public int angle;
+    public bool isRun;
+    public bool attackCoolTime;
+
 
 
     private enum State
     {
         idle,
+        move,
         attack,
         die
     }
@@ -31,18 +40,23 @@ public class ghost : enemy
 
     private void Start()
     {
+        rigid = GetComponent<Rigidbody2D>();
+        MaxSpeedX = 2;
         players = GameObject.FindGameObjectsWithTag("Player");
         player = players[0];
-        curState = State.attack;
-        fsm = new FSM(new AttackState(this, player));
+        curState = State.idle;
+        fsm = new FSM(new IdleState(this, player));
 
         nowHp = monsterStat.maxHp;
         animator = GetComponent<Animator>();
+
         onFlash = false;
         IsDie = false;
+        attackMotionDone = true;
 
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
+
     }
 
 
@@ -73,19 +87,52 @@ public class ghost : enemy
 
         switch (curState)
         {
-
             case State.idle:
+
                 if (CanSeePlayer())
                 {
 
-                    ChangeState(State.attack);
+                    if (CanAttackPlayer())
+                    {
+                        // attackMotionDone = true;
+                        ChangeState(State.attack);
+                    }
+                    else
+                        ChangeState(State.move);
+                }
+                break;
+            case State.move:
+                if (CanSeePlayer())
+                {
+
+                    if (CanAttackPlayer())
+                    {
+                        if (attackCoolTime == false)
+                        {
+                            ChangeState(State.attack);
+                        }
+                    }
+                }
+                else
+                {
+                    ChangeState(State.idle);
                 }
                 break;
             case State.attack:
-                if (!CanSeePlayer())
+                if (attackMotionDone)
                 {
+                    if (CanSeePlayer())
+                    {
+                        if (attackCoolTime == true)
+                        {
+                            ChangeState(State.move);
+                        }
 
-                    ChangeState(State.idle);
+                    }
+                    else
+                    {
+                        ChangeState(State.idle);
+                    }
                 }
                 break;
             case State.die:
@@ -100,6 +147,19 @@ public class ghost : enemy
 
         fsm.UpdateState();
     }
+    private void FixedUpdate()
+    {
+        if (rigid.velocity.x > MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
+        }
+
+        else if (rigid.velocity.x < -1 * MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
+        }
+    }
+
 
     IEnumerator FlashWhite()
     {
@@ -131,34 +191,70 @@ public class ghost : enemy
         {
             case State.idle:
                 fsm.ChangeState(new IdleState(this, player));
-                animator.SetInteger("State", 0);
+                animator.SetInteger("State", 1);
                 break;
             case State.attack:
                 fsm.ChangeState(new AttackState(this, player));
-                animator.SetInteger("State", 1);
+                animator.SetInteger("State", 2);
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
-                animator.SetInteger("State", 2);
+                animator.SetInteger("State", 3);
                 break;
         }
     }
 
-
-
-
-
-
-    public void AttackMagic()
+    private bool CanSeePlayer()
     {
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 9
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
+        {
 
+            return true;
+
+        }
+        else
+            return false;
+        //  플레이어 탐지 구현
+    }
+
+    private bool CanAttackPlayer()
+    {
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 5.3
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
+        {
+
+            return true;
+        }
+        else
+            return false;
+        //  사정거리 체크 구현
+    }
+    public void AttackMagic1()
+    {
+        attackMotionDone = false;
+    }
+    public void AttackMagic2()
+    {
         enemyProjectile = Instantiate(monsterStat.projectile);
         enemyProjectile.transform.position = this.transform.position;
         enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().target = player;
         enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().dmg = monsterStat.enemyDamage;
         enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed;
 
+        attackMotionDone = true;
+        attackCoolTime = true;
+        StartCoroutine(attackCoolTimeCor());
+    }
+    
+    IEnumerator attackCoolTimeCor()
+    {
 
+        yield return new WaitForSeconds(4);
+        attackCoolTime = false;
+        yield break;
 
     }
 
@@ -179,6 +275,8 @@ public class ghost : enemy
         }
     }
 
+   
+
     public class AttackState : BaseState
     {
         public AttackState(enemy enemy, GameObject player) : base(enemy, player) { }
@@ -186,10 +284,33 @@ public class ghost : enemy
 
         public override void OnStateEnter()
         {
+
+            
         }
 
         public override void OnStateUpdate()
         {
+            int angle = 1;
+            if ((curEnemy.transform.position.x - curPlayer.transform.position.x) < 0)
+            {
+                angle = 1;
+            }
+            else
+            {
+                angle = -1;
+            }
+            if (curEnemy.GetComponent<ghost>().attackMotionDone == true)
+            {
+
+                if (angle == 1)
+                {
+                    curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
+                else
+                {
+                    curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
+                }
+            }
         }
 
         public override void OnStateExit()
@@ -200,8 +321,11 @@ public class ghost : enemy
     public class DieState : BaseState
     {
         public DieState(enemy enemy, GameObject player) : base(enemy, player) { }
+
+
         public override void OnStateEnter()
         {
+            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
         }
 
         public override void OnStateUpdate()
@@ -215,7 +339,6 @@ public class ghost : enemy
         {
         }
     }
-
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -233,25 +356,12 @@ public class ghost : enemy
 
         if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
         {
-
             player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
 
         }
     }
 
-    private bool CanSeePlayer()
-    {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 10
-            && Mathf.Abs(player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y) <= 6)
-        {
 
-            return true;
 
-        }
-        else
-
-            return false;
-        //  플레이어 탐지 구현
-    }
 
 }
