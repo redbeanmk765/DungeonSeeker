@@ -10,6 +10,8 @@ TagManager:
   - Trap
   - PlayerHitBox
   - EnemyAttack
+  - SafeZone
+  - Trigger
   layers:
   - Default
   - TransparentFX

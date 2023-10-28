@@ -30,7 +30,6 @@ public class ghost : enemy
     private enum State
     {
         idle,
-        move,
         attack,
         die
     }
@@ -53,6 +52,7 @@ public class ghost : enemy
         onFlash = false;
         IsDie = false;
         attackMotionDone = true;
+        attackCoolTime = false;
 
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
@@ -91,48 +91,20 @@ public class ghost : enemy
 
                 if (CanSeePlayer())
                 {
-
-                    if (CanAttackPlayer())
+                    if (attackCoolTime == false)
                     {
-                        // attackMotionDone = true;
                         ChangeState(State.attack);
                     }
-                    else
-                        ChangeState(State.move);
-                }
-                break;
-            case State.move:
-                if (CanSeePlayer())
-                {
-
-                    if (CanAttackPlayer())
-                    {
-                        if (attackCoolTime == false)
-                        {
-                            ChangeState(State.attack);
-                        }
-                    }
-                }
-                else
-                {
-                    ChangeState(State.idle);
                 }
                 break;
             case State.attack:
                 if (attackMotionDone)
-                {
-                    if (CanSeePlayer())
-                    {
+                { 
                         if (attackCoolTime == true)
                         {
-                            ChangeState(State.move);
+                            ChangeState(State.idle);
                         }
 
-                    }
-                    else
-                    {
-                        ChangeState(State.idle);
-                    }
                 }
                 break;
             case State.die:
@@ -149,15 +121,7 @@ public class ghost : enemy
     }
     private void FixedUpdate()
     {
-        if (rigid.velocity.x > MaxSpeedX)
-        {
-            rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
-        }
-
-        else if (rigid.velocity.x < -1 * MaxSpeedX)
-        {
-            rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
-        }
+      
     }
 
 
@@ -206,9 +170,7 @@ public class ghost : enemy
 
     private bool CanSeePlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 9
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
+        if (player.GetComponent<PlayerStat>().IsSafeZone == false)
         {
 
             return true;
@@ -219,19 +181,6 @@ public class ghost : enemy
         //  플레이어 탐지 구현
     }
 
-    private bool CanAttackPlayer()
-    {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 5.3
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
-        {
-
-            return true;
-        }
-        else
-            return false;
-        //  사정거리 체크 구현
-    }
     public void AttackMagic1()
     {
         attackMotionDone = false;
@@ -240,19 +189,22 @@ public class ghost : enemy
     {
         enemyProjectile = Instantiate(monsterStat.projectile);
         enemyProjectile.transform.position = this.transform.position;
-        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().target = player;
-        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().dmg = monsterStat.enemyDamage;
-        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed;
+        enemyProjectile.gameObject.GetComponent<magicCircle>().enemyDamage = monsterStat.enemyDamage;
+        enemyProjectile.gameObject.GetComponent<magicCircle>().projectileSpeed = monsterStat.projectileSpeed;
 
+        
+    }
+    public void AttackMagic3()
+    {
         attackMotionDone = true;
         attackCoolTime = true;
         StartCoroutine(attackCoolTimeCor());
     }
-    
-    IEnumerator attackCoolTimeCor()
+
+        IEnumerator attackCoolTimeCor()
     {
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(Random.Range(3.5f,4.5f));
         attackCoolTime = false;
         yield break;
 

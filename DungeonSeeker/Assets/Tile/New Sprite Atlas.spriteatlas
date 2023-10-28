@@ -60,11 +60,19 @@ SpriteAtlas:
     - {fileID: 1545037336, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
     - {fileID: -1069572105, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
     - {fileID: 806556879, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
+    - {fileID: 1949817967, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
+    - {fileID: 239408156, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
+    - {fileID: -959501602, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
+    - {fileID: 854225357, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 1949817967, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
+  - {fileID: 239408156, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
+  - {fileID: -959501602, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
+  - {fileID: 854225357, guid: 6c169d78034ac6040b4c6a4bbf047fc8, type: 3}
   - {fileID: 598367518, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
   - {fileID: 858778704, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
   - {fileID: 748668274, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
@@ -82,6 +90,10 @@ SpriteAtlas:
   - {fileID: 806556879, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
   - {fileID: -1069572105, guid: a12cc3fbb8820d8458480ee7e2156982, type: 3}
   m_PackedSpriteNamesToIndex:
+  - tile1-2_0
+  - tile1-2_1
+  - tile1-2_2
+  - tile1-2_3
   - tile-Sheet_0
   - tile-Sheet_1
   - tile-Sheet_2

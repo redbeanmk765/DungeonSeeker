@@ -26,5 +26,6 @@ public enum Race
     slime,
     skeletonArcher,
     mushroom,
-    bat
+    bat,
+    ghost
 }

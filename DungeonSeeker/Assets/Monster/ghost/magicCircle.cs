@@ -17,6 +17,7 @@ public class magicCircle : MonoBehaviour
     public GameObject player;
     public GameObject magic;
     public GameObject enemyProjectile;
+    public int maxCount;
 
     // Start is called before the first frame update
     void Start()
@@ -25,16 +26,25 @@ public class magicCircle : MonoBehaviour
         player = GameObject.FindGameObjectsWithTag("Player")[0].gameObject;
         playerPositon = player.transform.position;
         IsStuck = true;
+        maxCount = 0;
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        while (IsStuck == true || distance <= 4.5 || distance >= 5.2)
+
+        while (IsStuck == true || distance <= 4.5 || distance >= 5.2 )
         {
             spawnPoint();
-
+            maxCount++;
+            if(maxCount >= 999)
+            {
+                Destroy(this.gameObject);
+                break;
+            }   
         }
+        this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
 
@@ -44,11 +54,11 @@ public class magicCircle : MonoBehaviour
         posY = Random.Range(playerPositon.y, playerPositon.y + 5f);
 
         this.transform.position = new Vector2(posX, posY);
-
+    
         distance = Vector2.Distance(this.transform.position, playerPositon);
 
 
-        RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(1f, 1f), 0, playerPositon - this.transform.position, distance, layermask);
+        RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(1.2f, 1.2f), 0, playerPositon - this.transform.position, distance - 0.5f, layermask);
 
         if (ray != false)
         {

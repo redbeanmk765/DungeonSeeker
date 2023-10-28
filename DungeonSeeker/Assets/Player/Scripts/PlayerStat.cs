@@ -18,6 +18,7 @@ public class PlayerStat : MonoBehaviour
     public Image PlayerHpBar;
     public Text PlayerHpText;
     public Text PlayerGoldText;
+    public bool IsSafeZone;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -29,6 +30,7 @@ public class PlayerStat : MonoBehaviour
         maxHp = 100;
         nowHp = maxHp;
         PlayerGold = 0;
+        IsSafeZone = true;
     }
 
     // Update is called once per frame
