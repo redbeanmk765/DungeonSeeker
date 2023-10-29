@@ -5,6 +5,7 @@ using UnityEngine;
 public class enemyProjectile : MonoBehaviour
 {
     public int dmg;
+    public float speed;
     public Vector3 pos = new Vector3(0, 0, 0);
 
     // Start is called before the first frame update
@@ -15,7 +16,7 @@ public class enemyProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = Vector3.MoveTowards(this.transform.position, this.transform.position + (pos), 4f * Time.deltaTime);
+        this.transform.position = Vector3.MoveTowards(this.transform.position, this.transform.position + (pos), speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D col)

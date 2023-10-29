@@ -125,8 +125,8 @@ public class MoveController : MonoBehaviour
         }
 
 
-
-        RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
+      
+        RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale + 0.1f, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
 
         if (GroundHit != false)
         {

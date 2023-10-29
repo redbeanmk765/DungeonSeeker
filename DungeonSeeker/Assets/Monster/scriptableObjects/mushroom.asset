@@ -18,8 +18,8 @@ MonoBehaviour:
   enemyDamage: 10
   race: 2
   moveSpeed: 0
-  projectileSpeed: 3
+  projectileSpeed: 4
   projectile: {fileID: 5865560692559744089, guid: 33acdb94bbabb8040bd00ca1458383e3, type: 3}
-  enemyGold: 5
+  enemyGold: 20
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}

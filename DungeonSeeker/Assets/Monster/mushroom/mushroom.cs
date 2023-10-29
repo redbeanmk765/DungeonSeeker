@@ -159,21 +159,25 @@ public class mushroom : enemy
         enemyProjectileUp.transform.position = this.transform.position;
         enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().pos = new Vector3 (0,1,0);
         enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
+        enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
 
         enemyProjectileDown = Instantiate(monsterStat.projectile);
         enemyProjectileDown.transform.position = this.transform.position;
         enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(0, -1, 0);
         enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
+        enemyProjectileDown.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
 
         enemyProjectileLeft = Instantiate(monsterStat.projectile);
         enemyProjectileLeft.transform.position = this.transform.position;
         enemyProjectileLeft.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(-1, 0, 0);
         enemyProjectileLeft.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
+        enemyProjectileLeft.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
 
         enemyProjectileRight = Instantiate(monsterStat.projectile);
         enemyProjectileRight.transform.position = this.transform.position;
         enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(1, 0, 0);
         enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
+        enemyProjectileRight.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
 
     }
 

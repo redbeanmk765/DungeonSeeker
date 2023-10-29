@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4972315098252168729}
   - component: {fileID: 4972315098252168710}
   - component: {fileID: 4972315098252168711}
+  - component: {fileID: 2836268549468359197}
   m_Layer: 0
   m_Name: Spike
   m_TagString: Trap
@@ -128,6 +129,27 @@ MonoBehaviour:
   dmg: 0
   onObj: {fileID: 0}
   onTrigger: 0
+--- !u!50 &2836268549468359197
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972315098252168708}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &4972315098414939162
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,9 +161,9 @@ GameObject:
   - component: {fileID: 4972315098414939165}
   - component: {fileID: 4972315098414939167}
   - component: {fileID: 4972315098414939164}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -226,7 +248,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0010562688, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -237,5 +259,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.99788725, y: 1}
   m_EdgeRadius: 0

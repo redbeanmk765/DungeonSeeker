@@ -27,5 +27,7 @@ public enum Race
     skeletonArcher,
     mushroom,
     bat,
-    ghost
+    ghost,
+    magicBook
+
 }
