@@ -15,12 +15,12 @@ public class magicBookCircle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        //this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         pos = new List<Vector2> {
-            new Vector2(0f,1f),  new Vector2(0.35f, 0.65f), new Vector2(0.65f, 0.35f), 
-            new Vector2(0f, -1f),  new Vector2(0.35f, -0.65f), new Vector2(0.65f, -0.35f), 
-            new Vector2(1f, 0f),  new Vector2(-0.35f, -0.65f), new Vector2(-0.65f, -0.35f), 
-            new Vector2(-1f, 0f),  new Vector2(-0.35f, 0.65f), new Vector2(-0.65f, 0.35f)
+            new Vector2(1f,0f),  new Vector2(0.65f, 0.35f), new Vector2(0.35f, 0.65f), 
+            new Vector2(0f, 1f),  new Vector2(-0.35f, 0.65f), new Vector2(-0.65f, 0.35f), 
+            new Vector2(-1f, 0f),  new Vector2(-0.65f, -0.35f), new Vector2(-0.35f, -0.65f), 
+            new Vector2(0f, -1f),  new Vector2(0.35f, -0.65f), new Vector2(0.65f, -0.35f)
         };
 }
 
@@ -36,22 +36,23 @@ public class magicBookCircle : MonoBehaviour
         
     }
 
-    public void shootFire()
+    public void shootMagic()
     {
         for (int i = 0; i <= 11; i++)
         {
             enemyProjectile = Instantiate(magic);
             enemyProjectile.transform.position = this.transform.position;
             enemyProjectile.gameObject.GetComponent<enemyProjectile>().pos = pos[i];
+            enemyProjectile.gameObject.GetComponent<enemyProjectile>().rot = 30 * i;
             enemyProjectile.gameObject.GetComponent<enemyProjectile>().dmg = enemyDamage;
             enemyProjectile.gameObject.GetComponent<enemyProjectile>().speed = projectileSpeed;
         }
 
     }
 
-    public void shootFire2()
+    public void shootMagic2()
     {
-        //Destroy(this.gameObject);
+       Destroy(this.gameObject);
     }
 }
 

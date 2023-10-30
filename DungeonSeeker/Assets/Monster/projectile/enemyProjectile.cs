@@ -5,12 +5,15 @@ using UnityEngine;
 public class enemyProjectile : MonoBehaviour
 {
     public int dmg;
+    public float rot;
     public float speed;
     public Vector3 pos = new Vector3(0, 0, 0);
 
     // Start is called before the first frame update
     void Start()
-    {     
+    {
+        
+        this.transform.localEulerAngles = new Vector3(0, 0, rot);
     }
 
     // Update is called once per frame

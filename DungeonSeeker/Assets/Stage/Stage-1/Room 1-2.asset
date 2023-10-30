@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 363c3ae4564df9f48a97fa586798ffc1, type: 3}
-  m_Name: Room 1-1
+  m_Name: Room 1-2
   m_EditorClassIdentifier: 
-  MapCenter: {x: -1.5, y: 1}
-  MapSize: {x: 21, y: 9}
+  MapCenter: {x: 22, y: 17.5}
+  MapSize: {x: 34, y: 11.5}

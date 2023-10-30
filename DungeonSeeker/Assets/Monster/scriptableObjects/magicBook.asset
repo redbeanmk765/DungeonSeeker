@@ -19,7 +19,7 @@ MonoBehaviour:
   race: 5
   moveSpeed: 0
   projectileSpeed: 5
-  projectile: {fileID: 8316390012478408353, guid: bf13a1497a315684ea4391dff3494113, type: 3}
+  projectile: {fileID: 1556391107343860204, guid: 95e35388f53f713478cae2da54ba940a, type: 3}
   enemyGold: 20
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}

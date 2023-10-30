@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ghost : enemy
+public class magicBook : enemy
 {
     public GameObject enemy;
     public GameObject player;
@@ -99,11 +99,11 @@ public class ghost : enemy
                 break;
             case State.attack:
                 if (attackMotionDone)
-                { 
-                        if (attackCoolTime == true)
-                        {
-                            ChangeState(State.idle);
-                        }
+                {
+                    if (attackCoolTime == true)
+                    {
+                        ChangeState(State.idle);
+                    }
 
                 }
                 break;
@@ -121,7 +121,7 @@ public class ghost : enemy
     }
     private void FixedUpdate()
     {
-      
+
     }
 
 
@@ -188,11 +188,11 @@ public class ghost : enemy
     public void AttackMagic2()
     {
         enemyProjectile = Instantiate(monsterStat.projectile);
-        enemyProjectile.transform.position = this.transform.position;
-        enemyProjectile.gameObject.GetComponent<magicCircle>().enemyDamage = monsterStat.enemyDamage;
-        enemyProjectile.gameObject.GetComponent<magicCircle>().projectileSpeed = monsterStat.projectileSpeed;
+        enemyProjectile.transform.position = this.transform.position + new Vector3(0f, 2f, 0f);
+        enemyProjectile.gameObject.GetComponent<magicBookCircle>().enemyDamage = monsterStat.enemyDamage;
+        enemyProjectile.gameObject.GetComponent<magicBookCircle>().projectileSpeed = monsterStat.projectileSpeed;
 
-        
+
     }
     public void AttackMagic3()
     {
@@ -201,10 +201,10 @@ public class ghost : enemy
         StartCoroutine(attackCoolTimeCor());
     }
 
-        IEnumerator attackCoolTimeCor()
+    IEnumerator attackCoolTimeCor()
     {
 
-        yield return new WaitForSeconds(Random.Range(5.5f,7.5f));
+        yield return new WaitForSeconds(5.5f);
         attackCoolTime = false;
         yield break;
 
@@ -227,7 +227,7 @@ public class ghost : enemy
         }
     }
 
-   
+
 
     public class AttackState : BaseState
     {
@@ -237,7 +237,7 @@ public class ghost : enemy
         public override void OnStateEnter()
         {
 
-            
+
         }
 
         public override void OnStateUpdate()
@@ -251,7 +251,7 @@ public class ghost : enemy
             {
                 angle = -1;
             }
-            if (curEnemy.GetComponent<ghost>().attackMotionDone == true)
+            if (curEnemy.GetComponent<magicBook>().attackMotionDone == true)
             {
 
                 if (angle == 1)
