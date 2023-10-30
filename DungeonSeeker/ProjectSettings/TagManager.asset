@@ -12,6 +12,7 @@ TagManager:
   - EnemyAttack
   - SafeZone
   - Trigger
+  - Exit
   layers:
   - Default
   - TransparentFX

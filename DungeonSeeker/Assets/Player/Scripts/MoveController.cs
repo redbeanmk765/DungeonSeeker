@@ -38,12 +38,14 @@ public class MoveController : MonoBehaviour
     public GameObject WallHitBox;
     public GameObject UpHitBox;
     public GameObject DownHitBox;
+    public float TM;
 
     // Start is called before the first frame update
     void Start()
     {
-        MaxSpeedX = 5;
-        MaxSpeedY = 10;
+        TM = 1;
+        MaxSpeedX = 5 * TM;
+        MaxSpeedY = 10 * TM;
         rigid = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         AirJumpCountMax = 1;
@@ -53,7 +55,7 @@ public class MoveController : MonoBehaviour
         GroundScale = GetComponent<BoxCollider2D>().bounds.extents.x + 0.1f;
 
         Gravity = this.GetComponent<ConstantForce2D>();
-        Gravity.force = new Vector2(0, -9.8f);
+        Gravity.force = new Vector2(0, -9.8f * TM );
 
         IsDash = false;
         IsDashReady = true;
@@ -76,8 +78,10 @@ public class MoveController : MonoBehaviour
         DownHitBox = this.transform.Find("DownHitBox").gameObject;
         DownHitBox.SetActive(false);
 
+
         //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
 
+        
     }
        
 
@@ -174,7 +178,7 @@ public class MoveController : MonoBehaviour
 
             if (AirJumpCount > 0)
             {
-                rigid.velocity = new Vector2(rigid.velocity.x, 6f);
+                rigid.velocity = new Vector2(rigid.velocity.x, 6f * TM);
 
                 if (IsGround == false && IsWall == false)
                 {
@@ -184,14 +188,14 @@ public class MoveController : MonoBehaviour
 
             if (IsWall == true)
             {
-                rigid.AddForce(new Vector2(-1 * Hor * 5f, 6f), ForceMode2D.Impulse);
+                rigid.AddForce(new Vector2(-1 * Hor * 5f * TM, 6f * TM), ForceMode2D.Impulse);
                 StartCoroutine(WallJump());
             }
         }
 
         if (Input.GetButton("Horizontal") && (WallHit != false) && IsDash == false && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
         {
-            //rigid.velocity = new Vector2(0, -2f);
+            //rigid.velocity = new Vector2(0, 0);
             //if (IsWallAttack == false) 
             //{ 
             //    HitBox.SetActive(false);
@@ -203,9 +207,9 @@ public class MoveController : MonoBehaviour
             //IsJumpAttack = false;
             //IsUpAttack = false;
             //readyAttack = false;
-            MaxSpeedY = 2f;
+            MaxSpeedY = 2f * TM;
             LastHor = LastHor * -1;
-            Gravity.force = new Vector2(0, -20f);
+            Gravity.force = new Vector2(0, -20f * TM);
 
             if (Hor == 1)
             {
@@ -221,9 +225,16 @@ public class MoveController : MonoBehaviour
         {
             if (IsDash == false)
             {
-                Gravity.force = new Vector2(0, -9.8f);
+                if (TM == 1)
+                {
+                    Gravity.force = new Vector2(0, -9.8f);
+                }
+                else
+                {
+                    Gravity.force = new Vector2(0, -9.8f * TM * TM);
+                }
             }
-            MaxSpeedY = 10;
+            MaxSpeedY = 10 * TM;
 
         }
 
@@ -387,6 +398,19 @@ public class MoveController : MonoBehaviour
             }
         }
 
+        if (Input.GetButtonDown("Skill1"))
+        {
+            
+            TM = 100;
+
+            Time.timeScale = 1f / TM;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            Gravity.force = new Vector2(0, -9.8f * TM);
+
+            MaxSpeedX = 5 * TM;
+            MaxSpeedY = 10 * TM;
+        }
+
     }
 
     void FixedUpdate()
@@ -395,7 +419,7 @@ public class MoveController : MonoBehaviour
 
         if (IsWallJump == false && IsAttack == false && IsAttack2 == false)
         {
-            rigid.AddForce(Vector2.right * Hor * MaxSpeedX, ForceMode2D.Impulse);
+            rigid.AddForce(Vector2.right * Hor * MaxSpeedX * TM, ForceMode2D.Impulse);
         }
 
         if (rigid.velocity.x > MaxSpeedX)
@@ -500,9 +524,9 @@ public class MoveController : MonoBehaviour
     {
         IsWallJump = true;
         Hor = LastHor * -1;
-        yield return new WaitForSeconds(0.05f);
-        rigid.velocity = new Vector2(rigid.velocity.x, 6f);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSecondsRealtime(0.05f);
+        rigid.velocity = new Vector2(rigid.velocity.x, 6f * TM);
+        yield return new WaitForSecondsRealtime(0.1f);
         IsWallJump = false;
     }
 
@@ -520,13 +544,13 @@ public class MoveController : MonoBehaviour
         IsUpAttack = false;
         readyAttack = false;
         IsDash = true;
-        MaxSpeedX = 12;
-  
-        rigid.velocity = new Vector2(dashDirection * 20f, 0);        
+        MaxSpeedX = 12 * TM;
+
+        rigid.velocity = new Vector2(dashDirection * 20f * TM, 0);        
         Gravity.force = new Vector2(0, 0);
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSecondsRealtime(0.35f);
         Gravity.force = new Vector2(0, -9.8F);
-        MaxSpeedX = 5;
+        MaxSpeedX = 5 * TM;
         IsDash = false;
     }
 
@@ -537,7 +561,7 @@ public class MoveController : MonoBehaviour
         float coolTImeRatio = 1;
         while (coolTime <= DashCooltime)
         {
-            coolTime += Time.deltaTime;
+            coolTime += Time.deltaTime * TM;
             coolTImeRatio = 1 - (coolTime / DashCooltime);
             this.gameObject.transform.Find("DashCooltime").GetComponent<RectTransform>().localScale = new Vector3(coolTImeRatio * 0.7f, 0.05f, 0);
             yield return new WaitForFixedUpdate();
@@ -548,14 +572,14 @@ public class MoveController : MonoBehaviour
     IEnumerator DashCoolTime() 
     { 
         IsDashReady = false;
-        yield return new WaitForSeconds(DashCooltime);
+        yield return new WaitForSecondsRealtime(DashCooltime);
         IsDashReady = true;
     }
 
     IEnumerator AttackCoolTime()
     {
         IsAttackCooltime = true;
-        yield return new WaitForSeconds(AttackCooltime);
+        yield return new WaitForSecondsRealtime(AttackCooltime);
         IsAttackCooltime = false;
     }
 
@@ -604,7 +628,7 @@ public class MoveController : MonoBehaviour
 
         readyAttack = true;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSecondsRealtime(2f);
 
         readyAttack = false;
 

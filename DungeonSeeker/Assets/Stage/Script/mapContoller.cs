@@ -17,12 +17,16 @@ public class mapContoller : MonoBehaviour
         enter =  this.transform.Find("Enter").gameObject;
         exit = this.transform.Find("Exit").gameObject;
         player = GameObject.Find("Player");
-        player.transform.position = enter.transform.position - new Vector3(0, -0.4f,0);
+        player.transform.position = enter.transform.position - new Vector3(0, 0.4f,0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (this.transform.Find("Enemy").gameObject.transform.childCount == 0)
+        {
+            exit.GetComponent<door>().Open();
+
+        }
     }
 }

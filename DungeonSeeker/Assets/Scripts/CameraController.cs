@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, playerTransform.position + cameraPosition, Time.deltaTime * cameraMoveSpeed);
+        transform.position = Vector3.Lerp(transform.position, playerTransform.position + cameraPosition, Time.unscaledDeltaTime * cameraMoveSpeed);
         float lx = mapSize.x - width;
         float clampX = Mathf.Clamp(transform.position.x, -lx + mapCenter.x, lx + mapCenter.x);
 

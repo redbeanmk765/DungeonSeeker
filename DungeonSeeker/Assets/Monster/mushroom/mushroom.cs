@@ -110,7 +110,7 @@ public class mushroom : enemy
         while (onFlash)
         {
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.flashMaterial;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
 
             if (onFlash == false)

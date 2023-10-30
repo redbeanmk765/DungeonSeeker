@@ -63,6 +63,7 @@ public class slime : enemy
 
     private void Update()
     {
+        player = GameObject.Find("Player");
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.000001f, 0);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.000001f, 0);
         if (this.damaged != 0)
@@ -177,7 +178,7 @@ IEnumerator FlashWhite()
         while (onFlash)
         {
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.flashMaterial;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
             
             if (onFlash == false)
@@ -453,7 +454,7 @@ IEnumerator FlashWhite()
         public override void OnStateUpdate()
         {
             
-            curEnemy.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, ((curEnemy.gameObject.GetComponent<SpriteRenderer>().color.a) - 1 * Time.deltaTime));
+            curEnemy.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, ((curEnemy.gameObject.GetComponent<SpriteRenderer>().color.a) - 1 * Time.unscaledDeltaTime));
           
         }
 
