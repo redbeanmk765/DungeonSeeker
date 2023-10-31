@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class door : MonoBehaviour
 {
     public bool IsOpen;
-
+    public bool IsNear;
+    public Text doorText;
     // Start is called before the first frame update
     void Start()
     {
         Close();
-        IsOpen = false;
+        IsOpen = true;
+        IsNear = false;
+        doorText.transform.position = this.transform.position + new Vector3(0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interaction") && IsOpen == true)
+        if (Input.GetButtonDown("Interaction") && IsOpen == true && IsNear == true)
         {
-            Debug.Log("test");  
             GameObject.Find("StageController").GetComponent<StageController>().GoNextRoom();
         }
     }
@@ -33,5 +36,23 @@ public class door : MonoBehaviour
     {
         this.GetComponent<Animator>().SetInteger("State", 2);
         IsOpen = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Player") && IsOpen == true)
+        {
+            doorText.gameObject.SetActive(true);
+            IsNear = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Player") && IsOpen == true)
+        {
+            doorText.gameObject.SetActive(false);
+            IsNear = false;
+        }
     }
 }

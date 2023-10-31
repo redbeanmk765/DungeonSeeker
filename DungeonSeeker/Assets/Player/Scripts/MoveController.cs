@@ -39,6 +39,7 @@ public class MoveController : MonoBehaviour
     public GameObject UpHitBox;
     public GameObject DownHitBox;
     public float TM;
+    public bool IsFade;
 
     // Start is called before the first frame update
     void Start()
@@ -77,6 +78,7 @@ public class MoveController : MonoBehaviour
         UpHitBox.SetActive(false);
         DownHitBox = this.transform.Find("DownHitBox").gameObject;
         DownHitBox.SetActive(false);
+        IsFade = false;
 
 
         //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
@@ -88,334 +90,337 @@ public class MoveController : MonoBehaviour
 // Update is called once per frame
     void Update()
     {
-
-        Debug.DrawRay(transform.position, new Vector3(1, 0, 0) * 0.4f, new Color(0, 1, 0));
-        Debug.DrawRay(transform.position, new Vector3(0, -1, 0) * 1, new Color(0, 1, 0));
-        Debug.DrawRay(transform.position, new Vector3(0, 1, 0) * 0.9f, new Color(0, 1, 0));
-
-        if (Hor != 0 && IsWallJump == false && IsDash == false)
+        if (IsFade == false)
         {
-            LastHor = Hor;
-        }
-
-        if (IsDash == false && IsWallJump == false)
-        {
-            Hor = Input.GetAxisRaw("Horizontal");
-            Ver = Input.GetAxisRaw("Vertical");
-        }
-        Input.GetAxisRaw("Horizontal");
-
-        if (Hor == 1 && Hor != LastHor && IsAttack == false && IsAttack2 == false && IsJumpAttack == false) 
-        {
-            this.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        else if (Hor == -1 && Hor != LastHor && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
-        {
-            this.transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
-        if (rigid.velocity.x > 0.1 && IsJumpAttack == false )
-
-        {
-            this.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        else if (rigid.velocity.x < -0.1 && IsJumpAttack == false )
-        {
-            this.transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
-
-        if ((Input.GetButtonUp("Horizontal") || Hor == 0) && IsWallJump == false && IsDash == false)
-        {
-            rigid.velocity = new Vector2(0, rigid.velocity.y);
-        }
-
-
-      
-        RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale + 0.1f, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
-
-        if (GroundHit != false)
-        {
-
-            if (GroundHit.transform.CompareTag("Ground"))
+            if (Hor != 0 && IsWallJump == false && IsDash == false)
             {
-                AirJumpCount = AirJumpCountMax;
-                IsGround = true;
-                IsFall = false;
+                LastHor = Hor;
             }
 
-        }
-        else
-        {
-            IsGround = false;
-        }
-
-        if (IsGround == false)
-        {
-            if (rigid.velocity.y < 0)
+            if (IsDash == false && IsWallJump == false)
             {
-                IsFall = true;
+                Hor = Input.GetAxisRaw("Horizontal");
+                Ver = Input.GetAxisRaw("Vertical");
+            }
+            Input.GetAxisRaw("Horizontal");
+
+            if (Hor == 1 && Hor != LastHor && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
+            {
+                this.transform.localEulerAngles = new Vector3(0, 0, 0);
+            }
+            else if (Hor == -1 && Hor != LastHor && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
+            {
+                this.transform.localEulerAngles = new Vector3(0, 180, 0);
+            }
+            if (rigid.velocity.x > 0.1 && IsJumpAttack == false)
+
+            {
+                this.transform.localEulerAngles = new Vector3(0, 0, 0);
+            }
+            else if (rigid.velocity.x < -0.1 && IsJumpAttack == false)
+            {
+                this.transform.localEulerAngles = new Vector3(0, 180, 0);
+            }
+
+            if ((Input.GetButtonUp("Horizontal") || Hor == 0) && IsWallJump == false && IsDash == false)
+            {
+                rigid.velocity = new Vector2(0, rigid.velocity.y);
+            }
+
+
+
+            RaycastHit2D GroundHit = Physics2D.BoxCast(transform.position, new Vector2(GroundScale + 0.1f, 0.01f), 0, Vector2.down, GroundDistance, LayerMask);
+
+            if (GroundHit != false)
+            {
+
+                if (GroundHit.transform.CompareTag("Ground"))
+                {
+                    AirJumpCount = AirJumpCountMax;
+                    IsGround = true;
+                    IsFall = false;
+                }
+
             }
             else
             {
-                IsFall = false;
+                IsGround = false;
             }
-        }
 
-        RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.70f), 0, Vector2.right * Hor, 0.4f, LayerMask);
-        if (WallHit != false && IsDash == false)
-        {
-            IsWall = true;
-            AirJumpCount = AirJumpCountMax;
-
-        }
-        else
-        {
-            IsWall = false;
-        }
-
-
-        if (Input.GetButtonDown("Jump"))
-        {
-
-            if (AirJumpCount > 0)
+            if (IsGround == false)
             {
-                rigid.velocity = new Vector2(rigid.velocity.x, 6f * TM);
-
-                if (IsGround == false && IsWall == false)
+                if (rigid.velocity.y < 0)
                 {
-                    AirJumpCount--;
+                    IsFall = true;
                 }
+                else
+                {
+                    IsFall = false;
+                }
+            }
+
+            RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.70f), 0, Vector2.right * Hor, 0.4f, LayerMask);
+            if (WallHit != false && IsDash == false)
+            {
+                IsWall = true;
+                AirJumpCount = AirJumpCountMax;
+
+            }
+            else
+            {
+                IsWall = false;
+            }
+
+
+            if (Input.GetButtonDown("Jump"))
+            {
+
+                if (AirJumpCount > 0)
+                {
+                    rigid.velocity = new Vector2(rigid.velocity.x, 6f * TM);
+
+                    if (IsGround == false && IsWall == false)
+                    {
+                        AirJumpCount--;
+                    }
+                }
+
+                if (IsWall == true)
+                {
+                    rigid.AddForce(new Vector2(-1 * Hor * 5f * TM, 6f * TM), ForceMode2D.Impulse);
+                    StartCoroutine(WallJump());
+                }
+            }
+
+            if (Input.GetButton("Horizontal") && (WallHit != false) && IsDash == false && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
+            {
+                //rigid.velocity = new Vector2(0, 0);
+                //if (IsWallAttack == false) 
+                //{ 
+                //    HitBox.SetActive(false);
+                //}
+                //UpHitBox.SetActive(false);
+                //DownHitBox.SetActive(false);
+                //IsAttack = false;
+                //IsAttack2 = false;
+                //IsJumpAttack = false;
+                //IsUpAttack = false;
+                //readyAttack = false;
+                MaxSpeedY = 2f * TM;
+                LastHor = LastHor * -1;
+                Gravity.force = new Vector2(0, -20f * TM);
+
+                if (Hor == 1)
+                {
+                    this.transform.localEulerAngles = new Vector3(0, 180, 0);
+                }
+                else
+                {
+                    this.transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
+
+            }
+            else
+            {
+                if (IsDash == false)
+                {
+                    if (TM == 1)
+                    {
+                        Gravity.force = new Vector2(0, -9.8f);
+                    }
+                    else
+                    {
+                        Gravity.force = new Vector2(0, -9.8f * TM * TM);
+                    }
+                }
+                MaxSpeedY = 10 * TM;
+
+            }
+
+            if (Input.GetButtonDown("Dash") && IsDashReady == true)
+            {
+                if (IsDash == false && IsWallJump == false)
+                {
+                    IsDash = true;
+                    Hor = 0;
+                    dashDirection = LastHor;
+                    StartCoroutine(Dash());
+                    StartCoroutine(DashCoolTime());
+                    StartCoroutine(DashCoolTimeBar());
+                    this.gameObject.transform.Find("DashCooltime").gameObject.SetActive(true);
+                }
+
+            }
+            //if (Input.GetButtonDown("Attack") && IsDash == false && readyAttack == true && IsAttack2 == false)
+            //{
+            //    IsAttack2 = true;
+            //   Debug.Log("test");
+            //    //StartCoroutine(Attack2());
+            //}
+            if (Input.GetButtonDown("Attack") && IsDash == false && IsAttack == false && IsAttack2 == false && IsAttackCooltime == false)
+            {
+                if (IsGround == true)
+                {
+                    if (readyAttack == false)
+                    {
+                        IsAttack = true;
+                    }
+                    else
+                    {
+                        IsAttack2 = true;
+                    }
+
+
+                    //StartCoroutine(Attack());
+
+                }
+
+                else if (IsWall == true)
+                {
+                    IsWallAttack = true;
+                }
+
+                else if (IsWall == false && IsGround == false)
+                {
+                    IsJumpAttack = true;
+                }
+            }
+
+
+
+            if (Hor == 0 && IsGround == true && IsDash == false)
+            {
+                if (IsJumpAttack)
+                {
+                    IsJumpAttack = false;
+                    IsWallAttack = false;
+                    HitBox.SetActive(false);
+                    WallHitBox.SetActive(false);
+                    UpHitBox.SetActive(false);
+                    DownHitBox.SetActive(false);
+                }
+                Animator.SetInteger("State", 1);
+            }
+
+            if (Hor != 0 && IsGround == true && IsDash == false)
+            {
+                if (IsJumpAttack)
+                {
+                    IsJumpAttack = false;
+                    IsWallAttack = false;
+                    HitBox.SetActive(false);
+                    WallHitBox.SetActive(false);
+                    UpHitBox.SetActive(false);
+                    DownHitBox.SetActive(false);
+                }
+                Animator.SetInteger("State", 2);
+            }
+
+            if (IsDash == true)
+            {
+                Animator.SetInteger("State", 3);
+            }
+
+            if (IsGround == false && IsFall == false && IsDash == false && IsJumpAttack == false)
+            {
+                Animator.SetInteger("State", 4);
+            }
+
+            if (IsGround == false && IsFall == true && IsDash == false && IsJumpAttack == false)
+            {
+                Animator.SetInteger("State", 5);
             }
 
             if (IsWall == true)
             {
-                rigid.AddForce(new Vector2(-1 * Hor * 5f * TM, 6f * TM), ForceMode2D.Impulse);
-                StartCoroutine(WallJump());
-            }
-        }
-
-        if (Input.GetButton("Horizontal") && (WallHit != false) && IsDash == false && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
-        {
-            //rigid.velocity = new Vector2(0, 0);
-            //if (IsWallAttack == false) 
-            //{ 
-            //    HitBox.SetActive(false);
-            //}
-            //UpHitBox.SetActive(false);
-            //DownHitBox.SetActive(false);
-            //IsAttack = false;
-            //IsAttack2 = false;
-            //IsJumpAttack = false;
-            //IsUpAttack = false;
-            //readyAttack = false;
-            MaxSpeedY = 2f * TM;
-            LastHor = LastHor * -1;
-            Gravity.force = new Vector2(0, -20f * TM);
-
-            if (Hor == 1)
-            {
-                this.transform.localEulerAngles = new Vector3(0, 180, 0);
-            }
-            else
-            {
-                this.transform.localEulerAngles = new Vector3(0, 0, 0);
+                Animator.SetInteger("State", 6);
             }
 
-        }
-        else
-        {
-            if (IsDash == false)
+            if (IsWallJump == true)
             {
-                if (TM == 1)
+                Animator.SetInteger("State", 4);
+            }
+
+            if (IsAttack == true && IsAttack2 == false)
+            {
+                if (Ver == 1 || IsUpAttack == true)
                 {
-                    Gravity.force = new Vector2(0, -9.8f);
+                    Animator.SetInteger("State", 13);
                 }
                 else
                 {
-                    Gravity.force = new Vector2(0, -9.8f * TM * TM);
+                    Animator.SetInteger("State", 7);
                 }
             }
-            MaxSpeedY = 10 * TM;
 
-        }
-
-        if (Input.GetButtonDown("Dash") && IsDashReady == true)
-        {
-            if (IsDash == false && IsWallJump == false)
+            if (IsAttack2 == true)
             {
-                IsDash = true;
-                Hor = 0;
-                dashDirection = LastHor;
-                StartCoroutine(Dash());
-                StartCoroutine(DashCoolTime());
-                StartCoroutine(DashCoolTimeBar());
-                this.gameObject.transform.Find("DashCooltime").gameObject.SetActive(true);
+                Animator.SetInteger("State", 11);
             }
 
-        }
-        //if (Input.GetButtonDown("Attack") && IsDash == false && readyAttack == true && IsAttack2 == false)
-        //{
-        //    IsAttack2 = true;
-        //   Debug.Log("test");
-        //    //StartCoroutine(Attack2());
-        //}
-        if (Input.GetButtonDown("Attack") && IsDash == false && IsAttack == false  && IsAttack2 == false && IsAttackCooltime == false)
-        {
-            if (IsGround == true)
+
+
+            if (IsWallAttack == true)
             {
-                if (readyAttack == false)
+                Animator.SetInteger("State", 12);
+            }
+
+            if (IsJumpAttack == true && IsFall == false)
+            {
+                if (Ver == 1 || IsUpAttack == true)
                 {
-                    IsAttack = true;
+                    Animator.SetInteger("State", 14);
+                }
+                else if (Ver == -1 || IsUpAttack == true)
+                {
+                    Animator.SetInteger("State", 15);
                 }
                 else
                 {
-                    IsAttack2 = true;
+                    Animator.SetInteger("State", 8);
                 }
-
-               
-                //StartCoroutine(Attack());
-
             }
 
-            else if (IsWall == true)
+            if (IsJumpAttack == true && IsFall == true)
             {
-                IsWallAttack = true;
+                if (Ver == 1 || IsUpAttack == true)
+                {
+                    Animator.SetInteger("State", 16);
+                }
+                else if (Ver == -1 || IsUpAttack == true)
+                {
+                    Animator.SetInteger("State", 17);
+                }
+                else
+                {
+                    Animator.SetInteger("State", 9);
+                }
             }
 
-            else if (IsWall == false && IsGround == false)
+            if (Input.GetButtonDown("Skill1"))
             {
-                IsJumpAttack = true;
+
+                TM = 100;
+
+                Time.timeScale = 1f / TM;
+                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+                Gravity.force = new Vector2(0, -9.8f * TM);
+
+                MaxSpeedX = 5 * TM;
+                MaxSpeedY = 10 * TM;
             }
-        }
-
-        
-
-        if (Hor == 0 && IsGround == true && IsDash == false)
-        {
-            if (IsJumpAttack)
-            {
-                IsJumpAttack = false;
-                IsWallAttack = false;
-                HitBox.SetActive(false);
-                WallHitBox.SetActive(false);
-                UpHitBox.SetActive(false);
-                DownHitBox.SetActive(false);
-            }
-            Animator.SetInteger("State", 1);
-        }
-
-        if (Hor != 0 && IsGround == true && IsDash == false)
-        {
-            if (IsJumpAttack)
-            {
-                IsJumpAttack = false;
-                IsWallAttack = false;
-                HitBox.SetActive(false);
-                WallHitBox.SetActive(false);
-                UpHitBox.SetActive(false);
-                DownHitBox.SetActive(false);
-            }
-            Animator.SetInteger("State", 2);
-        }
-
-        if (IsDash == true)
-        {
-            Animator.SetInteger("State", 3);
-        }
-
-        if (IsGround == false && IsFall == false && IsDash == false && IsJumpAttack == false)
-        {
-            Animator.SetInteger("State", 4);
-        }
-
-        if (IsGround == false && IsFall == true && IsDash == false && IsJumpAttack == false)
-        {
-            Animator.SetInteger("State", 5);
-        }
-
-        if (IsWall == true)
-        {
-            Animator.SetInteger("State", 6);
-        }
-
-        if (IsWallJump == true)
-        {
-            Animator.SetInteger("State", 4);
-        }
-
-        if (IsAttack == true && IsAttack2 == false)
-        {
-            if (Ver == 1 || IsUpAttack == true)
-            {
-                Animator.SetInteger("State", 13);
-            }
-            else
-            {
-                Animator.SetInteger("State", 7);
-            }
-        }
-
-        if (IsAttack2 == true)
-        {
-            Animator.SetInteger("State", 11);
-        }
-
-
-
-        if (IsWallAttack == true)
-        {
-            Animator.SetInteger("State", 12);
-        }
-
-        if (IsJumpAttack == true && IsFall == false)
-        {
-            if (Ver == 1 || IsUpAttack == true)
-            {
-                Animator.SetInteger("State", 14);
-            }
-            else if (Ver == -1 || IsUpAttack == true)
-            {
-                Animator.SetInteger("State", 15);
-            }
-            else
-            {
-                Animator.SetInteger("State", 8);
-            }
-        }
-
-        if (IsJumpAttack == true && IsFall == true)
-        {
-            if (Ver == 1 || IsUpAttack == true)
-            {
-                Animator.SetInteger("State", 16);
-            }
-            else if (Ver == -1 || IsUpAttack == true)
-            {
-                Animator.SetInteger("State", 17);
-            }
-            else
-            {
-                Animator.SetInteger("State", 9);
-            }
-        }
-
-        if (Input.GetButtonDown("Skill1"))
-        {
-            
-            TM = 100;
-
-            Time.timeScale = 1f / TM;
-            Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            Gravity.force = new Vector2(0, -9.8f * TM);
-
-            MaxSpeedX = 5 * TM;
-            MaxSpeedY = 10 * TM;
         }
 
     }
 
     void FixedUpdate()
     {
-
+        if(IsFade == true)
+        {
+            rigid.velocity = new Vector2(0, 0);
+            Hor = 0;
+            Animator.SetInteger("State", 1);
+        }
 
         if (IsWallJump == false && IsAttack == false && IsAttack2 == false)
         {

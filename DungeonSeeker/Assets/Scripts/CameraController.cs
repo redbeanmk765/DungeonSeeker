@@ -39,4 +39,9 @@ public class CameraController : MonoBehaviour
 
         transform.position = new Vector3(clampX, clampY, -10f);
     }
+
+    public void test()
+    {
+        Debug.Log("TTEESSTT");
+    }
 }
