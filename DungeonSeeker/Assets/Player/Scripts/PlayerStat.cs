@@ -25,7 +25,7 @@ public class PlayerStat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Dmg = 20;
+        Dmg = 8;
         onFlash = false;
         maxHp = 100;
         nowHp = maxHp;

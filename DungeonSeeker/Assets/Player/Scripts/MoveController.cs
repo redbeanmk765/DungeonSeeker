@@ -172,7 +172,7 @@ public class MoveController : MonoBehaviour
             }
 
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && IsDash == false)
             {
 
                 if (AirJumpCount > 0)

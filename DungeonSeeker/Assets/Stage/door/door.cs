@@ -14,7 +14,7 @@ public class door : MonoBehaviour
         Close();
         IsOpen = true;
         IsNear = false;
-        doorText.transform.position = this.transform.position + new Vector3(0, 0);
+       
     }
 
     // Update is called once per frame
