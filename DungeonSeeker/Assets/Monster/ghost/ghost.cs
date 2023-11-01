@@ -24,6 +24,7 @@ public class ghost : enemy
     public int angle;
     public bool isRun;
     public bool attackCoolTime;
+    public int layermask;
 
 
 

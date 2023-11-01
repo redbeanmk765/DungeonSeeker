@@ -80,7 +80,7 @@ public class mushroom : enemy
             case State.idle:
                 if (CanSeePlayer())
                 {
-                    Debug.Log("true");
+                   
 
                     ChangeState(State.attack);                  
                 }

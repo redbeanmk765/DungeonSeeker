@@ -28,6 +28,7 @@ public enum Race
     mushroom,
     bat,
     ghost,
-    magicBook
+    magicBook,
+    spider
 
 }

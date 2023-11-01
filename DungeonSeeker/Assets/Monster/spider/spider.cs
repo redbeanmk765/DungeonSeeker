@@ -24,6 +24,8 @@ public class spider : enemy
     public int angle;
     public bool isRun;
     public bool attackCoolTime;
+    public int layermask;
+    public float maxSpeedY;
 
 
 
@@ -40,8 +42,8 @@ public class spider : enemy
 
     private void Start()
     {
+        layermask = (1 << LayerMask.NameToLayer("Ground"));
         rigid = GetComponent<Rigidbody2D>();
-        MaxSpeedX = 2;
         players = GameObject.FindGameObjectsWithTag("Player");
         player = players[0];
         curState = State.idle;
@@ -52,6 +54,8 @@ public class spider : enemy
 
         onFlash = false;
         IsDie = false;
+
+        maxSpeedY = 4;
 
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
@@ -101,8 +105,6 @@ public class spider : enemy
                 }
                 break;
             case State.move:
-                if (CanSeePlayer())
-                {
 
                     if (CanAttackPlayer())
                     {
@@ -110,11 +112,7 @@ public class spider : enemy
                         {
                             ChangeState(State.attack);
                         }
-                    }
-                }
-                else
-                {
-                    ChangeState(State.idle);
+                    
                 }
                 break;
             case State.attack:
@@ -148,14 +146,14 @@ public class spider : enemy
     }
     private void FixedUpdate()
     {
-        if (rigid.velocity.x > MaxSpeedX)
+        if (rigid.velocity.y > maxSpeedY)
         {
-            rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
+            rigid.velocity = new Vector2(rigid.velocity.x, maxSpeedY);
         }
 
-        else if (rigid.velocity.x < -1 * MaxSpeedX)
+        else if (rigid.velocity.y < -1 * maxSpeedY)
         {
-            rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
+            rigid.velocity = new Vector2(rigid.velocity.x, -1 * maxSpeedY);
         }
     }
 
@@ -209,9 +207,7 @@ public class spider : enemy
 
     private bool CanSeePlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 9
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
+        if (player.GetComponent<PlayerStat>().IsSafeZone == false)
         {
 
             return true;
@@ -224,12 +220,22 @@ public class spider : enemy
 
     private bool CanAttackPlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 5.3
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 6
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -6)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 8
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 5
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -5)
         {
+            float distance = Vector2.Distance(this.transform.position, player.transform.position);
+            RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(0.5f, 0.5f), 0, player.transform.position - this.transform.position, distance - 0.5f, layermask);
 
-            return true;
+            if (ray == true)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
         else
             return false;
@@ -237,25 +243,7 @@ public class spider : enemy
     }
 
     public void AttackShoot1()
-    {
-        if ((this.transform.position.x - player.transform.position.x) < 0)
-        {
-            angle = 1;
-        }
-        else
-        {
-            angle = -1;
-        }
-
-        if (angle == 1)
-        {
-            this.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        else
-        {
-            this.transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
-
+    {       
         attackMotionDone = false;
     }
     public void AttackShoot2()
@@ -277,7 +265,7 @@ public class spider : enemy
     IEnumerator attackCoolTimeCor()
     {
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2);
         attackCoolTime = false;
         yield break;
 
@@ -288,7 +276,7 @@ public class spider : enemy
         public IdleState(enemy enemy, GameObject player) : base(enemy, player) { }
         public override void OnStateEnter()
         {
-            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+           
         }
 
         public override void OnStateUpdate()
@@ -315,7 +303,7 @@ public class spider : enemy
         {
 
             int angle = 1;
-            if ((curEnemy.transform.position.x - curPlayer.transform.position.x) < 0)
+            if ((curEnemy.gameObject.transform.localEulerAngles.x == 0))
             {
                 angle = 1;
             }
@@ -323,48 +311,9 @@ public class spider : enemy
             {
                 angle = -1;
             }
-
-
-            if (angle == 1)
-            {
-                if (curEnemy.gameObject.GetComponent<bat>().isRun == false)
-                {
-                    curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
-                }
-                else
-                {
-                    curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
-                }
-            }
-            else
-            {
-                if (curEnemy.gameObject.GetComponent<bat>().isRun == false)
-                {
-                    curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
-                }
-                else
-                {
-                    curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
-                }
-            }
-
-            //curEnemy.transform.position = Vector2.MoveTowards(curEnemy.transform.position, new Vector2 (curPlayer.transform.position.x, curEnemy.transform.position.y), curEnemy.monsterStat.moveSpeed * Time.deltaTime);
-            if (Mathf.Abs(curEnemy.GetComponent<Transform>().position.x - curPlayer.GetComponent<Transform>().position.x) >= 5)
-            {
-                curEnemy.gameObject.GetComponent<bat>().isRun = false;
-                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
-            }
-            else if (Mathf.Abs(curEnemy.GetComponent<Transform>().position.x - curPlayer.GetComponent<Transform>().position.x) > 4.7
-                && Mathf.Abs(curEnemy.GetComponent<Transform>().position.x - curPlayer.GetComponent<Transform>().position.x) < 5.3)
-            {
-                curEnemy.gameObject.GetComponent<bat>().isRun = false;
-                curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
-            }
-            else
-            {
-                curEnemy.gameObject.GetComponent<bat>().isRun = true;
-                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * -angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
-            }
+  
+                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
+            
         }
 
         public override void OnStateExit()
@@ -379,7 +328,7 @@ public class spider : enemy
 
         public override void OnStateEnter()
         {
-            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+            curEnemy.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
 
         public override void OnStateUpdate()
@@ -405,7 +354,7 @@ public class spider : enemy
         public override void OnStateUpdate()
         {
 
-            curEnemy.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, ((curEnemy.gameObject.GetComponent<SpriteRenderer>().color.a) - 1 * Time.deltaTime));
+            curEnemy.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, ((curEnemy.gameObject.GetComponent<SpriteRenderer>().color.a) - 1 * Time.unscaledDeltaTime));
 
         }
 
@@ -425,6 +374,24 @@ public class spider : enemy
 
                 this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
 
+            }
+        }
+
+        if (this.curState != State.die)
+        {
+
+            if (col.CompareTag("Ground"))
+            {
+
+                if(this.transform.localEulerAngles.x  == 0)
+                {
+                    this.transform.localEulerAngles = new Vector3(180, 0, 0);
+                }
+                else
+                {
+                    this.transform.localEulerAngles = new Vector3(0, 0, 0);
+                }
+                rigid.velocity = new Vector2(0, 0);
             }
         }
 

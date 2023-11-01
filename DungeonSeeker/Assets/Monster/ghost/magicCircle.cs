@@ -22,7 +22,7 @@ public class magicCircle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        layermask = 1 << LayerMask.NameToLayer("Ground");
+        layermask = (1 << LayerMask.NameToLayer("Ground"));
         player = GameObject.FindGameObjectsWithTag("Player")[0].gameObject;
         playerPositon = player.transform.position;
         IsStuck = true;
