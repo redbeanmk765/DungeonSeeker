@@ -530,7 +530,17 @@ IEnumerator FlashWhite()
         }
     }
 
-   
 
+    private void OnTriggerStay2D(Collider2D col)
+    {
+
+
+
+        if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
+        {
+            player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+
+        }
+    }
 
 }

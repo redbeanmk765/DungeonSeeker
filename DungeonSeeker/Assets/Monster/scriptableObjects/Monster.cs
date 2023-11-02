@@ -29,6 +29,7 @@ public enum Race
     bat,
     ghost,
     magicBook,
-    spider
+    spider,
+    golem
 
 }

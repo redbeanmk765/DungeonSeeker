@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class spider : enemy
+public class golem : enemy
 {
     public GameObject enemy;
+    public GameObject hitBox;
+    public GameObject enemyAttack;
     public GameObject player;
     public GameObject colPlayer;
     public GameObject[] players;
@@ -16,7 +18,6 @@ public class spider : enemy
     public bool onFlash = false;
     public bool IsDie = false;
     public Vector3 targetPos;
-    public Vector3 rotation;
     public float nowHp;
     public float damaged;
     public Vector3 MoveTowardsVector;
@@ -33,7 +34,6 @@ public class spider : enemy
     private enum State
     {
         idle,
-        move,
         attack,
         die
     }
@@ -45,7 +45,6 @@ public class spider : enemy
     {
         layermask = (1 << LayerMask.NameToLayer("Ground"));
         rigid = GetComponent<Rigidbody2D>();
-        rotation = this.transform.localEulerAngles;
         players = GameObject.FindGameObjectsWithTag("Player");
         player = players[0];
         curState = State.idle;
@@ -59,8 +58,8 @@ public class spider : enemy
 
         maxSpeedY = 4;
 
-        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
-        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
+        Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
 
     }
 
@@ -94,37 +93,21 @@ public class spider : enemy
         {
             case State.idle:
 
-                if (CanSeePlayer())
-                {
-
-                    if (CanAttackPlayer())
+                    if (CanAttackPlayer() && attackCoolTime == false)
                     {
                         // attackMotionDone = true;
                         ChangeState(State.attack);
                     }
-                    else
-                        ChangeState(State.move);
-                }
                 break;
-            case State.move:
-
-                    if (CanAttackPlayer())
-                    {
-                        if (attackCoolTime == false)
-                        {
-                            ChangeState(State.attack);
-                        }
-                    
-                }
-                break;
+ 
             case State.attack:
                 if (attackMotionDone)
                 {
-                    if (CanSeePlayer())
+                    if (CanAttackPlayer())
                     {
                         if (attackCoolTime == true)
                         {
-                            ChangeState(State.move);
+                            ChangeState(State.idle);
                         }
 
                     }
@@ -148,15 +131,6 @@ public class spider : enemy
     }
     private void FixedUpdate()
     {
-        if (rigid.velocity.y > maxSpeedY)
-        {
-            rigid.velocity = new Vector2(rigid.velocity.x, maxSpeedY);
-        }
-
-        else if (rigid.velocity.y < -1 * maxSpeedY)
-        {
-            rigid.velocity = new Vector2(rigid.velocity.x, -1 * maxSpeedY);
-        }
     }
 
 
@@ -192,39 +166,23 @@ public class spider : enemy
                 fsm.ChangeState(new IdleState(this, player));
                 animator.SetInteger("State", 1);
                 break;
-            case State.move:
-                fsm.ChangeState(new MoveState(this, player));
-                animator.SetInteger("State", 2);
-                break;
             case State.attack:
                 fsm.ChangeState(new AttackState(this, player));
-                animator.SetInteger("State", 3);
+                animator.SetInteger("State", 2);
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
-                animator.SetInteger("State", 4);
+                animator.SetInteger("State", 3);
                 break;
         }
     }
 
-    private bool CanSeePlayer()
-    {
-        if (player.GetComponent<PlayerStat>().IsSafeZone == false)
-        {
-
-            return true;
-
-        }
-        else
-            return false;
-        //  플레이어 탐지 구현
-    }
 
     private bool CanAttackPlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 8
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 5
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -5)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 6
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 3
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -3)
         {
             float distance = Vector2.Distance(this.transform.position, player.transform.position);
             RaycastHit2D ray = Physics2D.BoxCast(this.transform.position, new Vector2(0.5f, 0.5f), 0, player.transform.position - this.transform.position, distance - 0.5f, layermask);
@@ -244,20 +202,37 @@ public class spider : enemy
         //  사정거리 체크 구현
     }
 
-    public void AttackShoot1()
-    {       
+    public void AttackWave1()
+    {
+        if ((this.transform.position.x - player.transform.position.x) < 0)
+        {
+            angle = 1;
+        }
+        else
+        {
+            angle = -1;
+        }
+
+        if (angle == 1)
+        {
+            this.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            this.transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+
         attackMotionDone = false;
     }
-    public void AttackShoot2()
+    public void AttackWave2()
     {
-        enemyProjectile = Instantiate(monsterStat.projectile);
-        enemyProjectile.transform.position = this.transform.position;
-        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().target = player;
-        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().dmg = monsterStat.enemyDamage;
-        enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed;
+        hitBox.SetActive(true);
+        //enemyAttack = Instantiate(hitBox);
+        //enemyAttack.GetComponent<Transform>().position = this.hitBox.GetComponent<Transform>().position + new Vector3(0,0);
+        //enemyAttack.GetComponent<golemWave>().enemyDamage = this.monsterStat.enemyDamage;
 
     }
-    public void AttackShoot3()
+    public void AttackWave3()
     {
 
         attackMotionDone = true;
@@ -267,7 +242,7 @@ public class spider : enemy
     IEnumerator attackCoolTimeCor()
     {
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(4);
         attackCoolTime = false;
         yield break;
 
@@ -278,7 +253,7 @@ public class spider : enemy
         public IdleState(enemy enemy, GameObject player) : base(enemy, player) { }
         public override void OnStateEnter()
         {
-           
+
         }
 
         public override void OnStateUpdate()
@@ -290,38 +265,7 @@ public class spider : enemy
         }
     }
 
-    public class MoveState : BaseState
-    {
-
-        public MoveState(enemy enemy, GameObject player) : base(enemy, player) { }
-
-
-        public override void OnStateEnter()
-        {
-
-        }
-
-        public override void OnStateUpdate()
-        {
-
-            int angle = 1;
-            if ((curEnemy.gameObject.transform.localEulerAngles.x == 0))
-            {
-                angle = 1;
-            }
-            else
-            {
-                angle = -1;
-            }
-  
-                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
-            
-        }
-
-        public override void OnStateExit()
-        {
-        }
-    }
+ 
 
     public class AttackState : BaseState
     {
@@ -379,39 +323,17 @@ public class spider : enemy
             }
         }
 
-        if (this.curState != State.die)
-        {
-
-            if (col.CompareTag("Ground"))
-            {
-
-                if(this.transform.localEulerAngles.x  == 0)
-                {
-                    this.transform.localEulerAngles = new Vector3(180, 0, this.transform.localEulerAngles.z);
-                   
-
-                }
-                else
-                {
-                    this.transform.localEulerAngles = new Vector3(0, 0, this.transform.localEulerAngles.z);
-                  
-                }
-                rigid.velocity = new Vector2(0, 0);
-            }
-        }
-
         if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
         {
             player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
 
         }
     }
-
 
     private void OnTriggerStay2D(Collider2D col)
     {
 
-
+        
 
         if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
         {
@@ -419,5 +341,7 @@ public class spider : enemy
 
         }
     }
+
+
 
 }

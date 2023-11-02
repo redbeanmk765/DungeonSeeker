@@ -300,7 +300,17 @@ public class mushroom : enemy
 
         }
     }
+    private void OnTriggerStay2D(Collider2D col)
+    {
 
+
+
+        if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
+        {
+            player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+
+        }
+    }
     private bool CanSeePlayer()
     {
         if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 10

@@ -42,7 +42,7 @@ public class door : MonoBehaviour
     {
         if (col.CompareTag("Player") && IsOpen == true)
         {
-            doorText.gameObject.SetActive(true);
+            //doorText.gameObject.SetActive(true);
             IsNear = true;
         }
     }
@@ -51,7 +51,7 @@ public class door : MonoBehaviour
     {
         if (col.CompareTag("Player") && IsOpen == true)
         {
-            doorText.gameObject.SetActive(false);
+            //doorText.gameObject.SetActive(false);
             IsNear = false;
         }
     }

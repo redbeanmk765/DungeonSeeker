@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mushroomAttack
+  m_Name: golemAttack
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,16 +20,22 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 1937913411, guid: c2112307f3dee8b45a4c4e358c426bde, type: 3}
-    - time: 1.4166666
-      value: {fileID: -1517139709, guid: c2112307f3dee8b45a4c4e358c426bde, type: 3}
-    - time: 3
-      value: {fileID: -1517139709, guid: c2112307f3dee8b45a4c4e358c426bde, type: 3}
+      value: {fileID: -2104448905, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - time: 0.4
+      value: {fileID: -614777416, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - time: 0.8
+      value: {fileID: -541776320, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - time: 1.2
+      value: {fileID: -1546287005, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - time: 1.3
+      value: {fileID: 2065699040, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - time: 1.7
+      value: {fileID: 2065699040, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 12
+  m_SampleRate: 10
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -44,15 +50,18 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 1937913411, guid: c2112307f3dee8b45a4c4e358c426bde, type: 3}
-    - {fileID: -1517139709, guid: c2112307f3dee8b45a4c4e358c426bde, type: 3}
-    - {fileID: -1517139709, guid: c2112307f3dee8b45a4c4e358c426bde, type: 3}
+    - {fileID: -2104448905, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - {fileID: -614777416, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - {fileID: -541776320, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - {fileID: -1546287005, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - {fileID: 2065699040, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
+    - {fileID: 2065699040, guid: 58bb35e35cf25024c859535b15c18d85, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 3.0833333
+    m_StopTime: 1.8000001
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -72,8 +81,22 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 1.4166666
-    functionName: AttackShoot
+  - time: 0
+    functionName: AttackWave1
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.2
+    functionName: AttackWave2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.7
+    functionName: AttackWave3
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
