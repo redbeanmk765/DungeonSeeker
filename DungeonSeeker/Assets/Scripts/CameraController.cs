@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         playerTransform = GameObject.Find("Player").GetComponent<Transform>();
-
+        Camera.main.orthographicSize = 6;
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
     }
@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, playerTransform.position + cameraPosition, Time.unscaledDeltaTime * cameraMoveSpeed);
+        transform.position = Vector3.Lerp(transform.position, playerTransform.position + cameraPosition + new Vector3 (0,2f,0), Time.unscaledDeltaTime * cameraMoveSpeed);
         float lx = mapSize.x - width;
         float clampX = Mathf.Clamp(transform.position.x, -lx + mapCenter.x, lx + mapCenter.x);
 

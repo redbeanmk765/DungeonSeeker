@@ -24,8 +24,8 @@ public class StageController : MonoBehaviour
     public void GoNextRoom()
     {
         mainCamera.GetComponent<FadeController>().Fade();
-        //curRoom.SetActive(false);
-        //nextRoom.SetActive(true);
+       // curRoom.SetActive(false);
+       // nextRoom.SetActive(true);
        
         return;
     }
