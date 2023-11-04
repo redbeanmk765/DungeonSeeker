@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b998d05def823ee48b22722d31693ac7
+guid: 199fb6475234f83499a6bdac45cf1d88
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -683,27 +683,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Player_27
-      rect:
-        serializedVersion: 2
-        x: 1296
-        y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e087addf9a341f84c931fa1126b6c5fb
-      internalID: 1159415201
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -735,7 +714,6 @@ TextureImporter:
       Player_24: 436529600
       Player_25: -1259698708
       Player_26: 345604662
-      Player_27: 1159415201
       Player_3: -1110382470
       Player_4: 155229172
       Player_5: -328267561

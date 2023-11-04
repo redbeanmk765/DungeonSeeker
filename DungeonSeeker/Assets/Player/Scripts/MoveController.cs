@@ -12,7 +12,6 @@ public class MoveController : MonoBehaviour
     public float Ver;
     public float LastHor;
     public int AirJumpCount;
-    public int AirJumpCountMax;
     public bool IsGround;
     public float GroundDistance;
     public float GroundScale;
@@ -40,6 +39,9 @@ public class MoveController : MonoBehaviour
     public GameObject DownHitBox;
     public float TM;
     public bool IsFade;
+    public bool IsSkillCoolTime;
+    public bool IsSkillMotion;
+    public PlayerStat playerStat;
 
     // Start is called before the first frame update
     void Start()
@@ -49,9 +51,6 @@ public class MoveController : MonoBehaviour
         MaxSpeedY = 10 * TM;
         rigid = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
-        AirJumpCountMax = 1;
-        AirJumpCount = AirJumpCountMax;
-
         GroundDistance = GetComponent<BoxCollider2D>().bounds.extents.y + 0.1f;
         GroundScale = GetComponent<BoxCollider2D>().bounds.extents.x + 0.1f;
 
@@ -79,17 +78,22 @@ public class MoveController : MonoBehaviour
         DownHitBox = this.transform.Find("DownHitBox").gameObject;
         DownHitBox.SetActive(false);
         IsFade = false;
-
+        IsSkillMotion = false;
+        playerStat = this.GetComponent<PlayerStat>();
 
         //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
 
-        
+
     }
        
 
 // Update is called once per frame
     void Update()
     {
+        if (IsSkillMotion == true && IsDash == false)
+        {
+            Animator.SetInteger("State", 18);
+        }
         if (IsFade == false)
         {
             if (Hor != 0 && IsWallJump == false && IsDash == false)
@@ -136,7 +140,7 @@ public class MoveController : MonoBehaviour
 
                 if (GroundHit.transform.CompareTag("Ground"))
                 {
-                    AirJumpCount = AirJumpCountMax;
+                    AirJumpCount = playerStat.AirJumpCountMax;
                     IsGround = true;
                     IsFall = false;
                 }
@@ -163,7 +167,7 @@ public class MoveController : MonoBehaviour
             if (WallHit != false && IsDash == false)
             {
                 IsWall = true;
-                AirJumpCount = AirJumpCountMax;
+                AirJumpCount = playerStat.AirJumpCountMax;
 
             }
             else
@@ -208,7 +212,7 @@ public class MoveController : MonoBehaviour
                 //readyAttack = false;
                 MaxSpeedY = 2f * TM;
                 LastHor = LastHor * -1;
-                Gravity.force = new Vector2(0, -20f * TM);
+                Gravity.force = new Vector2(0, -20f * TM * TM);
 
                 if (Hor == 1)
                 {
@@ -358,7 +362,7 @@ public class MoveController : MonoBehaviour
                 Animator.SetInteger("State", 11);
             }
 
-
+           
 
             if (IsWallAttack == true)
             {
@@ -397,17 +401,26 @@ public class MoveController : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Skill1"))
+            if (Input.GetButtonDown("Skill1") && IsDash == false && IsSkillCoolTime == false && TM == 1)
             {
-
-                TM = 100;
-
+                rigid.velocity = new Vector3(0, 0, 0);
+                TM = 1000;
                 Time.timeScale = 1f / TM;
                 Time.fixedDeltaTime = 0.02f * Time.timeScale;
-                Gravity.force = new Vector2(0, -9.8f * TM);
-
-                MaxSpeedX = 5 * TM;
-                MaxSpeedY = 10 * TM;
+                HitBox.SetActive(false);
+                WallHitBox.SetActive(false);
+                UpHitBox.SetActive(false);
+                DownHitBox.SetActive(false);
+                IsAttack = false;
+                IsAttack2 = false;
+                IsJumpAttack = false;
+                IsWallAttack = false;
+                IsUpAttack = false;
+                readyAttack = false;
+                IsFade = true;
+                IsSkillMotion = true;
+                Animator.SetInteger("State", 18);
+              
             }
         }
 
@@ -523,6 +536,13 @@ public class MoveController : MonoBehaviour
     {
         DownHitBox.SetActive(true);
     }
+    
+    public void TheWorld1()
+    {
+        StartCoroutine(TheWorld());
+        IsFade = false;
+        IsSkillMotion = false;
+    }
 
 
     IEnumerator WallJump()
@@ -561,12 +581,12 @@ public class MoveController : MonoBehaviour
 
     IEnumerator DashCoolTimeBar()
     {
-
+        float timer = TM;
         float coolTime = 0;
         float coolTImeRatio = 1;
         while (coolTime <= DashCooltime)
         {
-            coolTime += Time.deltaTime * TM;
+            coolTime += Time.unscaledDeltaTime ;
             coolTImeRatio = 1 - (coolTime / DashCooltime);
             this.gameObject.transform.Find("DashCooltime").GetComponent<RectTransform>().localScale = new Vector3(coolTImeRatio * 0.7f, 0.05f, 0);
             yield return new WaitForFixedUpdate();
@@ -586,6 +606,36 @@ public class MoveController : MonoBehaviour
         IsAttackCooltime = true;
         yield return new WaitForSecondsRealtime(AttackCooltime);
         IsAttackCooltime = false;
+    }
+
+    IEnumerator TheWorld()
+    {
+
+        TM = 10;
+
+        Time.timeScale = 1f / TM;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Gravity.force = new Vector2(0, -9.8f * TM);
+
+
+        MaxSpeedX = 5 * TM;
+        MaxSpeedY = 10 * TM;
+
+        yield return new WaitForSecondsRealtime(10);
+
+        TM = 1;
+
+        Time.timeScale = 1f / TM;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Gravity.force = new Vector2(0, -9.8f * TM);
+
+
+        MaxSpeedX = 5 * TM;
+        MaxSpeedY = 10 * TM;
+        
+
+
+        yield return 0;
     }
 
     //IEnumerator DashCooltime()

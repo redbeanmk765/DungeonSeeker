@@ -6,12 +6,36 @@ using UnityEngine.UI;
 public class PlayerStat : MonoBehaviour
 {
     public float maxHp;
+    public float maxHpTmp;
+    public float maxHpPer;
     public float nowHp;
+    public float def;
+    public float defTmp;
+    public float defPer;
+    public float hitBox;
+    public float hitBoxPer;
+    public float hitBoxTmp;
+    public float dashCoolTime;
+    public float dashCoolTimeTmp;
+    public float dashCoolTimePer;
+    public float AttackCoolTime;
+    public float AttackCoolTimeTmp;
+    public float AttackCoolTimePer;
     public float Dmg;
+    public float DmgTmp;
+    public float DmgPer;
     public bool onFlash;
     public float damaged;
     public float cure;
     public int PlayerGold;
+    public int PlayerPlat;
+    public bool skillOn;
+    public float skillduration;
+    public float skilldurationPer;
+    public float skilldurationTmp;
+    public float skillCoolTime;
+    public float skillCoolTimeTmp;
+    public float skillCoolTimePer;
     public Image item1;
     public Image item2;
     public Image item3;
@@ -19,6 +43,9 @@ public class PlayerStat : MonoBehaviour
     public Text PlayerHpText;
     public Text PlayerGoldText;
     public bool IsSafeZone;
+    public int AirJumpCountMax;
+    public int AirJumpCountMaxTmp;
+    public int AirJumpCountMaxPer;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -31,6 +58,7 @@ public class PlayerStat : MonoBehaviour
         nowHp = maxHp;
         PlayerGold = 0;
         IsSafeZone = true;
+        AirJumpCountMax = 1;
     }
 
     // Update is called once per frame
@@ -83,17 +111,17 @@ public class PlayerStat : MonoBehaviour
         while (onFlash)
         {
             this.GetComponent<SpriteRenderer>().material = this.flashMaterial;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
             this.GetComponent<SpriteRenderer>().material = this.originalMaterial;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
 
             for (int i = 0; i <= 4; i++)
             {
 
                 this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.4f);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSecondsRealtime(0.1f);
                 this.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSecondsRealtime(0.2f);
             }
 
             this.GetComponent<SpriteRenderer>().material = this.originalMaterial;
