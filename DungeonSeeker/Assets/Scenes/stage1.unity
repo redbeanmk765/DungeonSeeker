@@ -720,8 +720,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8927e357082ab6e448a95783cc679f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: {fileID: 1916026522}
-  nameText: {fileID: 2140630108}
 --- !u!1 &660875112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,27 +1761,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1851941509}
-  - component: {fileID: 1851941508}
   - component: {fileID: 1851941510}
   m_Layer: 0
-  m_Name: DataController
+  m_Name: sample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1851941508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851941507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59a06c6107cbf8a409ee824f0e15166b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1851941509
 Transform:
   m_ObjectHideFlags: 0
@@ -1808,7 +1793,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1851941507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74f576d0da1646f4f87d569b1140ac61, type: 3}
+  m_Script: {fileID: 11500000, guid: 8927e357082ab6e448a95783cc679f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1883951101
@@ -2130,6 +2115,9 @@ MonoBehaviour:
   dashCoolTime: 0
   dashCoolTimeTmp: 0
   dashCoolTimePer: 0
+  AttackCoolTime: 0
+  AttackCoolTimeTmp: 0
+  AttackCoolTimePer: 0
   Dmg: 0
   DmgTmp: 0
   DmgPer: 0
