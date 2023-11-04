@@ -67,7 +67,7 @@ public class MoveController : MonoBehaviour
         IsWallAttack = false;
         IsJumpAttack = false;
         LastHor = 1;
-        DashCooltime = 1.7f;
+        DashCooltime = 2f;
         AttackCooltime = 0.2f;
         HitBox = this.transform.Find("HitBox").gameObject;
         HitBox.SetActive(false);

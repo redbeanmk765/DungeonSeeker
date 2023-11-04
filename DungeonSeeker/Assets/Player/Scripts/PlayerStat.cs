@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStat : MonoBehaviour
 {
+    public SaveData saveData;
     public float maxHp;
     public float maxHpTmp;
     public float maxHpPer;

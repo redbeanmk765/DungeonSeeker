@@ -46,6 +46,10 @@ public class DataController : MonoBehaviour
             data = JsonUtility.FromJson<SaveData>(FromJsonData);
             print("불러오기 완료");
         }
+        else
+        {
+
+        }
     }
 
 

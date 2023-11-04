@@ -1300,7 +1300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1480640151
 Transform:
   m_ObjectHideFlags: 0
@@ -1424,7 +1424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1622411525
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1515,7 +1515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1770507284
 Transform:
   m_ObjectHideFlags: 0
@@ -2102,6 +2102,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3f21370167fe64a8b133f303280101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveData:
+    maxHpPer: 100
+    defPer: 0
+    hitBoxPer: 0.7
+    dashCoolTimePer: 2
+    AttackCoolTimePer: 0.2
+    DmgPer: 6
+    PlayerPlat: 0
+    skillOn: 0
+    skilldurationPer: 6
+    skillCoolTimePer: 60
+    AirJumpCountMaxPer: 1
   maxHp: 0
   maxHpTmp: 0
   maxHpPer: 0
