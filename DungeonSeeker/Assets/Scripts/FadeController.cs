@@ -8,6 +8,7 @@ public class FadeController : MonoBehaviour
     public GameObject stageController;
     public GameObject player;
     public Image panel;
+    public Image theWorldpanel;
     float time = 0f;
     float fadeTime = 1f;
 
@@ -19,6 +20,16 @@ public class FadeController : MonoBehaviour
     public void Fade()
     {
         StartCoroutine(FadeCor());
+    }
+
+    public void TheWorldOn()
+    {
+        theWorldpanel.gameObject.SetActive(true);
+    }
+
+    public void TheWorldOff()
+    {
+        theWorldpanel.gameObject.SetActive(false);
     }
 
     IEnumerator FadeCor()

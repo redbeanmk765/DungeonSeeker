@@ -8,23 +8,18 @@ public class PlayerStat : MonoBehaviour
     public SaveData saveData;
     public float maxHp;
     public float maxHpTmp;
-    public float maxHpPer;
     public float nowHp;
     public float def;
     public float defTmp;
     public float defPer;
     public float hitBox;
-    public float hitBoxPer;
     public float hitBoxTmp;
     public float dashCoolTime;
     public float dashCoolTimeTmp;
-    public float dashCoolTimePer;
     public float AttackCoolTime;
     public float AttackCoolTimeTmp;
-    public float AttackCoolTimePer;
     public float Dmg;
     public float DmgTmp;
-    public float DmgPer;
     public bool onFlash;
     public float damaged;
     public float cure;
@@ -32,11 +27,9 @@ public class PlayerStat : MonoBehaviour
     public int PlayerPlat;
     public bool skillOn;
     public float skillduration;
-    public float skilldurationPer;
     public float skilldurationTmp;
     public float skillCoolTime;
     public float skillCoolTimeTmp;
-    public float skillCoolTimePer;
     public Image item1;
     public Image item2;
     public Image item3;
@@ -46,25 +39,24 @@ public class PlayerStat : MonoBehaviour
     public bool IsSafeZone;
     public int AirJumpCountMax;
     public int AirJumpCountMaxTmp;
-    public int AirJumpCountMaxPer;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
     // Start is called before the first frame update
     void Start()
     {
-        Dmg = 8;
+        statUpdate();
         onFlash = false;
-        maxHp = 100;
         nowHp = maxHp;
         PlayerGold = 0;
         IsSafeZone = true;
-        AirJumpCountMax = 1;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        statUpdate();
         PlayerGoldText.text = PlayerGold.ToString();
         if (this.damaged != 0)
         {
@@ -102,7 +94,21 @@ public class PlayerStat : MonoBehaviour
         }
     }
 
-
+    public void statUpdate()
+    {
+        saveData = DataController.Instance.data;
+        maxHp = saveData.maxHpPer + maxHpTmp;
+        def = saveData.defPer + defTmp;
+        hitBox = saveData.hitBoxPer + hitBoxTmp;
+        dashCoolTime = saveData.dashCoolTimePer + dashCoolTimeTmp;
+        AttackCoolTime = saveData.AttackCoolTimePer + AttackCoolTimeTmp;
+        Dmg = saveData.DmgPer + DmgTmp;
+        PlayerPlat = saveData.PlayerPlat;
+        skillOn = saveData.skillOn;
+        skillduration = saveData.skilldurationPer + skilldurationTmp;
+        skillCoolTime = saveData.skillCoolTimePer + skillCoolTimeTmp;
+        AirJumpCountMax = saveData.AirJumpCountMaxPer + AirJumpCountMaxTmp;
+    }
 
 
 

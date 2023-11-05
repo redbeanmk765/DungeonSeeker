@@ -23,6 +23,7 @@ public class door : MonoBehaviour
         if (Input.GetButtonDown("Interaction") && IsOpen == true && IsNear == true)
         {
             GameObject.Find("StageController").GetComponent<StageController>().GoNextRoom();
+
         }
     }
 
