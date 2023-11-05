@@ -43,7 +43,7 @@ public class MoveController : MonoBehaviour
     public bool IsSkillCoolTime;
     public bool IsSkillMotion;
     public PlayerStat playerStat;
-
+    public Image Timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +81,7 @@ public class MoveController : MonoBehaviour
         IsFade = false;
         IsSkillMotion = false;
         playerStat = this.GetComponent<PlayerStat>();
+        Timer = GameObject.Find("Timer").GetComponent<Image>();
 
         //Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), GetComponentsInChildren<BoxCollider2D>()[1]);
 
@@ -543,6 +544,7 @@ public class MoveController : MonoBehaviour
     
     public void TheWorld1()
     {
+        StartCoroutine(TimerBar());
         StartCoroutine(TheWorld());
         IsFade = false;
         IsSkillMotion = false;
@@ -598,6 +600,34 @@ public class MoveController : MonoBehaviour
         this.gameObject.transform.Find("DashCooltime").gameObject.SetActive(false);
     }
 
+    IEnumerator TimerBar()
+    {
+        float timer = TM;
+        float coolTime = 0;
+        float coolTImeRatio = 1;
+        while (coolTime <= playerStat.skillduration)
+        {
+            coolTime += Time.unscaledDeltaTime;
+            coolTImeRatio = (coolTime / playerStat.skillduration);
+            Timer.fillAmount = Mathf.Lerp(Timer.fillAmount, coolTImeRatio, Time.deltaTime * TM * 100f);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    IEnumerator TimerCoolTimeBar()
+    {
+        float timer = TM;
+        float coolTime = 0;
+        float coolTImeRatio = 1;
+        while (coolTime <= playerStat.skillCoolTime)
+        {
+            coolTime += Time.unscaledDeltaTime;
+            coolTImeRatio = 1 - (coolTime / playerStat.skillCoolTime);
+            Timer.fillAmount = Mathf.Lerp(Timer.fillAmount, coolTImeRatio, Time.deltaTime * TM * 100f);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+
     IEnumerator DashCoolTime() 
     { 
         IsDashReady = false;
@@ -614,6 +644,7 @@ public class MoveController : MonoBehaviour
 
     IEnumerator TheWorld()
     {
+        
         GameObject.Find("Main Camera").GetComponent<FadeController>().TheWorldOn();
         TM = 10;
 
@@ -639,12 +670,16 @@ public class MoveController : MonoBehaviour
 
         StartCoroutine(TheWorldCoolTime());
         GameObject.Find("Main Camera").GetComponent<FadeController>().TheWorldOff();
-        rigid.velocity = new Vector3(rigid.velocity.x, 0);
+        Vector3 tmp = rigid.velocity;
+        rigid.velocity = new Vector3(rigid.velocity.x, rigid.velocity.y * 0.1f);
+        //yield return new WaitForSecondsRealtime(0.2f);
+        //rigid.velocity = tmp;
         yield return 0;
     }
 
     IEnumerator TheWorldCoolTime()
     {
+        StartCoroutine(TimerCoolTimeBar());
         IsSkillCoolTime = true;
         yield return new WaitForSecondsRealtime(playerStat.skillCoolTime);
         IsSkillCoolTime = false;

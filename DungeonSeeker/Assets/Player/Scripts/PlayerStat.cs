@@ -50,7 +50,7 @@ public class PlayerStat : MonoBehaviour
         nowHp = maxHp;
         PlayerGold = 0;
         IsSafeZone = true;
-       
+        skillCoolTimeTmp = -30f;
     }
 
     // Update is called once per frame

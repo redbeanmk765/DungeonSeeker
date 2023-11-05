@@ -25,6 +25,11 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         transform.position = Vector3.Lerp(transform.position, playerTransform.position + cameraPosition + new Vector3(0, 2f, 0), Time.unscaledDeltaTime * cameraMoveSpeed);
         float lx = mapSize.x - width;
         float clampX = Mathf.Clamp(transform.position.x, -lx + mapCenter.x, lx + mapCenter.x);
@@ -33,11 +38,6 @@ public class CameraController : MonoBehaviour
         float clampY = Mathf.Clamp(transform.position.y, -ly + mapCenter.y, ly + mapCenter.y);
 
         transform.position = new Vector3(clampX, clampY, -10f);
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
 
     public void test()
