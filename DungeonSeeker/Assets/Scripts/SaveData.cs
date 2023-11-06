@@ -17,4 +17,5 @@ public class SaveData
     public float skilldurationPer = 6;
     public float skillCoolTimePer = 60;
     public int AirJumpCountMaxPer = 1;
+    public int HpPotionMax = 1;
 }

@@ -39,6 +39,8 @@ public class PlayerStat : MonoBehaviour
     public bool IsSafeZone;
     public int AirJumpCountMax;
     public int AirJumpCountMaxTmp;
+    public int HpPotionCount;
+    public int HpPotionMax;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -51,6 +53,8 @@ public class PlayerStat : MonoBehaviour
         PlayerGold = 0;
         IsSafeZone = true;
         skillCoolTimeTmp = -30f;
+        HpPotionCount = HpPotionMax;
+
     }
 
     // Update is called once per frame
@@ -58,6 +62,21 @@ public class PlayerStat : MonoBehaviour
     {
         statUpdate();
         PlayerGoldText.text = PlayerGold.ToString();
+        GameObject.Find("Item1Count").GetComponent<Text>().text = HpPotionCount.ToString();
+
+
+        if (Input.GetButtonDown("Item1") && HpPotionCount > 0){
+            HpPotionCount -= 1;
+            cure += 30;
+        }
+        if(HpPotionCount == 0)
+        {
+            GameObject.Find("item1Image").gameObject.GetComponent<HpPotion>().Empty();
+        }
+        else
+        {
+            GameObject.Find("item1Image").gameObject.GetComponent<HpPotion>().Full();
+        }
         if (this.damaged != 0)
         {
             if (!onFlash && !this.GetComponent<MoveController>().IsDash)
@@ -71,6 +90,7 @@ public class PlayerStat : MonoBehaviour
 
         }
         nowHp = nowHp + cure;
+
 
         PlayerHpText.text = nowHp + "  /  " + maxHp;
 
@@ -108,6 +128,7 @@ public class PlayerStat : MonoBehaviour
         skillduration = saveData.skilldurationPer + skilldurationTmp;
         skillCoolTime = saveData.skillCoolTimePer + skillCoolTimeTmp;
         AirJumpCountMax = saveData.AirJumpCountMaxPer + AirJumpCountMaxTmp;
+        HpPotionMax = saveData.HpPotionMax;
     }
 
 
