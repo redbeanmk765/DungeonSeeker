@@ -84,7 +84,7 @@ public class PlayerStat : MonoBehaviour
         {
             if (!onFlash && !this.GetComponent<MoveController>().IsDash)
             {
-                nowHp = nowHp - damaged;
+                nowHp = nowHp - (damaged - def);
                 onFlash = true;
                 StartCoroutine(FlashWhite());
             }
@@ -134,6 +134,21 @@ public class PlayerStat : MonoBehaviour
         HpPotionMax = 3 + saveData.HpPotionMaxPer + HpPotionMaxTmp;
     }
 
+
+    /*   public float maxHpPer = 0;  50 + 50                             5 / no max
+    public float defPer = 0;    50 + 50    max                      3 / 3
+    public float hitBoxPer = 0; (0.07 = 0.1)  100 +                 3 / 3
+    public float dashCoolTimePer = 0;   100                         3 / 3
+    public float AttackCoolTimePer = 0;   100  + 200                2 / 2
+    public float DmgPer = 0;         50 + 50                        5 / no max
+    public int PlayerPlat = 0;
+    public bool skillOn = false;
+    public float skilldurationPer = 0;    50 + 50                   6 / 6
+    public float skillCoolTimePer = 0;    50 + 50                   3 / 3
+    public int AirJumpCountMaxPer = 0;    200                       1 / 1
+    public int HpPotionMaxPer = 0;        50 + 50 	            5 / 5
+
+    */
     public void statReset()
     {
         maxHpTmp = 0;

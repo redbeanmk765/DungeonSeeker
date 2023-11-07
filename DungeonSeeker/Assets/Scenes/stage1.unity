@@ -1669,6 +1669,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &736161510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5709105957498518209, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+  m_PrefabInstance: {fileID: 5709105957398028386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &759061137
 GameObject:
   m_ObjectHideFlags: 0
@@ -2926,6 +2931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageController: {fileID: 0}
   player: {fileID: 0}
+  nextRoom: {fileID: 0}
   panel: {fileID: 795999051}
   theWorldpanel: {fileID: 797795865}
 --- !u!1 &1325148946
@@ -3088,11 +3094,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349980253}
   m_CullTransparentMesh: 1
---- !u!1 &1383926633 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2859708530708613822, guid: bb5a1985e6d6f6d48b613f61837eac92, type: 3}
-  m_PrefabInstance: {fileID: 5025188661115622996}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1392643159 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6121619765478359141, guid: ea1f9f75657efa744a14d6703e1fc790, type: 3}
@@ -3393,7 +3394,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0011184216, y: -0.0013218224}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -3404,7 +3405,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.398515, y: 0.91804963}
+  m_Size: {x: 1.4, y: 0.92}
   m_EdgeRadius: 0
 --- !u!114 &1480640154
 MonoBehaviour:
@@ -3896,10 +3897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e1920007f13d14e8b2a80f3426987d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage1: {fileID: 11400000, guid: ba640a45a6342d3468481ab4dbd182b3, type: 2}
+  stage: {fileID: 11400000, guid: ba640a45a6342d3468481ab4dbd182b3, type: 2}
   curRoom: {fileID: 1115681588}
-  nextRoom: {fileID: 1383926633}
+  nextRoom: {fileID: 736161510}
   mainCamera: {fileID: 0}
+  count: 0
 --- !u!4 &1790285451
 Transform:
   m_ObjectHideFlags: 0
@@ -5311,11 +5313,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6450315572643425156, guid: e8a759fdae73f0344b785003de5258d3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6450315572974978176, guid: e8a759fdae73f0344b785003de5258d3, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8933899889413858416, guid: e8a759fdae73f0344b785003de5258d3, type: 3}
       propertyPath: m_LocalPosition.y

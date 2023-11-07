@@ -7,6 +7,7 @@ public class FadeController : MonoBehaviour
 {
     public GameObject stageController;
     public GameObject player;
+    public GameObject nextRoom;
     public Image panel;
     public Image theWorldpanel;
     float time = 0f;
@@ -46,8 +47,10 @@ public class FadeController : MonoBehaviour
             panel.color = color;
             yield return 0;
         }
-        stageController.GetComponent<StageController>().curRoom.SetActive(false);
-        stageController.GetComponent<StageController>().nextRoom.SetActive(true);
+        DestroyImmediate(stageController.GetComponent<StageController>().curRoom,true);
+        nextRoom = Instantiate(stageController.GetComponent<StageController>().nextRoom);
+        stageController.GetComponent<StageController>().curRoom = nextRoom;
+
         yield return new WaitForSecondsRealtime(0.5f);
         time = 0f;
 
@@ -60,6 +63,7 @@ public class FadeController : MonoBehaviour
             yield return 0;
         }
         player.GetComponent<MoveController>().IsFade = false;
+        stageController.GetComponent<StageController>().RoomShift();
         panel.gameObject.SetActive(false);
         yield return 0;
     }
