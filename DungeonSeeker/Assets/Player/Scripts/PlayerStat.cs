@@ -41,6 +41,8 @@ public class PlayerStat : MonoBehaviour
     public int AirJumpCountMaxTmp;
     public int HpPotionCount;
     public int HpPotionMax;
+    public int HpPotionMaxPer;
+    public int HpPotionMaxTmp;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -48,6 +50,7 @@ public class PlayerStat : MonoBehaviour
     void Start()
     {
         statUpdate();
+        statReset();
         onFlash = false;
         nowHp = maxHp;
         PlayerGold = 0;
@@ -117,18 +120,32 @@ public class PlayerStat : MonoBehaviour
     public void statUpdate()
     {
         saveData = DataController.Instance.data;
-        maxHp = saveData.maxHpPer + maxHpTmp;
-        def = saveData.defPer + defTmp;
-        hitBox = saveData.hitBoxPer + hitBoxTmp;
-        dashCoolTime = saveData.dashCoolTimePer + dashCoolTimeTmp;
-        AttackCoolTime = saveData.AttackCoolTimePer + AttackCoolTimeTmp;
-        Dmg = saveData.DmgPer + DmgTmp;
+        maxHp = 100 + (saveData.maxHpPer + maxHpTmp) * 20 ;
+        def = (saveData.defPer + defTmp) * 1 ;
+        hitBox = 0.7f + (saveData.hitBoxPer + hitBoxTmp) + 0.1f ;
+        dashCoolTime = 2 - (saveData.dashCoolTimePer + dashCoolTimeTmp) * 0.1f ;
+        AttackCoolTime = 0.2f - (saveData.AttackCoolTimePer + AttackCoolTimeTmp) * 0.03f ;
+        Dmg = 6 + (saveData.DmgPer + DmgTmp) * 2 ;
         PlayerPlat = saveData.PlayerPlat;
         skillOn = saveData.skillOn;
-        skillduration = saveData.skilldurationPer + skilldurationTmp;
-        skillCoolTime = saveData.skillCoolTimePer + skillCoolTimeTmp;
-        AirJumpCountMax = saveData.AirJumpCountMaxPer + AirJumpCountMaxTmp;
-        HpPotionMax = saveData.HpPotionMax;
+        skillduration = 6 + (saveData.skilldurationPer + skilldurationTmp) * 2f ;
+        skillCoolTime = 60 - (saveData.skillCoolTimePer + skillCoolTimeTmp) - 5f;
+        AirJumpCountMax = 1 + (saveData.AirJumpCountMaxPer + AirJumpCountMaxTmp) ;
+        HpPotionMax = 3 + saveData.HpPotionMaxPer + HpPotionMaxTmp;
+    }
+
+    public void statReset()
+    {
+        maxHpTmp = 0;
+        defTmp = 0;
+        hitBoxTmp = 0;
+        dashCoolTimeTmp = 0;
+        AttackCoolTimeTmp = 0;
+        DmgTmp = 0;
+        skilldurationTmp = 0;
+        skillCoolTimeTmp = 0;
+        AirJumpCountMaxTmp = 0;
+        HpPotionMaxTmp = 0;
     }
 
 
