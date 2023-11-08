@@ -183,6 +183,7 @@ IEnumerator FlashWhite()
             
             if (onFlash == false)
             {
+                this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
                 yield break;
             }
             onFlash = false;
@@ -191,6 +192,7 @@ IEnumerator FlashWhite()
         }
         if (onFlash == false)
         {
+            this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
             yield break;
         }
     }

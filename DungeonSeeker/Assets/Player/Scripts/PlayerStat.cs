@@ -25,7 +25,6 @@ public class PlayerStat : MonoBehaviour
     public float cure;
     public float PlayerGold;
     public float PlayerPlat;
-    public bool skillOn;
     public float skillduration;
     public float skilldurationTmp;
     public float skillCoolTime;
@@ -53,9 +52,8 @@ public class PlayerStat : MonoBehaviour
         statReset();
         onFlash = false;
         nowHp = maxHp;
-        PlayerGold = 10000000;
+        PlayerGold = 10000;
         IsSafeZone = true;
-        skillCoolTimeTmp = -30f;
         HpPotionCount = HpPotionMax;
 
     }
@@ -122,33 +120,17 @@ public class PlayerStat : MonoBehaviour
         saveData = DataController.Instance.data;
         maxHp = 100 + (saveData.maxHpPer + maxHpTmp) * 20 ;
         def = (saveData.defPer + defTmp) * 1 ;
-        hitBox = 0.7f + (saveData.hitBoxPer + hitBoxTmp) + 0.1f ;
+        hitBox = saveData.hitBoxPer + hitBoxTmp;
         dashCoolTime = 2 - (saveData.dashCoolTimePer + dashCoolTimeTmp) * 0.1f ;
         AttackCoolTime = 0.2f - (saveData.AttackCoolTimePer + AttackCoolTimeTmp) * 0.03f ;
         Dmg = 6 + (saveData.DmgPer + DmgTmp) * 2 ;
         PlayerPlat = saveData.PlayerPlat;
-        skillOn = saveData.skillOn;
         skillduration = 6 + (saveData.skilldurationPer + skilldurationTmp) * 2f ;
         skillCoolTime = 60 - (saveData.skillCoolTimePer + skillCoolTimeTmp) - 5f;
         AirJumpCountMax = 1 + (saveData.AirJumpCountMaxPer + AirJumpCountMaxTmp) ;
         HpPotionMax = 3 + saveData.HpPotionMaxPer + HpPotionMaxTmp;
     }
 
-
-    /*   public float maxHpPer = 0;  50 + 50                             5 / no max
-    public float defPer = 0;    100 + 100    max                      3 / 3
-    public float hitBoxPer = 0; (0.07 = 0.1)  100 +  100               3 / 3
-    public float dashCoolTimePer = 0;   100                         3 / 3
-    public float AttackCoolTimePer = 0;   100  + 200                2 / 2
-    public float DmgPer = 0;         50 + 50                        5 / no max
-    public int PlayerPlat = 0;
-    public bool skillOn = false;
-    public float skilldurationPer = 0;    50 + 50                   6 / 6
-    public float skillCoolTimePer = 0;    50 + 50                   3 / 3
-    public int AirJumpCountMaxPer = 0;    200                       1 / 1
-    public int HpPotionMaxPer = 0;        50 + 50 	            5 / 5
-
-    */
     public void statReset()
     {
         maxHpTmp = 0;

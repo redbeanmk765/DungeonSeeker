@@ -157,7 +157,7 @@ public class Shop : MonoBehaviour
                 if (playerStat.PlayerGold >= cost[9] && level[i] < levelMax[i])
                 {
                     playerStat.PlayerGold -= cost[9];
-                    playerStat.HpPotionMaxPer += 1;
+                    playerStat.HpPotionMaxTmp += 1;
                 }
                 break;
 

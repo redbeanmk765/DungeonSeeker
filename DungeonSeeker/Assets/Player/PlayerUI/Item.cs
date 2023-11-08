@@ -17,7 +17,8 @@ public class Item : MonoBehaviour
     void Start()
     {
         shop = GameObject.Find("Content").GetComponent<Shop>();
-       
+        this.GetComponent<RectTransform>().anchoredPosition = new Vector2(75, -(300 + 300 * (num)));
+
     }
 
     // Update is called once per frame
@@ -31,10 +32,11 @@ public class Item : MonoBehaviour
         if(level == levelMax)
         {
             levelText.text = "LV.Max";
+            costText.text = "-";
         }
         else
         {
-            levelText.text = "LV. " + level.ToString();
+            levelText.text = "LV. " + (level + 1).ToString();
         }
     }
 }

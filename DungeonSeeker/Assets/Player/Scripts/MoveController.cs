@@ -96,6 +96,7 @@ public class MoveController : MonoBehaviour
         {
             Animator.SetInteger("State", 18);
         }
+        HitBoxUpdate();
         if (IsFade == false)
         {
             if (Hor != 0 && IsWallJump == false && IsDash == false)
@@ -550,6 +551,17 @@ public class MoveController : MonoBehaviour
         IsSkillMotion = false;
     }
 
+    public void HitBoxUpdate()
+    {
+        HitBox.transform.localPosition = new Vector3(1 + (0.07f * playerStat.hitBox), 0, 0);
+        HitBox.transform.localScale = new Vector3(0.7f+ (0.1f * playerStat.hitBox), 1, 1);
+        WallHitBox.transform.localPosition = new Vector3(1 + (0.07f * playerStat.hitBox), 0, 0);
+        WallHitBox.transform.localScale = new Vector3(0.7f + (0.1f * playerStat.hitBox), 1, 1);
+        UpHitBox.transform.localPosition = new Vector3(0, 1 + (0.07f * playerStat.hitBox), 0);
+        UpHitBox.transform.localScale = new Vector3(0.7f + (0.1f * playerStat.hitBox), 1, 1);
+        DownHitBox.transform.localPosition = new Vector3(0, -(1 + (0.07f * playerStat.hitBox)), 0);
+        DownHitBox.transform.localScale = new Vector3(0.7f + (0.1f * playerStat.hitBox), 1, 1);
+    }
 
     IEnumerator WallJump()
     {

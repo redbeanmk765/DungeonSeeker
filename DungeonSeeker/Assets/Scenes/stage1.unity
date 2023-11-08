@@ -2006,12 +2006,11 @@ MonoBehaviour:
     dashCoolTimePer: 2
     AttackCoolTimePer: 0.2
     DmgPer: 6
-    PlayerPlat: 0
-    skillOn: 0
     skilldurationPer: 6
     skillCoolTimePer: 60
     AirJumpCountMaxPer: 1
     HpPotionMaxPer: 0
+    PlayerPlat: 0
   maxHp: 0
   maxHpTmp: 0
   nowHp: 0
@@ -2031,7 +2030,6 @@ MonoBehaviour:
   cure: 0
   PlayerGold: 0
   PlayerPlat: 0
-  skillOn: 0
   skillduration: 0
   skilldurationTmp: 0
   skillCoolTime: 0
@@ -2481,11 +2479,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2859708530708613822, guid: bb5a1985e6d6f6d48b613f61837eac92, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2859708531056469434, guid: bb5a1985e6d6f6d48b613f61837eac92, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2859708531056469434, guid: bb5a1985e6d6f6d48b613f61837eac92, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.size
