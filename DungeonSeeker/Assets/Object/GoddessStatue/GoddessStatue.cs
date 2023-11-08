@@ -6,11 +6,12 @@ public class GoddessStatue : MonoBehaviour
 {
     public GameObject keyUI;
     public bool IsNear;
-    public GameObject GoldShop;
+    public GameObject playerUI;
     // Start is called before the first frame update
     void Start()
     {
         IsNear = false;
+        playerUI = GameObject.Find("PlayerUI");
     }
 
     // Update is called once per frame
@@ -18,7 +19,7 @@ public class GoddessStatue : MonoBehaviour
     {
         if (Input.GetButtonDown("Interaction") &&  IsNear == true)
         {
-            GoldShop.SetActive(true);
+            playerUI.GetComponent<ShopController>().OpenGoldShop();
         }
 
     }

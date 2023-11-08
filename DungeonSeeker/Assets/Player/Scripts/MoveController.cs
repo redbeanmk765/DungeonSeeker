@@ -12,7 +12,7 @@ public class MoveController : MonoBehaviour
     public float Hor;
     public float Ver;
     public float LastHor;
-    public int AirJumpCount;
+    public float AirJumpCount;
     public bool IsGround;
     public float GroundDistance;
     public float GroundScale;

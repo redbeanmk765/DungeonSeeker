@@ -23,8 +23,8 @@ public class PlayerStat : MonoBehaviour
     public bool onFlash;
     public float damaged;
     public float cure;
-    public int PlayerGold;
-    public int PlayerPlat;
+    public float PlayerGold;
+    public float PlayerPlat;
     public bool skillOn;
     public float skillduration;
     public float skilldurationTmp;
@@ -37,12 +37,12 @@ public class PlayerStat : MonoBehaviour
     public Text PlayerHpText;
     public Text PlayerGoldText;
     public bool IsSafeZone;
-    public int AirJumpCountMax;
-    public int AirJumpCountMaxTmp;
-    public int HpPotionCount;
-    public int HpPotionMax;
-    public int HpPotionMaxPer;
-    public int HpPotionMaxTmp;
+    public float AirJumpCountMax;
+    public float AirJumpCountMaxTmp;
+    public float HpPotionCount;
+    public float HpPotionMax;
+    public float HpPotionMaxPer;
+    public float HpPotionMaxTmp;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -53,7 +53,7 @@ public class PlayerStat : MonoBehaviour
         statReset();
         onFlash = false;
         nowHp = maxHp;
-        PlayerGold = 0;
+        PlayerGold = 10000000;
         IsSafeZone = true;
         skillCoolTimeTmp = -30f;
         HpPotionCount = HpPotionMax;
@@ -136,8 +136,8 @@ public class PlayerStat : MonoBehaviour
 
 
     /*   public float maxHpPer = 0;  50 + 50                             5 / no max
-    public float defPer = 0;    50 + 50    max                      3 / 3
-    public float hitBoxPer = 0; (0.07 = 0.1)  100 +                 3 / 3
+    public float defPer = 0;    100 + 100    max                      3 / 3
+    public float hitBoxPer = 0; (0.07 = 0.1)  100 +  100               3 / 3
     public float dashCoolTimePer = 0;   100                         3 / 3
     public float AttackCoolTimePer = 0;   100  + 200                2 / 2
     public float DmgPer = 0;         50 + 50                        5 / no max
