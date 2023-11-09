@@ -37,6 +37,7 @@ public class Shop : MonoBehaviour
         if (Input.GetButtonDown("Cancel"))
         {
             shop.SetActive(false);
+            GameObject.Find("Player").GetComponent<MoveController>().IsFade = false;
         }
 
 
