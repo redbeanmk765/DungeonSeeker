@@ -27,6 +27,7 @@ public class spider : enemy
     public bool attackCoolTime;
     public int layermask;
     public float maxSpeedY;
+    public bool right;
 
 
 
@@ -387,14 +388,12 @@ public class spider : enemy
 
                 if(this.transform.localEulerAngles.x  == 0)
                 {
-                    this.transform.localEulerAngles = new Vector3(180, 0, this.transform.localEulerAngles.z);
-                   
+                    this.transform.localEulerAngles = new Vector3(180, 0, rotation.z);
 
                 }
                 else
                 {
-                    this.transform.localEulerAngles = new Vector3(0, 0, this.transform.localEulerAngles.z);
-                  
+                    this.transform.localEulerAngles = new Vector3(0, 0, rotation.z);
                 }
                 rigid.velocity = new Vector2(0, 0);
             }

@@ -7,6 +7,7 @@ public class door : MonoBehaviour
 {
     public bool IsOpen;
     public bool IsNear;
+    public bool IsEnter;
     public GameObject keyUI;
     // Start is called before the first frame update
     void Start()
@@ -14,15 +15,17 @@ public class door : MonoBehaviour
         Close();
         IsOpen = false;
         IsNear = false;
+        IsEnter = false;
        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interaction") && IsOpen == true && IsNear == true)
+        if (Input.GetButtonDown("Interaction") && IsOpen == true && IsNear == true && IsEnter == false)
         {
             GameObject.Find("StageController").GetComponent<StageController>().GoNextRoom();
+            IsEnter = true;
 
         }
     }
