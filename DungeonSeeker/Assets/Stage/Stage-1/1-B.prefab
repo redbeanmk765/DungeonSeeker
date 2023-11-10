@@ -18512,15 +18512,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.56
+      value: 3.49
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.66
+      value: 11.15
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18528,7 +18528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalRotation.y
@@ -18536,7 +18536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4803180329432330621, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -18556,6 +18556,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5845746942951602974, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369110966559008532, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
+      propertyPath: m_Size.y
+      value: 0.29935098
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369110966559008532, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7369110966559008532, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.17780784
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964435468121698634, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
+      propertyPath: m_GravityScale
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
