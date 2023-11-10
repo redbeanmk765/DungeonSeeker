@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4271b76275e3a274b8fffdb2fd191d61, type: 3}
-  m_Name: slime
+  m_Name: slimeKIng
   m_EditorClassIdentifier: 
-  enemyName: slime
-  maxHp: 50
+  enemyName: slimeKIng
+  maxHp: 300
   level: 1
-  enemyDamage: 10
-  race: 0
+  enemyDamage: 30
+  race: 8
   moveSpeed: 2
-  projectileSpeed: 0
+  projectileSpeed: 10
   projectile: {fileID: 0}
-  enemyGold: 20
+  enemyGold: 300
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}

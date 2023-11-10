@@ -52,7 +52,7 @@ public class PlayerStat : MonoBehaviour
         statReset();
         onFlash = false;
         nowHp = maxHp;
-        PlayerGold = 10000;
+        PlayerGold = 0;
         IsSafeZone = true;
         HpPotionCount = HpPotionMax;
 

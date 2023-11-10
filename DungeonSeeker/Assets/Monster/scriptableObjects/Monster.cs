@@ -30,6 +30,7 @@ public enum Race
     ghost,
     magicBook,
     spider,
-    golem
+    golem,
+    slimeKing
 
 }
