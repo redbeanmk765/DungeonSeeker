@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 1291839327, guid: 1c01bcafe956e004d9ad9f190f5c53e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsOpen: 0
   IsNear: 0
+  IsEnter: 0
   keyUI: {fileID: 6141852719652424436}
 --- !u!1001 &8262784238589681107
 PrefabInstance:

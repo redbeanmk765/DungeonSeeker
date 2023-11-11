@@ -26,8 +26,15 @@ public class slimeKing : enemy
     public int attackAngle;
     public bool IsDelay;
     public GameObject oneWay;
+    public GameObject targetP;
     public int dmgCount;
     public ConstantForce2D gravity;
+    public bool IsCeiling;
+    public bool IsJump;
+    public GameObject wallHit;
+    public GameObject ceilingHit;
+    public int IsLeft;
+    public int IsDown;
 
 
     private enum State
@@ -53,10 +60,16 @@ public class slimeKing : enemy
         nowHp = monsterStat.maxHp;
         animator = GetComponent<Animator>();
 
+        wallHit.SetActive(false);
+        ceilingHit.SetActive(false);
         onFlash = false;
         IsDie = false;
         WallHit = false;
         IsDelay = false;
+        IsCeiling = false;
+        IsJump = false;
+        IsLeft = 0;
+        IsDown = 0;
         gravity = GetComponent<ConstantForce2D>();
         gravity.force = new Vector2(0, -9.8f);
 
@@ -93,7 +106,7 @@ public class slimeKing : enemy
             }
 
         }
-
+       
         switch (curState)
         {
             case State.idle:
@@ -104,7 +117,7 @@ public class slimeKing : enemy
                     {
                         ChangeState(State.attack);
                     }
-                    else
+                    else if (player.GetComponent<PlayerStat>().IsSafeZone == false)
                         ChangeState(State.move);
                 }
                 break;
@@ -176,7 +189,9 @@ public class slimeKing : enemy
             if (onFlash == false)
             {
                 this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
+                dmgCount = 0;
                 yield break;
+
             }
             onFlash = false;
 
@@ -185,6 +200,7 @@ public class slimeKing : enemy
         if (onFlash == false)
         {
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
+            dmgCount = 0;
             yield break;
         }
     }
@@ -236,10 +252,11 @@ public class slimeKing : enemy
         attackMotionDone = false;
 
         coolTime[0] = 3;
+
     }
     public void AttackDash2()
     {
-
+        wallHit.SetActive(true);
         isDash = true;
         MaxSpeedX = 7;
 
@@ -261,6 +278,7 @@ public class slimeKing : enemy
             }
             if (WallHit == true)
             {
+                wallHit.SetActive(false);
                 isDash = false;
                 StartCoroutine(delay());
                 ChangeState(State.idle);
@@ -309,8 +327,77 @@ public class slimeKing : enemy
     public void AttackJump2()
     {
         gravity.force = new Vector2 ( 0 , 19.6f);
+        StartCoroutine(CeilingCheck());
+    }
+    public void AttackJump3()
+    {
+        this.transform.localEulerAngles = new Vector3(180, 180 * IsLeft, 0);
+        IsDown = 1;
     }
 
+
+
+
+    public void AttackTgShoot1()
+    {
+        attackAngle = turn();
+    }
+
+    public void AttackTgShoot2()
+    {
+        
+        attackAngle = turn();
+        targetP = Instantiate(monsterStat.projectile2);
+        targetP.transform.position = this.transform.position;
+        targetP.gameObject.GetComponent<targetEnemyProjectile>().target = player;
+        targetP.gameObject.GetComponent<targetEnemyProjectile>().dmg = monsterStat.enemyDamage;
+        targetP.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed;
+    }
+
+    public void AttackTgShoot3()
+    {
+        this.transform.localEulerAngles = new Vector3(0, 180 * IsLeft, 0);
+        IsCeiling = false;
+        IsDown = 0;
+        gravity.force = new Vector2(0, -9.8f);
+        attackMotionDone = true;
+        StartCoroutine(delay());
+        ChangeState(State.idle);
+    }
+
+    IEnumerator CeilingCheck()
+    {
+       
+        while (IsCeiling == false)
+        {
+            yield return new WaitForEndOfFrame();
+            IsJump = true;
+            if (transform.position.y >= 11.4 && WallHit == false)
+            {
+                ceilingHit.SetActive(true);
+                yield return new WaitForEndOfFrame();
+
+            }
+
+
+            if (WallHit == true)
+            {
+                
+                IsCeiling = true;
+                ceilingHit.SetActive(false);
+                animator.SetInteger("State", 8);
+                yield break;
+            }
+        }
+
+        if (transform.position.y >= 12.4 && IsCeiling == true)
+        {
+            ceilingHit.SetActive(false);
+            animator.SetInteger("State", 8);
+            yield break;
+        }
+
+    }
     IEnumerator delay()
     {
         IsDelay = true;
@@ -499,20 +586,22 @@ public class slimeKing : enemy
         if ((this.transform.position.x - player.transform.position.x) < 0)
         {
             angle = 1;
+            IsLeft = 0;
         }
         else
         {
             angle = -1;
+            IsLeft = 1;
         }
 
 
         if (angle == 1)
         {
-            this.transform.localEulerAngles = new Vector3(0, 0, 0);
+            this.transform.localEulerAngles = new Vector3(180 * IsDown , 0, 0);
         }
         else
         {
-            this.transform.localEulerAngles = new Vector3(0, 180, 0);
+            this.transform.localEulerAngles = new Vector3(180 * IsDown , 180, 0);
         }
 
         return angle;

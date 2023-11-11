@@ -13,6 +13,7 @@ TagManager:
   - SafeZone
   - Trigger
   - Exit
+  - Destroyer
   layers:
   - Default
   - TransparentFX
