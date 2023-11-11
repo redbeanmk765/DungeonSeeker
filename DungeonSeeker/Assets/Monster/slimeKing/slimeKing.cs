@@ -20,6 +20,14 @@ public class slimeKing : enemy
     public float MaxSpeedX;
     public Rigidbody2D rigid;
     public int angle;
+    public List<int> coolTime;
+    public int layermask;
+    public bool WallHit;
+    public int attackAngle;
+    public bool IsDelay;
+    public GameObject oneWay;
+    public int dmgCount;
+    public ConstantForce2D gravity;
 
 
     private enum State
@@ -35,8 +43,9 @@ public class slimeKing : enemy
 
     private void Start()
     {
+        layermask = (1 << LayerMask.NameToLayer("Ground"));
         rigid = GetComponent<Rigidbody2D>();
-        MaxSpeedX = 2;
+        MaxSpeedX = 1f;
         player = GameObject.Find("Player");
         curState = State.idle;
         fsm = new FSM(new IdleState(this, player));
@@ -46,10 +55,15 @@ public class slimeKing : enemy
 
         onFlash = false;
         IsDie = false;
+        WallHit = false;
+        IsDelay = false;
+        gravity = GetComponent<ConstantForce2D>();
+        gravity.force = new Vector2(0, -9.8f);
 
         Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
 
+        coolTime = new List<int> {0,0,0,0,0 };
     }
 
 
@@ -84,21 +98,22 @@ public class slimeKing : enemy
         {
             case State.idle:
 
-
-                if (CanAttackPlayer())
+                if (IsDelay == false)
                 {
-                    ChangeState(State.attack);
+                    if (CanAttackPlayer())
+                    {
+                        ChangeState(State.attack);
+                    }
+                    else
+                        ChangeState(State.move);
                 }
-               // else
-                   // ChangeState(State.move);
-
                 break;
             case State.move:
 
 
                 if (CanAttackPlayer())
                 {
-                    // attackMotionDone = true;
+                     attackMotionDone = true;
                     ChangeState(State.attack);
                 }
 
@@ -156,6 +171,7 @@ public class slimeKing : enemy
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.flashMaterial;
             yield return new WaitForSecondsRealtime(0.1f);
             this.GetComponent<SpriteRenderer>().material = this.monsterStat.originalMaterial;
+            dmgCount = 0;
 
             if (onFlash == false)
             {
@@ -182,15 +198,15 @@ public class slimeKing : enemy
         {
             case State.idle:
                 fsm.ChangeState(new IdleState(this, player));
-                // animator.SetInteger("State", 2);
+                 animator.SetInteger("State", 1);
                 break;
             case State.move:
                 fsm.ChangeState(new MoveState(this, player));
-                // animator.SetInteger("State", 3);
+                 animator.SetInteger("State", 2);
                 break;
             case State.attack:
                 fsm.ChangeState(new AttackState(this, player));
-                // animator.SetInteger("State", 4);
+                animator.SetInteger("State", 7);
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
@@ -203,10 +219,10 @@ public class slimeKing : enemy
 
     private bool CanAttackPlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 2)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) <= 8)
         {
 
-            return false;
+            return true;
         }
         else
             return false;
@@ -215,65 +231,91 @@ public class slimeKing : enemy
 
     public void AttackDash1()
     {
-        if ((this.transform.position.x - player.transform.position.x) < 0)
-        {
-            angle = 1;
-        }
-        else
-        {
-            angle = -1;
-        }
-
-        if (angle == 1)
-        {
-            this.transform.localEulerAngles = new Vector3(0, 0, 0);
-        }
-        else
-        {
-            this.transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
+        attackAngle  = turn();
 
         attackMotionDone = false;
+
+        coolTime[0] = 3;
     }
     public void AttackDash2()
     {
 
-
-    }
-    public void AttackDash3()
-    {
-
         isDash = true;
-        MaxSpeedX = 8;
+        MaxSpeedX = 7;
 
+        animator.SetInteger("State", 4);
         StartCoroutine(dash());
-    }
-    public void AttackDash4()
-    {
-        isDash = false;
-        attackMotionDone = true;
-
-        MaxSpeedX = 2;
     }
     IEnumerator dash()
     {
         while (isDash)
         {
             yield return new WaitForEndOfFrame();
-            // this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, 0.05f);
             if (this.curState != State.die)
             {
-                this.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * this.monsterStat.moveSpeed, ForceMode2D.Impulse);
+                this.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * attackAngle * this.monsterStat.moveSpeed, ForceMode2D.Impulse);
             }
             if (isDash == false)
             {
                 yield break;
+            }
+            if (WallHit == true)
+            {
+                isDash = false;
+                StartCoroutine(delay());
+                ChangeState(State.idle);
+                attackMotionDone = true;
+                MaxSpeedX = 1;
             }
         }
         if (isDash == false)
         {
             yield break;
         }
+    }
+
+    public void AttackShoot1()
+    {
+        attackAngle = turn();
+        attackMotionDone = false;
+        coolTime[1] = 3;
+
+    }
+
+    public void AttackShoot2()
+    {
+        oneWay = Instantiate(monsterStat.projectile);
+        oneWay.transform.position = this.transform.position;
+        oneWay.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(attackAngle, 0, 0);
+        oneWay.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
+        oneWay.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
+    }
+
+    public void AttackShoot3()
+    {
+        StartCoroutine(delay());
+        ChangeState(State.idle);
+        attackMotionDone = true;
+    }
+
+    public void AttackJump1()
+    {
+        attackAngle = turn();
+        attackMotionDone = false;
+        coolTime[3] = 3;
+
+    }
+
+    public void AttackJump2()
+    {
+        gravity.force = new Vector2 ( 0 , 19.6f);
+    }
+
+    IEnumerator delay()
+    {
+        IsDelay = true;
+        yield return new WaitForSeconds(3);
+        IsDelay = false;
     }
     public class IdleState : BaseState
     {
@@ -317,16 +359,7 @@ public class slimeKing : enemy
                 angle = -1;
             }
 
-
-            if (angle == 1)
-            {
-                curEnemy.transform.localEulerAngles = new Vector3(0, 0, 0);
-            }
-            else
-            {
-                curEnemy.transform.localEulerAngles = new Vector3(0, 180, 0);
-            }
-
+            curEnemy.GetComponent<slimeKing>().turn();
             //curEnemy.transform.position = Vector2.MoveTowards(curEnemy.transform.position, new Vector2 (curPlayer.transform.position.x, curEnemy.transform.position.y), curEnemy.monsterStat.moveSpeed * Time.deltaTime);
             curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
         }
@@ -348,7 +381,7 @@ public class slimeKing : enemy
 
         public override void OnStateUpdate()
         {
-            //curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
+            
         }
 
         public override void OnStateExit()
@@ -397,15 +430,27 @@ public class slimeKing : enemy
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-
+        
         if (this.curState != State.die)
         {
 
             if (col.CompareTag("Attack"))
             {
+                if (dmgCount == 0)
+                {
+                    this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
+                    dmgCount++;
+                }
 
-                this.damaged += col.gameObject.GetComponent<HitBox>().Dmg;
+            }
+        }
 
+        if (this.curState != State.die)
+        {
+
+            if (col.CompareTag("Ground"))
+            {
+                WallHit = true;
             }
         }
 
@@ -415,7 +460,16 @@ public class slimeKing : enemy
 
         }
     }
-    public void UpdatePolCol(PolygonCollider2D collider, Sprite sprite)
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Ground"))
+        {
+            WallHit = false;
+        }
+    }
+
+        public void UpdatePolCol(PolygonCollider2D collider, Sprite sprite)
     {     
         if (collider != null && sprite != null)
         {           
@@ -431,17 +485,43 @@ public class slimeKing : enemy
     }
     public void Pattern()
     {
-        /* 1 - µ¹Áø , 2 - Á¤¸é ÅºÈ¯ , 3 - ÃµÀå ÅºÈ¯ 4 - Ãß°Ý ÅºÈ¯ , 5 - ¹ß¾Ç ÆÐÅÏ
-         */
+        // 1 - µ¹Áø Äð 2, 2 - Á¤¸é ÅºÈ¯  Äð 2 , 3 - ÃµÀå ÅºÈ¯ Äð 2 4 - Ãß°Ý ÅºÈ¯  Äð 2 , 5 - ¹ß¾Ç ÆÐÅÏ 1È¸
+
+        
+
+        
+
+    }
+
+    public int turn()
+    {
+        int angle = 1;
+        if ((this.transform.position.x - player.transform.position.x) < 0)
+        {
+            angle = 1;
+        }
+        else
+        {
+            angle = -1;
+        }
+
+
+        if (angle == 1)
+        {
+            this.transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            this.transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+
+        return angle;
     }
 
 
 
         private void OnTriggerStay2D(Collider2D col)
     {
-
-
-
         if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
         {
             player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
