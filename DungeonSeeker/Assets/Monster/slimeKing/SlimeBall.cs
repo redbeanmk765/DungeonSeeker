@@ -5,19 +5,16 @@ using UnityEngine;
 public class SlimeBall : MonoBehaviour
 {
     public float dmg;
-    public GameObject generator;
+    public GameObject ballGenerator;
     // Start is called before the first frame update
     void Start()
     {
         dmg = 30f;
-        transform.localPosition = new Vector3(0, 0, 0);
+        transform.localPosition = new Vector3(0, -1, 0);
+        GetComponent<Rigidbody2D>().gravityScale = 2f;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -25,12 +22,12 @@ public class SlimeBall : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             col.gameObject.GetComponent<PlayerStat>().damaged = this.dmg;
-            transform.localPosition = new Vector3(0, 0, 0);
+            transform.localPosition = new Vector3(0, -1, 0);
             gameObject.SetActive(false);
         }
         else if (col.gameObject.CompareTag("Destroyer"))
         {
-            transform.localPosition = new Vector3(0, 0, 0);
+            transform.localPosition = new Vector3(0, -1, 0);
             gameObject.SetActive(false);
         }
 

@@ -30,11 +30,14 @@ public class slimeKing : enemy
     public int dmgCount;
     public ConstantForce2D gravity;
     public bool IsCeiling;
+    public bool IsFloor;
     public bool IsJump;
     public GameObject wallHit;
     public GameObject ceilingHit;
     public int IsLeft;
     public int IsDown;
+    public bool IsLow;
+    public GameObject BGController;
 
 
     private enum State
@@ -68,6 +71,8 @@ public class slimeKing : enemy
         IsDelay = false;
         IsCeiling = false;
         IsJump = false;
+        IsFloor = false;
+        IsLow = false;
         IsLeft = 0;
         IsDown = 0;
         gravity = GetComponent<ConstantForce2D>();
@@ -95,6 +100,11 @@ public class slimeKing : enemy
                 StartCoroutine(FlashWhite());
             }
             this.damaged = 0;
+
+            if(nowHp <= monsterStat.maxHp * 0.4f)
+            {
+                IsLow = true;
+            }
         }
         if (nowHp <= 0)
         {
@@ -222,7 +232,7 @@ public class slimeKing : enemy
                 break;
             case State.attack:
                 fsm.ChangeState(new AttackState(this, player));
-                animator.SetInteger("State", 7);
+                Pattern();
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
@@ -251,7 +261,7 @@ public class slimeKing : enemy
 
         attackMotionDone = false;
 
-        coolTime[0] = 3;
+        coolTime[0] = 2;
 
     }
     public void AttackDash2()
@@ -296,7 +306,7 @@ public class slimeKing : enemy
     {
         attackAngle = turn();
         attackMotionDone = false;
-        coolTime[1] = 3;
+        coolTime[1] = 2;
 
     }
 
@@ -320,7 +330,7 @@ public class slimeKing : enemy
     {
         attackAngle = turn();
         attackMotionDone = false;
-        coolTime[3] = 3;
+        coolTime[3] = 2;
 
     }
 
@@ -334,8 +344,6 @@ public class slimeKing : enemy
         this.transform.localEulerAngles = new Vector3(180, 180 * IsLeft, 0);
         IsDown = 1;
     }
-
-
 
 
     public void AttackTgShoot1()
@@ -365,6 +373,78 @@ public class slimeKing : enemy
         ChangeState(State.idle);
     }
 
+    public void AttackCeiling1()
+    {
+        attackAngle = turn();
+        attackMotionDone = false;
+        coolTime[2] = 2;
+    }
+
+    public void AttackCeiling2()
+    {
+        rigid.velocity = new Vector2(0, 6f);
+        IsFloor = false;
+        StartCoroutine(FloorCheck());
+        BGController.GetComponent<BGcontroller>().state = 0;
+    }
+
+    public void AttackCeiling3()
+    {
+        BGController.GetComponent<BGcontroller>().state = 1;
+    }
+
+    public void AttackCeiling4()
+    {
+        BGController.GetComponent<BGcontroller>().state = 2;
+        
+    }
+
+    public void AttackCeiling5()
+    {
+        BGController.GetComponent<BGcontroller>().state = 0;
+        
+        StartCoroutine(delay());
+    }
+
+    public void AttackCeiling6()
+    {
+        BGController.GetComponent<BGcontroller>().state = 1;
+        attackMotionDone = true;
+        ChangeState(State.idle);
+    }
+
+    IEnumerator FloorCheck()
+    {
+
+        while (IsFloor == false)
+        {
+            yield return new WaitForEndOfFrame();
+            if (transform.position.y >= 11f && WallHit == false)
+            {
+                ceilingHit.SetActive(true);
+                yield return new WaitForEndOfFrame();
+
+            }
+
+
+            if (WallHit == true)
+            {
+
+                IsFloor = true;
+                ceilingHit.SetActive(false);
+                animator.SetInteger("State", 9);
+                yield break;
+            }
+        }
+
+        if (IsFloor == true)
+        {
+            ceilingHit.SetActive(false);
+            animator.SetInteger("State", 9);
+            yield break;
+        }
+
+    }
     IEnumerator CeilingCheck()
     {
        
@@ -400,6 +480,9 @@ public class slimeKing : enemy
     }
     IEnumerator delay()
     {
+        for (int i = 0; i <= 4; i++) {
+            coolTime[i]--;
+        }
         IsDelay = true;
         yield return new WaitForSeconds(3);
         IsDelay = false;
@@ -573,10 +656,54 @@ public class slimeKing : enemy
     public void Pattern()
     {
         // 1 - µ¹Áø Äð 2, 2 - Á¤¸é ÅºÈ¯  Äð 2 , 3 - ÃµÀå ÅºÈ¯ Äð 2 4 - Ãß°Ý ÅºÈ¯  Äð 2 , 5 - ¹ß¾Ç ÆÐÅÏ 1È¸
+        int i = 0;
+        bool Okay = false ;
+        while (Okay == false)
+        {
+            i = Random.Range(0, 4);
 
-        
+            if (coolTime[i] <= 0)
+            {
+                if (i == 4)
+                {
+                    if (IsLow == true)
+                    {
+                        Okay = true;
+                    }
+                }
+                else
+                {
+                    Okay = true;
+                }
+            }
+        }
 
-        
+        switch (i)
+        {
+            case  0 :
+                animator.SetInteger("State", 3);
+                break;
+
+            case 1:
+                animator.SetInteger("State", 5);
+                break;
+
+            case 2:
+                animator.SetInteger("State", 6);
+                break;
+
+            case 3:
+                animator.SetInteger("State", 7);
+                break;
+
+            case 4:
+                animator.SetInteger("State", 10);
+                break;
+
+        }
+
+
+
 
     }
 
