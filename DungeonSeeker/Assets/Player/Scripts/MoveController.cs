@@ -266,9 +266,6 @@ public class MoveController : MonoBehaviour
             //}
             if (Input.GetButtonDown("Attack") && IsDash == false && IsAttack == false && IsAttack2 == false && IsAttackCooltime == false)
             {
-                DataController.Instance.SaveGameData();
-                DataController.Instance.LoadGameData();
-                Debug.Log(playerStat.saveData.DmgPer);
                 if (IsGround == true)
                 {
                     if (readyAttack == false)

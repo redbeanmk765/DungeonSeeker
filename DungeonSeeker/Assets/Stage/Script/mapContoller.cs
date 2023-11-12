@@ -32,4 +32,16 @@ public class mapContoller : MonoBehaviour
 
         }
     }
+
+    public void BossCameraOn()
+    {
+        MainCamera.GetComponent<CameraController>().mapCenter = room.BossMapCenter;
+        MainCamera.GetComponent<CameraController>().mapSize = room.BossMapSize;
+    }
+
+    public void BossCameraOff()
+    {
+        MainCamera.GetComponent<CameraController>().mapCenter = room.MapCenter;
+        MainCamera.GetComponent<CameraController>().mapSize = room.MapSize;
+    }
 }

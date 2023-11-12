@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 363c3ae4564df9f48a97fa586798ffc1, type: 3}
+  m_Name: Room 1-B
+  m_EditorClassIdentifier: 
+  MapCenter: {x: 15, y: 12.5}
+  MapSize: {x: 27, y: 6.5}
+  BossMapCenter: {x: 14, y: 12}
+  BossMapSize: {x: 17, y: 6}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class slimeKing : enemy
 {
@@ -38,6 +39,8 @@ public class slimeKing : enemy
     public int IsDown;
     public bool IsLow;
     public GameObject BGController;
+    public BossHpBar bossHpbar;
+
 
 
     private enum State
@@ -87,6 +90,7 @@ public class slimeKing : enemy
 
     private void Update()
     {
+        dmgCount = 0;
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.000001f, 0);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.000001f, 0);
         UpdatePolCol(this.GetComponent<PolygonCollider2D>(), this.GetComponent<SpriteRenderer>().sprite);
@@ -100,8 +104,8 @@ public class slimeKing : enemy
                 StartCoroutine(FlashWhite());
             }
             this.damaged = 0;
-
-            if(nowHp <= monsterStat.maxHp * 0.4f)
+            dmgCount = 0;
+            if (nowHp <= monsterStat.maxHp * 0.4f)
             {
                 IsLow = true;
             }
@@ -116,7 +120,13 @@ public class slimeKing : enemy
             }
 
         }
-       
+
+        float hpRatio = nowHp / monsterStat.maxHp;
+        if (bossHpbar.On == true)
+        {
+            bossHpbar.image.fillAmount = Mathf.Lerp(bossHpbar.image.fillAmount, hpRatio, Time.deltaTime * 10);
+        }
+
         switch (curState)
         {
             case State.idle:
@@ -236,7 +246,7 @@ public class slimeKing : enemy
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
-                //  animator.SetInteger("State", 5);
+                animator.SetInteger("State", 12);
                 break;
         }
     }
@@ -315,6 +325,7 @@ public class slimeKing : enemy
         oneWay = Instantiate(monsterStat.projectile);
         oneWay.transform.position = this.transform.position;
         oneWay.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(attackAngle, 0, 0);
+        oneWay.gameObject.GetComponent<Transform>().localEulerAngles = new Vector3(0, 180 * IsLeft, 0);
         oneWay.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
         oneWay.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
     }
@@ -359,9 +370,9 @@ public class slimeKing : enemy
         targetP.transform.position = this.transform.position;
         targetP.gameObject.GetComponent<targetEnemyProjectile>().target = player;
         targetP.gameObject.GetComponent<targetEnemyProjectile>().dmg = monsterStat.enemyDamage;
-        targetP.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed;
+        targetP.gameObject.GetComponent<targetEnemyProjectile>().speed = monsterStat.projectileSpeed* 1.5f;
     }
-
+    
     public void AttackTgShoot3()
     {
         this.transform.localEulerAngles = new Vector3(0, 180 * IsLeft, 0);
@@ -427,7 +438,7 @@ public class slimeKing : enemy
             }
 
 
-            if (WallHit == true)
+            if (WallHit == true && IsDie == false)
             {
 
                 IsFloor = true;
@@ -437,7 +448,7 @@ public class slimeKing : enemy
             }
         }
 
-        if (IsFloor == true)
+        if (IsFloor == true && IsDie == false)
         {
             ceilingHit.SetActive(false);
             animator.SetInteger("State", 9);
@@ -460,7 +471,7 @@ public class slimeKing : enemy
             }
 
 
-            if (WallHit == true)
+            if (WallHit == true && IsDie == false)
             {
                 
                 IsCeiling = true;
@@ -470,7 +481,7 @@ public class slimeKing : enemy
             }
         }
 
-        if (transform.position.y >= 12.4 && IsCeiling == true)
+        if (transform.position.y >= 12.4 && IsCeiling == true && IsDie == false)
         {
             ceilingHit.SetActive(false);
             animator.SetInteger("State", 8);
@@ -484,7 +495,7 @@ public class slimeKing : enemy
             coolTime[i]--;
         }
         IsDelay = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         IsDelay = false;
     }
     public class IdleState : BaseState

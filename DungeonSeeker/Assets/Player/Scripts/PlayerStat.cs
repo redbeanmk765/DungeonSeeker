@@ -138,7 +138,7 @@ public class PlayerStat : MonoBehaviour
         hitBoxTmp = 0;
         dashCoolTimeTmp = 0;
         AttackCoolTimeTmp = 0;
-        DmgTmp = 0;
+        DmgTmp = 100;
         skilldurationTmp = 0;
         skillCoolTimeTmp = 0;
         AirJumpCountMaxTmp = 0;

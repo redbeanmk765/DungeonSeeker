@@ -13,7 +13,7 @@ public class enemyProjectile : MonoBehaviour
     void Start()
     {
         
-        this.transform.localEulerAngles = new Vector3(0, 0, rot);
+        //this.transform.localEulerAngles = new Vector3(0, 0, rot);
     }
 
     // Update is called once per frame
