@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Stage1
   m_EditorClassIdentifier: 
   roomList:
-  - {fileID: 367939362633502516, guid: 10cf27e697c746546ba66f80f9c3c040, type: 3}
   - {fileID: 7960196831653056220, guid: 81025b4d2343cd143a5fb1a31c14cf5b, type: 3}
+  - {fileID: 367939362633502516, guid: 10cf27e697c746546ba66f80f9c3c040, type: 3}
   - {fileID: 5709105957498518209, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
   - {fileID: 6450315572643425156, guid: e8a759fdae73f0344b785003de5258d3, type: 3}
   - {fileID: 2859708530708613822, guid: bb5a1985e6d6f6d48b613f61837eac92, type: 3}

@@ -43,6 +43,8 @@ public class PlayerStat : MonoBehaviour
     public float HpPotionMax;
     public float HpPotionMaxPer;
     public float HpPotionMaxTmp;
+    public bool IsDie;
+    public bool motion;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -56,7 +58,8 @@ public class PlayerStat : MonoBehaviour
         PlayerGold = 0;
         IsSafeZone = true;
         HpPotionCount = HpPotionMax;
-
+        IsDie = false;
+        motion = false;
     }
 
     // Update is called once per frame
@@ -65,6 +68,25 @@ public class PlayerStat : MonoBehaviour
         statUpdate();
         
         GameObject.Find("Item1Count").GetComponent<Text>().text = HpPotionCount.ToString();
+
+        if(IsDie == true)
+        {
+            this.GetComponent<Animator>().SetInteger("State", 30);
+        }
+        if (motion == true)
+        {
+            
+            Vector3 rotation = this.transform.localEulerAngles;
+            this.GetComponent<Animator>().SetInteger("State", 29);
+            if (rotation.y == 0)
+            {
+                this.transform.position = this.transform.position - new Vector3(0.01f, 0f, 0f);
+            }
+            else
+            {
+                this.transform.position = this.transform.position + new Vector3(0.01f, 0f, 0f);
+            }
+        }
 
 
         if (Input.GetButtonDown("Item1") && HpPotionCount > 0){
@@ -81,11 +103,22 @@ public class PlayerStat : MonoBehaviour
         }
         if (this.damaged != 0)
         {
-            if (!onFlash && !this.GetComponent<MoveController>().IsDash)
+            if (!onFlash && !this.GetComponent<MoveController>().IsDash && IsDie == false)
             {
                 nowHp = nowHp - (damaged - def);
-                onFlash = true;
-                StartCoroutine(FlashWhite());
+                if (nowHp <= 0 && IsDie == false)
+                {
+                    IsDie = true;
+                    this.GetComponent<MoveController>().IsFade = true;
+                    
+
+                }
+                else
+                {
+                    StartCoroutine(DamageMotion());
+                    onFlash = true;
+                    StartCoroutine(FlashWhite());
+                }
             }
             this.damaged = 0;
 
@@ -157,7 +190,17 @@ public class PlayerStat : MonoBehaviour
     }
 
 
-    IEnumerator FlashWhite()
+    IEnumerator DamageMotion()
+    {
+
+
+        motion = true;
+        this.GetComponent<MoveController>().IsFade = true;
+        yield return new WaitForSecondsRealtime(0.3f);
+        this.GetComponent<MoveController>().IsFade = false;
+        motion = false;
+    }
+        IEnumerator FlashWhite()
     {
         while (onFlash)
         {
