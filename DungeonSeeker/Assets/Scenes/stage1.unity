@@ -2001,6 +2001,7 @@ MonoBehaviour:
   PlayerHpBar: {fileID: 6121619766611629517}
   PlayerHpText: {fileID: 1325148948}
   PlayerGoldText: {fileID: 1841793909}
+  PlayerPlatText: {fileID: 7839084385516599122}
   IsSafeZone: 0
   AirJumpCountMax: 0
   AirJumpCountMaxTmp: 0
@@ -3536,6 +3537,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4978301076966104287, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5092751492100708326, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: playerStat
+      value: 
+      objectReference: {fileID: 1883951112}
+    - target: {fileID: 6071484291531272780, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071484291531272780, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071484291531272780, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7839084385172033338, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3564,9 +3585,36 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: -17
       objectReference: {fileID: 0}
+    - target: {fileID: 8885911222545282788, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885911222545282788, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885911222545282788, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204671182033772501, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3866896590504235933, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+--- !u!114 &7839084385516599122 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5693136789780320671, guid: 7a74d80da33e7fc4ebe6ff460d38e0e8, type: 3}
+  m_PrefabInstance: {fileID: 7839084385516599121}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7960196830829275315
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ public class mapContoller : MonoBehaviour
     public GameObject enter;
     public GameObject exit;
     public GameObject player;
+    public GameObject playerUI;
+    public bool IsCity;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class mapContoller : MonoBehaviour
         player = GameObject.Find("Player");
         player.transform.position = enter.transform.position - new Vector3(0, 0.4f,0);
         player.GetComponent<PlayerStat>().IsSafeZone = true;
+        playerUI = GameObject.Find("PlayerUI");
     }
 
     // Update is called once per frame
@@ -30,6 +33,15 @@ public class mapContoller : MonoBehaviour
         {
             exit.GetComponent<door>().Open();
 
+        }
+
+        if(IsCity == true)
+        {
+            playerUI.GetComponent<CoinController>().state = 2;
+        }
+        else
+        {
+            playerUI.GetComponent<CoinController>().state = 1;
         }
     }
 

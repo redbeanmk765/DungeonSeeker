@@ -35,6 +35,7 @@ public class PlayerStat : MonoBehaviour
     public Image PlayerHpBar;
     public Text PlayerHpText;
     public Text PlayerGoldText;
+    public Text PlayerPlatText;
     public bool IsSafeZone;
     public float AirJumpCountMax;
     public float AirJumpCountMaxTmp;
@@ -62,7 +63,7 @@ public class PlayerStat : MonoBehaviour
     void Update()
     {
         statUpdate();
-        PlayerGoldText.text = PlayerGold.ToString();
+        
         GameObject.Find("Item1Count").GetComponent<Text>().text = HpPotionCount.ToString();
 
 
@@ -145,7 +146,15 @@ public class PlayerStat : MonoBehaviour
         HpPotionMaxTmp = 0;
     }
 
+    public void GoldUpdate()
+    {
+        PlayerGoldText.text = PlayerGold.ToString();
+    }
 
+    public void PlatUpdate()
+    {
+        PlayerPlatText.text = DataController.Instance.data.PlayerPlat.ToString();
+    }
 
 
     IEnumerator FlashWhite()

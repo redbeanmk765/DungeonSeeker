@@ -16,7 +16,7 @@ public class scarecrow : MonoBehaviour
     void Start()
     {
         onFlash = false;
-        maxHp = 20;
+        maxHp = 2000;
         nowHp = maxHp;
     }
 

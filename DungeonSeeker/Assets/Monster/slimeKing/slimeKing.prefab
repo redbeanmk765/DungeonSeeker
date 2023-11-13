@@ -117,7 +117,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -184,11 +184,19 @@ MonoBehaviour:
   attackAngle: 0
   IsDelay: 0
   oneWay: {fileID: 0}
+  targetP: {fileID: 0}
   dmgCount: 0
   gravity: {fileID: 0}
   IsCeiling: 0
+  IsFloor: 0
+  IsJump: 0
   wallHit: {fileID: 6585150788373477363}
   ceilingHit: {fileID: 2537888571214125685}
+  IsLeft: 0
+  IsDown: 0
+  IsLow: 0
+  BGController: {fileID: 0}
+  bossHpbar: {fileID: 0}
 --- !u!50 &8964435468121698634
 Rigidbody2D:
   serializedVersion: 4

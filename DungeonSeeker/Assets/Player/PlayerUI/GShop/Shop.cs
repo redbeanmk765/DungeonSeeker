@@ -27,6 +27,7 @@ public class Shop : MonoBehaviour
         cost = new List<float> { 0,0,0,0,0,0,0,0,0,0 };
         level = new List<float> { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         CostCalc();
+        Level();
         levelMax = new List<float> {999,3,3,3,2,999,6,3,1,5 };
 
     }

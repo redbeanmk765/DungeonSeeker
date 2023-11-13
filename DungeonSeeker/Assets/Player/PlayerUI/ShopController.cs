@@ -14,4 +14,10 @@ public class ShopController : MonoBehaviour
         goldShop.SetActive(true);
         GameObject.Find("Player").GetComponent<MoveController>().IsFade = true ;
     }
+
+   public void OpenPlatShop()
+    {
+        platShop.SetActive(true);
+        GameObject.Find("Player").GetComponent<MoveController>().IsFade = true;
+    }
 }
