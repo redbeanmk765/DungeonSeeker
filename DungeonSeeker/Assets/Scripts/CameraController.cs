@@ -41,6 +41,7 @@ public class CameraController : MonoBehaviour
     {
         if (IsStop == false)
         {
+            Camera.main.orthographicSize = 6f;
             transform.position = Vector3.Lerp(transform.position, playerTransform.position + new Vector3(0, 2f, 0), Time.unscaledDeltaTime * cameraMoveSpeed);
             float lx = mapSize.x - width;
             float clampX = Mathf.Clamp(transform.position.x, -lx + mapCenter.x, lx + mapCenter.x);
@@ -53,15 +54,29 @@ public class CameraController : MonoBehaviour
 
         if(IsResult == true)
         {
-
-            transform.position = Vector3.Lerp(transform.position, playerTransform.position + new Vector3(6f, 2f, 0), Time.unscaledDeltaTime * cameraMoveSpeed);
-            //Camera.main.orthographicSize = Mathf.Lerp(6f, 3f, Time.unscaledDeltaTime);
+            Debug.Log(Vector2.Distance(transform.position, playerTransform.position));
+            transform.position = Vector3.Lerp(transform.position, playerTransform.position + new Vector3(2.2f, 1f, -10f), Time.unscaledDeltaTime * cameraMoveSpeed);
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 3f, Time.unscaledDeltaTime * 1f);
         }
     }
 
     public void ResultCall ()
     {
         IsStop = true;
-        Result.sprite = result1;
+        IsResult = true;
+
+        StartCoroutine(ShowResult());
+        
+    }
+    IEnumerator ShowResult()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Result.gameObject.SetActive(true);
+        Result.sprite = result0;
+        yield return new WaitForSecondsRealtime(2f);
+        if (Vector2.Distance(transform.position, playerTransform.position) <= 2.417f)
+        {
+            Result.sprite = result1;
+        }
     }
 }

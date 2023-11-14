@@ -72,6 +72,9 @@ public class PlayerStat : MonoBehaviour
         if(IsDie == true)
         {
             this.GetComponent<Animator>().SetInteger("State", 30);
+            Time.timeScale = 0.1f;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
         }
         if (motion == true)
         {
@@ -109,6 +112,7 @@ public class PlayerStat : MonoBehaviour
                 if (nowHp <= 0 && IsDie == false)
                 {
                     IsDie = true;
+                    GameObject.Find("Main Camera").GetComponent<CameraController>().ResultCall();
                     this.GetComponent<MoveController>().IsFade = true;
                     
 

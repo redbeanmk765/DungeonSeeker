@@ -40,7 +40,7 @@ public class slimeKing : enemy
     public bool IsLow;
     public GameObject BGController;
     public BossHpBar bossHpbar;
-
+    public Canvas canvas;
 
 
     private enum State
@@ -85,11 +85,13 @@ public class slimeKing : enemy
         Physics2D.IgnoreCollision(this.GetComponent<PolygonCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
 
         coolTime = new List<int> {0,0,0,0,0 };
+        canvas.worldCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
 
     private void Update()
     {
+        
         dmgCount = 0;
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.000001f, 0);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.000001f, 0);

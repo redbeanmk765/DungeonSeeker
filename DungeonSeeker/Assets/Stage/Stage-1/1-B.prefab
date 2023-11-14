@@ -18011,6 +18011,8 @@ MonoBehaviour:
   enter: {fileID: 0}
   exit: {fileID: 0}
   player: {fileID: 0}
+  playerUI: {fileID: 0}
+  IsCity: 0
 --- !u!1 &2859708531056469432
 GameObject:
   m_ObjectHideFlags: 0
@@ -24912,7 +24914,7 @@ Canvas:
   m_GameObject: {fileID: 7762280815295636265}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -24922,7 +24924,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 18
   m_TargetDisplay: 0
 --- !u!114 &7019491462866018697
 MonoBehaviour:
@@ -25839,6 +25841,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6906083851927438160, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1402419267955982920}
     - target: {fileID: 6906083851927438160, guid: b1e01da4bb74eaf409e0893f70180cbe, type: 3}
       propertyPath: bossHpbar
       value: 
