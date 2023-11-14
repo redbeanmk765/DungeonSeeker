@@ -100,10 +100,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyUI: {fileID: 2179571949250564774}
+  full: {fileID: 1899158751, guid: 01c6df9ef6ad64d4aa9742e7b2642d0a, type: 3}
   empty: {fileID: 1157422008, guid: 01c6df9ef6ad64d4aa9742e7b2642d0a, type: 3}
   IsNear: 0
   IsFull: 0
   playerStat: {fileID: 0}
+  ReFill: 0
 --- !u!61 &4154594702876307922
 BoxCollider2D:
   m_ObjectHideFlags: 0

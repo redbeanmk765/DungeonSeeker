@@ -80,11 +80,11 @@ public class PlayerStat : MonoBehaviour
             this.GetComponent<Animator>().SetInteger("State", 29);
             if (rotation.y == 0)
             {
-                this.transform.position = this.transform.position - new Vector3(0.01f, 0f, 0f);
+                this.transform.position = this.transform.position - new Vector3(0.005f, 0f, 0f);
             }
             else
             {
-                this.transform.position = this.transform.position + new Vector3(0.01f, 0f, 0f);
+                this.transform.position = this.transform.position + new Vector3(0.005f, 0f, 0f);
             }
         }
 
@@ -195,6 +195,7 @@ public class PlayerStat : MonoBehaviour
 
 
         motion = true;
+        this.GetComponent<MoveController>().MotionReset();
         this.GetComponent<MoveController>().IsFade = true;
         yield return new WaitForSecondsRealtime(0.3f);
         this.GetComponent<MoveController>().IsFade = false;

@@ -423,7 +423,8 @@ public class MoveController : MonoBehaviour
                 IsFade = true;
                 IsSkillMotion = true;
                 Animator.SetInteger("State", 18);
-              
+                GameObject.Find("Main Camera").GetComponent<CameraController>().IsStop = true;
+
             }
         }
 
@@ -542,6 +543,7 @@ public class MoveController : MonoBehaviour
     
     public void TheWorld1()
     {
+        GameObject.Find("Main Camera").GetComponent<CameraController>().IsStop = false;
         StartCoroutine(TimerBar());
         StartCoroutine(TheWorld());
         IsFade = false;
@@ -653,7 +655,7 @@ public class MoveController : MonoBehaviour
 
     IEnumerator TheWorld()
     {
-        
+       
         GameObject.Find("Main Camera").GetComponent<FadeController>().TheWorldOn();
         TM = 10;
 
@@ -745,6 +747,20 @@ public class MoveController : MonoBehaviour
 
         readyAttack = false;
 
+    }
+
+    public void MotionReset()
+    {
+        HitBox.SetActive(false);
+        WallHitBox.SetActive(false);
+        UpHitBox.SetActive(false);
+        DownHitBox.SetActive(false);
+        IsAttack = false;
+        IsAttack2 = false;
+        IsJumpAttack = false;
+        IsWallAttack = false;
+        IsUpAttack = false;
+        readyAttack = false;
     }
 
   

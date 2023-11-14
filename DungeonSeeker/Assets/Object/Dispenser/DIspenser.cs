@@ -5,10 +5,12 @@ using UnityEngine;
 public class DIspenser : MonoBehaviour
 {
     public GameObject keyUI;
+    public Sprite full;
     public Sprite empty;
     public bool IsNear;
     public bool IsFull;
     public PlayerStat playerStat;
+    public bool ReFill;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,11 @@ public class DIspenser : MonoBehaviour
             playerStat.HpPotionCount = playerStat.HpPotionMax;
             this.GetComponent<SpriteRenderer>().sprite = empty;
             IsFull = false;
+        }
+        if(ReFill == true)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = full;
+            IsFull = true;
         }
 
     }

@@ -30,6 +30,7 @@ public class FadeController : MonoBehaviour
 
     public void TheWorldOff()
     {
+       
         theWorldpanel.gameObject.SetActive(false);
     }
 
