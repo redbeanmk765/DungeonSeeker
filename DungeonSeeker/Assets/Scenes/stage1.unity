@@ -2042,6 +2042,7 @@ MonoBehaviour:
   width: 0
   IsStop: 0
   IsResult: 0
+  IsClose: 0
 --- !u!114 &1302451268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3229,6 +3230,7 @@ MonoBehaviour:
   motion: 0
   totalGold: 0
   killScore: 0
+  IsResur: 0
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}
 --- !u!1 &1916026520

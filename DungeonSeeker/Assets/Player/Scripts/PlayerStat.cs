@@ -47,6 +47,7 @@ public class PlayerStat : MonoBehaviour
     public bool motion;
     public float totalGold;
     public float killScore;
+    public bool IsResur;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -79,6 +80,10 @@ public class PlayerStat : MonoBehaviour
             Time.timeScale = 0.1f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
+        }
+        if(IsResur == true)
+        {
+            this.GetComponent<Animator>().SetInteger("State", 31);
         }
         if (motion == true)
         {
@@ -118,7 +123,7 @@ public class PlayerStat : MonoBehaviour
                     IsDie = true;
                     GameObject.Find("Main Camera").GetComponent<CameraController>().ResultCall();
                     this.GetComponent<MoveController>().IsFade = true;
-                    
+                    DataController.Instance.data.PlayerPlat += totalGold * 0.5f;
 
                 }
                 else
@@ -185,6 +190,8 @@ public class PlayerStat : MonoBehaviour
         skillCoolTimeTmp = 0;
         AirJumpCountMaxTmp = 0;
         HpPotionMaxTmp = 0;
+        PlayerGold = 0;
+        totalGold = 0;
     }
 
     public void GoldUpdate()
@@ -195,6 +202,24 @@ public class PlayerStat : MonoBehaviour
     public void PlatUpdate()
     {
         PlayerPlatText.text = DataController.Instance.data.PlayerPlat.ToString();
+    }
+
+    public void Resurrection1()
+    {
+        IsResur = true;
+        statReset();
+        this.GetComponent<MoveController>().IsFade = true;
+        nowHp = maxHp;
+        HpPotionCount = HpPotionMax;
+        IsDie = false;
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+    }
+
+    public void Resurrection2()
+    {
+        this.GetComponent<MoveController>().IsFade = false;
+        IsResur = false;
     }
 
 

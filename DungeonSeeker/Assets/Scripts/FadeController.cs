@@ -104,8 +104,9 @@ public class FadeController : MonoBehaviour
             panel.color = color;
             yield return 0;
         }
-        player.GetComponent<MoveController>().IsFade = false;
         panel.gameObject.SetActive(false);
+        player.GetComponent<PlayerStat>().IsDie = false;
+        player.GetComponent<Animator>().SetInteger("State", 31);
         yield return 0;
     }
 

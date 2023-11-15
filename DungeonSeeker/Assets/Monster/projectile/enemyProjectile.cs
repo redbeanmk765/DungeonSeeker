@@ -12,8 +12,8 @@ public class enemyProjectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        //this.transform.localEulerAngles = new Vector3(0, 0, rot);
+        transform.parent = GameObject.Find("StageController").GetComponent<StageController>().curRoom.transform;
+        this.transform.localEulerAngles = new Vector3(0, 0, rot);
     }
 
     // Update is called once per frame

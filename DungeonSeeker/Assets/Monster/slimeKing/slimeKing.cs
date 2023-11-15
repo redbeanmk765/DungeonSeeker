@@ -330,7 +330,7 @@ public class slimeKing : enemy
         oneWay = Instantiate(monsterStat.projectile);
         oneWay.transform.position = this.transform.position;
         oneWay.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(attackAngle, 0, 0);
-        oneWay.gameObject.GetComponent<Transform>().localEulerAngles = new Vector3(0, 180 * IsLeft, 0);
+        oneWay.gameObject.GetComponent<enemyProjectile>().rot = 180 * IsLeft;
         oneWay.gameObject.GetComponent<enemyProjectile>().dmg = monsterStat.enemyDamage;
         oneWay.gameObject.GetComponent<enemyProjectile>().speed = monsterStat.projectileSpeed;
     }

@@ -23,6 +23,7 @@ public class CameraController : MonoBehaviour
 
     public bool IsStop;
     public bool IsResult;
+    public bool IsClose;
     void Start()
     {
         player = GameObject.Find("Player");
@@ -32,12 +33,13 @@ public class CameraController : MonoBehaviour
         width = height * Screen.width / Screen.height;
         IsStop = false;
         IsResult = false;
+        IsClose = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interaction") && IsResult == true)
+        if (Input.GetButtonDown("Interaction") && IsClose == true)
         {
             Debug.Log("push");
             GetComponent<FadeController>().Retry();
@@ -83,6 +85,7 @@ public class CameraController : MonoBehaviour
     {
         IsResult = false;
         IsStop = false;
+        IsClose = false;
         Text.SetActive(false);
         Result.gameObject.SetActive(false);
 
@@ -97,6 +100,7 @@ public class CameraController : MonoBehaviour
         {
             Result.sprite = result1;
             Text.SetActive(true);
+            IsClose = true;
         }
     }
 }

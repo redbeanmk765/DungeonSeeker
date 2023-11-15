@@ -14,6 +14,7 @@ public class targetEnemyProjectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.parent = GameObject.Find("StageController").GetComponent<StageController>().curRoom.transform;
         targetPos = target.transform.position;
         angle = Mathf.Atan2(targetPos.y - this.gameObject.transform.position.y, targetPos.x - this.gameObject.transform.position.x) * Mathf.Rad2Deg;
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
