@@ -8,8 +8,10 @@ public class CameraController : MonoBehaviour
     public Transform playerTransform;
     public Vector3 cameraPosition;
     public Image Result;
+    public GameObject Text;
     public Sprite result0;
     public Sprite result1;
+    public GameObject player;
 
     public Vector2 mapCenter;
     public Vector2 mapSize;
@@ -23,7 +25,8 @@ public class CameraController : MonoBehaviour
     public bool IsResult;
     void Start()
     {
-        playerTransform = GameObject.Find("Player").GetComponent<Transform>();
+        player = GameObject.Find("Player");
+        playerTransform = player.GetComponent<Transform>();
         Camera.main.orthographicSize = 6;
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
@@ -34,7 +37,12 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetButtonDown("Interaction") && IsResult == true)
+        {
+            Debug.Log("push");
+            GetComponent<FadeController>().Retry();
+
+        }
     }
 
     private void FixedUpdate()
@@ -54,9 +62,11 @@ public class CameraController : MonoBehaviour
 
         if(IsResult == true)
         {
-            Debug.Log(Vector2.Distance(transform.position, playerTransform.position));
+           
             transform.position = Vector3.Lerp(transform.position, playerTransform.position + new Vector3(2.2f, 1f, -10f), Time.unscaledDeltaTime * cameraMoveSpeed);
             Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 3f, Time.unscaledDeltaTime * 1f);
+
+            
         }
     }
 
@@ -68,6 +78,15 @@ public class CameraController : MonoBehaviour
         StartCoroutine(ShowResult());
         
     }
+
+    public void Retry()
+    {
+        IsResult = false;
+        IsStop = false;
+        Text.SetActive(false);
+        Result.gameObject.SetActive(false);
+
+    }
     IEnumerator ShowResult()
     {
         yield return new WaitForSecondsRealtime(1f);
@@ -77,6 +96,7 @@ public class CameraController : MonoBehaviour
         if (Vector2.Distance(transform.position, playerTransform.position) <= 2.417f)
         {
             Result.sprite = result1;
+            Text.SetActive(true);
         }
     }
 }

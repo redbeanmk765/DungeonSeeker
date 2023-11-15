@@ -45,6 +45,8 @@ public class PlayerStat : MonoBehaviour
     public float HpPotionMaxTmp;
     public bool IsDie;
     public bool motion;
+    public float totalGold;
+    public float killScore;
 
     [SerializeField] public Material originalMaterial;
     [SerializeField] public Material flashMaterial;
@@ -60,6 +62,8 @@ public class PlayerStat : MonoBehaviour
         HpPotionCount = HpPotionMax;
         IsDie = false;
         motion = false;
+        totalGold = 0;
+        killScore = 0;
     }
 
     // Update is called once per frame
@@ -196,8 +200,6 @@ public class PlayerStat : MonoBehaviour
 
     IEnumerator DamageMotion()
     {
-
-
         motion = true;
         this.GetComponent<MoveController>().MotionReset();
         this.GetComponent<MoveController>().IsFade = true;

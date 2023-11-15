@@ -177,6 +177,9 @@ public class slimeKing : enemy
                 if (this.gameObject.GetComponent<SpriteRenderer>().color.a <= 0)
                 {
                     player.GetComponent<PlayerStat>().PlayerGold += monsterStat.enemyGold;
+                    player.GetComponent<PlayerStat>().totalGold += monsterStat.enemyGold;
+                    player.GetComponent<PlayerStat>().killScore++;
+                    
                     Destroy(this.gameObject);
                 }
                 break;

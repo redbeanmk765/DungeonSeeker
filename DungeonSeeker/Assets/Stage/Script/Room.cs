@@ -12,7 +12,9 @@ public class Room : ScriptableObject
     public Vector2 MapSize;
 
     public Vector2 BossMapCenter;
-    public Vector2 BossMapSize; 
+    public Vector2 BossMapSize;
+
+    public string Name;
 
 }
 

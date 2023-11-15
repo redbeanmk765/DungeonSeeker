@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapCenter: {x: 12, y: 14}
   MapSize: {x: 24, y: 8}
+  BossMapCenter: {x: 0, y: 0}
+  BossMapSize: {x: 0, y: 0}
+  Name: 1 - S

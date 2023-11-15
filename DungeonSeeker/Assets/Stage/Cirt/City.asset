@@ -16,3 +16,4 @@ MonoBehaviour:
   MapSize: {x: 30.5, y: 7.5}
   BossMapCenter: {x: 0, y: 0}
   BossMapSize: {x: 0, y: 0}
+  Name: City
