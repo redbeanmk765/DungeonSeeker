@@ -22,11 +22,4 @@ public class test : MonoBehaviour
     {
         DataController.Instance.SaveGameData();
     }
-
-    public void SaveData()
-    {
-        DataController.Instance.data.maxHpPer = 10;
-
-        DataController.Instance.SaveGameData();
-    }
 }

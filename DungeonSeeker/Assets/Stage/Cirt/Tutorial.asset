@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 363c3ae4564df9f48a97fa586798ffc1, type: 3}
-  m_Name: City
+  m_Name: Tutorial
   m_EditorClassIdentifier: 
-  MapCenter: {x: 27.5, y: 5.5}
-  MapSize: {x: 30.5, y: 7.5}
+  MapCenter: {x: 36.5, y: 5.5}
+  MapSize: {x: 39, y: 7}
   BossMapCenter: {x: 0, y: 0}
   BossMapSize: {x: 0, y: 0}
-  Name: City
+  Name: T
