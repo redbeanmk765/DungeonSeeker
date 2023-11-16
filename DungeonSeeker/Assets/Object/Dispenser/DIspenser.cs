@@ -24,6 +24,7 @@ public class DIspenser : MonoBehaviour
     {
         if (Input.GetButtonDown("Interaction") && IsNear == true && IsFull == true)
         {
+            GetComponent<AudioSource>().Play();
             playerStat.HpPotionCount = playerStat.HpPotionMax;
             this.GetComponent<SpriteRenderer>().sprite = empty;
             IsFull = false;

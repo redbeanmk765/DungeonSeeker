@@ -29,4 +29,9 @@ public class HpPotion : MonoBehaviour
     {
         this.GetComponent<Image>().sprite = empty;
     }
+
+    public void PlaySound()
+    {
+        GetComponent<AudioSource>().Play();
+    }
 }

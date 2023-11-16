@@ -104,6 +104,7 @@ public class PlayerStat : MonoBehaviour
         if (Input.GetButtonDown("Item1") && HpPotionCount > 0){
             HpPotionCount -= 1;
             cure += 30;
+            GameObject.Find("item1Image").gameObject.GetComponent<HpPotion>().PlaySound();
         }
         if(HpPotionCount == 0)
         {
