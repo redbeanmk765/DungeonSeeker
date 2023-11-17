@@ -10,6 +10,7 @@ public class FadeController : MonoBehaviour
     public GameObject nextRoom;
     public Image panel;
     public Image theWorldpanel;
+    public AudioSource BGM;
     float time = 0f;
     float fadeTime = 1f;
 
@@ -17,6 +18,7 @@ public class FadeController : MonoBehaviour
     {
         stageController = GameObject.Find("StageController");
         player = GameObject.Find("Player");
+        StartCoroutine(start());
     }
     public void Fade()
     {
@@ -39,10 +41,28 @@ public class FadeController : MonoBehaviour
         theWorldpanel.gameObject.SetActive(false);
     }
 
+    IEnumerator start()
+    {
+        Color color = panel.color;
+        color.a = 1;
+        time = 0f;
+
+        while (color.a > 0f)
+        {
+
+            time += Time.unscaledDeltaTime / 2f;
+            color.a = Mathf.Lerp(1, 0, time);
+            panel.color = color;
+            yield return 0;
+        }
+        panel.gameObject.SetActive(false);
+        yield return 0;
+    }
     IEnumerator FadeCor()
     {
         panel.gameObject.SetActive(true);
         player.GetComponent<MoveController>().IsFade = true;
+        BGM.volume = 0.1f;
         Color color = panel.color;
         color.a = 0;
         time = 0f;
@@ -71,6 +91,7 @@ public class FadeController : MonoBehaviour
         player.GetComponent<MoveController>().IsFade = false;
         stageController.GetComponent<StageController>().RoomShift();
         panel.gameObject.SetActive(false);
+        BGM.volume = 0.3f;
         yield return 0;
     }
 
@@ -89,9 +110,9 @@ public class FadeController : MonoBehaviour
             yield return 0;
         }
         DestroyImmediate(stageController.GetComponent<StageController>().curRoom, true);
-        stageController.GetComponent<StageController>().count = 1;
-        nextRoom = Instantiate(stageController.GetComponent<StageController>().stage.roomList[0]);
-        stageController.GetComponent<StageController>().nextRoom = stageController.GetComponent<StageController>().stage.roomList[1];
+        stageController.GetComponent<StageController>().count = 2;
+        nextRoom = Instantiate(stageController.GetComponent<StageController>().stage.roomList[1]);
+        stageController.GetComponent<StageController>().nextRoom = stageController.GetComponent<StageController>().stage.roomList[2];
         GetComponent<CameraController>().Retry();
         yield return new WaitForSecondsRealtime(0.5f);
         time = 0f;

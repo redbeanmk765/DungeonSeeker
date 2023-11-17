@@ -20,6 +20,7 @@ public class GoddessStatueP : MonoBehaviour
         if (Input.GetButtonDown("Interaction") &&  IsNear == true)
         {
             playerUI.GetComponent<ShopController>().OpenPlatShop();
+            this.GetComponent<AudioSource>().Play();
         }
 
     }

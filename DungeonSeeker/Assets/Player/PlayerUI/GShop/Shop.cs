@@ -15,6 +15,7 @@ public class Shop : MonoBehaviour
     public List<float> cost;
     public List<float> level;
     public List<float> levelMax;
+    public ShopSound SS;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +46,7 @@ public class Shop : MonoBehaviour
         if(Input.GetButtonDown("Vertical")){
             float ver = Input.GetAxisRaw("Vertical");
             count += -ver;
+            SS.Move();
             if (count <= 0)
             {
                 count = max;
@@ -88,6 +90,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[0];
                     playerStat.maxHpTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -96,6 +103,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[1];
                     playerStat.defTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -104,6 +116,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[2];
                     playerStat.hitBoxTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -112,6 +129,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[3];
                     playerStat.dashCoolTimeTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -120,6 +142,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[4];
                     playerStat.AttackCoolTimeTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -128,6 +155,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[5];
                     playerStat.DmgTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -136,6 +168,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[6];
                     playerStat.skilldurationTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -144,6 +181,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[7];
                     playerStat.skillCoolTimeTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -152,6 +194,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[8];
                     playerStat.AirJumpCountMaxTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -160,6 +207,11 @@ public class Shop : MonoBehaviour
                 {
                     playerStat.PlayerGold -= cost[9];
                     playerStat.HpPotionMaxTmp += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 

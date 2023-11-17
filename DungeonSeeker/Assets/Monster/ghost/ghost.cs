@@ -167,6 +167,7 @@ public class ghost : enemy
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
                 animator.SetInteger("State", 3);
+                this.GetComponent<AudioSource>().Play();
                 break;
         }
     }

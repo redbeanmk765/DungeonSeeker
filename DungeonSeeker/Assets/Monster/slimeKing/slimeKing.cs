@@ -42,6 +42,10 @@ public class slimeKing : enemy
     public BossHpBar bossHpbar;
     public Canvas canvas;
 
+    public AudioSource audioSource;
+    public AudioClip[] clip;
+
+
 
     private enum State
     {
@@ -286,6 +290,7 @@ public class slimeKing : enemy
         MaxSpeedX = 7;
 
         animator.SetInteger("State", 4);
+        audioSource.PlayOneShot(clip[0]);
         StartCoroutine(dash());
     }
     IEnumerator dash()
@@ -309,6 +314,7 @@ public class slimeKing : enemy
                 ChangeState(State.idle);
                 attackMotionDone = true;
                 MaxSpeedX = 1;
+                audioSource.Stop();
             }
         }
         if (isDash == false)
@@ -327,6 +333,7 @@ public class slimeKing : enemy
 
     public void AttackShoot2()
     {
+        audioSource.PlayOneShot(clip[3]);
         oneWay = Instantiate(monsterStat.projectile);
         oneWay.transform.position = this.transform.position;
         oneWay.gameObject.GetComponent<enemyProjectile>().pos = new Vector3(attackAngle, 0, 0);
@@ -353,6 +360,7 @@ public class slimeKing : enemy
     public void AttackJump2()
     {
         gravity.force = new Vector2 ( 0 , 19.6f);
+        audioSource.PlayOneShot(clip[1]);
         StartCoroutine(CeilingCheck());
     }
     public void AttackJump3()
@@ -369,7 +377,7 @@ public class slimeKing : enemy
 
     public void AttackTgShoot2()
     {
-        
+        audioSource.PlayOneShot(clip[3]);
         attackAngle = turn();
         targetP = Instantiate(monsterStat.projectile2);
         targetP.transform.position = this.transform.position;
@@ -398,6 +406,7 @@ public class slimeKing : enemy
 
     public void AttackCeiling2()
     {
+        audioSource.PlayOneShot(clip[1]);
         rigid.velocity = new Vector2(0, 6f);
         IsFloor = false;
         StartCoroutine(FloorCheck());
@@ -449,6 +458,7 @@ public class slimeKing : enemy
                 IsFloor = true;
                 ceilingHit.SetActive(false);
                 animator.SetInteger("State", 9);
+                audioSource.PlayOneShot(clip[2]);
                 yield break;
             }
         }
@@ -457,6 +467,7 @@ public class slimeKing : enemy
         {
             ceilingHit.SetActive(false);
             animator.SetInteger("State", 9);
+            audioSource.PlayOneShot(clip[2]);
             yield break;
         }
 
@@ -482,6 +493,7 @@ public class slimeKing : enemy
                 IsCeiling = true;
                 ceilingHit.SetActive(false);
                 animator.SetInteger("State", 8);
+                audioSource.PlayOneShot(clip[2]);
                 yield break;
             }
         }
@@ -490,6 +502,7 @@ public class slimeKing : enemy
         {
             ceilingHit.SetActive(false);
             animator.SetInteger("State", 8);
+            audioSource.PlayOneShot(clip[2]);
             yield break;
         }
 

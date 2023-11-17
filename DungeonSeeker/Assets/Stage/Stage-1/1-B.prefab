@@ -867,6 +867,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 1395974219143721830}
+  BGC: {fileID: 0}
 --- !u!1 &766901226169308604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,6 +1018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 6119920870316485747}
+  BGC: {fileID: 0}
 --- !u!1 &930056595226498966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,6 +1300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 3615601459510245335}
+  BGC: {fileID: 0}
 --- !u!1 &1117743534150124707
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,6 +2008,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 1166089889610000004}
+  BGC: {fileID: 0}
 --- !u!1 &1513539101796545806
 GameObject:
   m_ObjectHideFlags: 0
@@ -2155,6 +2159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 6266894304081211492}
+  BGC: {fileID: 0}
 --- !u!1 &1757942416237344781
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,6 +2310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 1248336968514031190}
+  BGC: {fileID: 0}
 --- !u!1 &1939710013363653850
 GameObject:
   m_ObjectHideFlags: 0
@@ -22837,6 +22843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 6743141883224116301}
+  BGC: {fileID: 0}
 --- !u!1 &4689039017849614492
 GameObject:
   m_ObjectHideFlags: 0
@@ -22987,6 +22994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 7224761352579764209}
+  BGC: {fileID: 0}
 --- !u!1 &4689609008951216582
 GameObject:
   m_ObjectHideFlags: 0
@@ -23137,6 +23145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 8399376885217742252}
+  BGC: {fileID: 0}
 --- !u!1 &4784790852191555608
 GameObject:
   m_ObjectHideFlags: 0
@@ -23345,6 +23354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 3846232733825884256}
+  BGC: {fileID: 0}
 --- !u!1 &5261026582263773814
 GameObject:
   m_ObjectHideFlags: 0
@@ -23800,6 +23810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 3879330586397352162}
+  BGC: {fileID: 0}
 --- !u!1 &6119920870316485747
 GameObject:
   m_ObjectHideFlags: 0
@@ -24270,6 +24281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 5261026582263773814}
+  BGC: {fileID: 0}
 --- !u!1 &6743141883224116301
 GameObject:
   m_ObjectHideFlags: 0
@@ -24865,6 +24877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 930056595226498966}
+  BGC: {fileID: 0}
 --- !u!1 &7762280815295636265
 GameObject:
   m_ObjectHideFlags: 0
@@ -25187,6 +25200,7 @@ GameObject:
   - component: {fileID: 517137161061757804}
   - component: {fileID: 4678797122580865410}
   - component: {fileID: 5237486849243630865}
+  - component: {fileID: 906270204242004389}
   m_Layer: 0
   m_Name: BallGenController
   m_TagString: Untagged
@@ -25289,6 +25303,103 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  audioSource: {fileID: 906270204242004389}
+--- !u!82 &906270204242004389
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8376104382611250629}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3dfc424ed5e52534d9991c323a3e02a4, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8399376885217742252
 GameObject:
   m_ObjectHideFlags: 0
@@ -25570,6 +25681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 1150717792088547216}
+  BGC: {fileID: 0}
 --- !u!1 &9108360163622061577
 GameObject:
   m_ObjectHideFlags: 0
@@ -25720,6 +25832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 0
   ballGenerator: {fileID: 3414172647573819803}
+  BGC: {fileID: 0}
 --- !u!1001 &2297406601174193943
 PrefabInstance:
   m_ObjectHideFlags: 0

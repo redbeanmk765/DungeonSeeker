@@ -22,6 +22,8 @@ public class slime : enemy
     public float MaxSpeedX;
     public Rigidbody2D rigid;
     public int angle;
+    public AudioSource audioSource;
+    public AudioClip[] clip;
 
 
     private enum State
@@ -245,6 +247,7 @@ IEnumerator FlashWhite()
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
                 animator.SetInteger("State", 5);
+                audioSource.PlayOneShot(clip[0]);
                 break;
         }
     }
@@ -308,7 +311,7 @@ IEnumerator FlashWhite()
 
         isDash = true;
         MaxSpeedX = 8;
-        
+        audioSource.PlayOneShot(clip[1],0.5f);
         StartCoroutine(dash());
     } 
     public void AttackDash4()

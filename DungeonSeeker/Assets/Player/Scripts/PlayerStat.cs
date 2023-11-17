@@ -89,6 +89,7 @@ public class PlayerStat : MonoBehaviour
         {
             
             Vector3 rotation = this.transform.localEulerAngles;
+            this.GetComponent<MoveController>().MotionReset();
             this.GetComponent<Animator>().SetInteger("State", 29);
             if (rotation.y == 0)
             {
@@ -129,6 +130,7 @@ public class PlayerStat : MonoBehaviour
                 }
                 else
                 {
+                    GameObject.Find("SoundController").GetComponent<SoundController>().Damaged();
                     StartCoroutine(DamageMotion());
                     onFlash = true;
                     StartCoroutine(FlashWhite());
@@ -186,7 +188,7 @@ public class PlayerStat : MonoBehaviour
         hitBoxTmp = 0;
         dashCoolTimeTmp = 0;
         AttackCoolTimeTmp = 0;
-        DmgTmp = 100;
+        DmgTmp = 0;
         skilldurationTmp = 0;
         skillCoolTimeTmp = 0;
         AirJumpCountMaxTmp = 0;

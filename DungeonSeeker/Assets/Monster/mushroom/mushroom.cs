@@ -20,6 +20,8 @@ public class mushroom : enemy
     public bool IsDie = false;
     public float nowHp;
     public float damaged;
+    public AudioSource audioSource;
+    public AudioClip[] clip;
 
 
     private enum State
@@ -146,6 +148,7 @@ public class mushroom : enemy
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
                 animator.SetInteger("State", 2);
+                audioSource.PlayOneShot(clip[1]);
                 break;
         }
     }
@@ -157,6 +160,9 @@ public class mushroom : enemy
     
     public void AttackShoot()
     {
+
+        audioSource.PlayOneShot(clip[0]);
+
         enemyProjectileUp = Instantiate(monsterStat.projectile);
         enemyProjectileUp.transform.position = this.transform.position;
         enemyProjectileUp.gameObject.GetComponent<enemyProjectile>().pos = new Vector3 (0,1,0);

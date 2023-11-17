@@ -29,7 +29,8 @@ public class spider : enemy
     public float maxSpeedY;
     public bool right;
 
-
+    public AudioSource audioSource;
+    public AudioClip[] clip;
 
     private enum State
     {
@@ -206,6 +207,7 @@ public class spider : enemy
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
                 animator.SetInteger("State", 4);
+                audioSource.PlayOneShot(clip[1]);
                 break;
         }
     }
@@ -253,6 +255,7 @@ public class spider : enemy
     }
     public void AttackShoot2()
     {
+        audioSource.PlayOneShot(clip[0]);
         enemyProjectile = Instantiate(monsterStat.projectile);
         enemyProjectile.transform.position = this.transform.position;
         enemyProjectile.gameObject.GetComponent<targetEnemyProjectile>().target = player;

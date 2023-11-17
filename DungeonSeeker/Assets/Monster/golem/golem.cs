@@ -28,7 +28,8 @@ public class golem : enemy
     public bool attackCoolTime;
     public int layermask;
     public float maxSpeedY;
-
+    public AudioSource audioSource;
+    public AudioClip[] clip;
 
 
     private enum State
@@ -175,6 +176,7 @@ public class golem : enemy
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
                 animator.SetInteger("State", 3);
+                audioSource.PlayOneShot(clip[1]);
                 break;
         }
     }
@@ -229,6 +231,7 @@ public class golem : enemy
     public void AttackWave2()
     {
         hitBox.SetActive(true);
+        audioSource.PlayOneShot(clip[0]);
         //enemyAttack = Instantiate(hitBox);
         //enemyAttack.GetComponent<Transform>().position = this.hitBox.GetComponent<Transform>().position + new Vector3(0,0);
         //enemyAttack.GetComponent<golemWave>().enemyDamage = this.monsterStat.enemyDamage;

@@ -24,6 +24,7 @@ public class magicBook : enemy
     public int angle;
     public bool isRun;
     public bool attackCoolTime;
+    public AudioSource audioSource;
 
 
 
@@ -166,6 +167,7 @@ public class magicBook : enemy
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
                 animator.SetInteger("State", 3);
+                audioSource.Play();
                 break;
         }
     }
@@ -206,7 +208,7 @@ public class magicBook : enemy
     IEnumerator attackCoolTimeCor()
     {
 
-        yield return new WaitForSeconds(5.5f);
+        yield return new WaitForSeconds(3.5f);
         attackCoolTime = false;
         yield break;
 

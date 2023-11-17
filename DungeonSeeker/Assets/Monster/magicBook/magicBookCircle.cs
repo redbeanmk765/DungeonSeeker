@@ -11,6 +11,9 @@ public class magicBookCircle : MonoBehaviour
     public GameObject magic;
     public GameObject enemyProjectile;
     public int maxCount;
+    public AudioSource audioSource;
+    public AudioClip[] clip;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,7 @@ public class magicBookCircle : MonoBehaviour
 
     public void shootMagic()
     {
+        audioSource.PlayOneShot(clip[1]);
         for (int i = 0; i <= 11; i++)
         {
             enemyProjectile = Instantiate(magic);
@@ -52,7 +56,7 @@ public class magicBookCircle : MonoBehaviour
 
     public void shootMagic2()
     {
-       Destroy(this.gameObject);
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 }
 

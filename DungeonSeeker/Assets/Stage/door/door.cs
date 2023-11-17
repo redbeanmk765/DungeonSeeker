@@ -25,6 +25,7 @@ public class door : MonoBehaviour
         if (Input.GetButtonDown("Interaction") && IsOpen == true && IsNear == true && IsEnter == false)
         {
             GameObject.Find("StageController").GetComponent<StageController>().GoNextRoom();
+            GetComponent<AudioSource>().Play();
             IsEnter = true;
 
         }

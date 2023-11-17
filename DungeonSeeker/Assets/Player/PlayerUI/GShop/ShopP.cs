@@ -14,6 +14,7 @@ public class ShopP : MonoBehaviour
     public List<float> cost;
     public List<float> level;
     public List<float> levelMax;
+    public ShopSound SS;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,7 @@ public class ShopP : MonoBehaviour
         if(Input.GetButtonDown("Vertical")){
             float ver = Input.GetAxisRaw("Vertical");
             count += -ver;
+            SS.Move();
             if (count <= 0)
             {
                 count = max;
@@ -86,6 +88,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[0];
                     DataController.Instance.data.maxHpPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -94,6 +101,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[1];
                     DataController.Instance.data.defPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -102,6 +114,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[2];
                     DataController.Instance.data.hitBoxPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -110,6 +127,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[3];
                     DataController.Instance.data.dashCoolTimePer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -118,6 +140,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[4];
                     DataController.Instance.data.AttackCoolTimePer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -126,6 +153,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[5];
                     DataController.Instance.data.DmgPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -134,6 +166,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[6];
                     DataController.Instance.data.skilldurationPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -142,6 +179,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[7];
                     DataController.Instance.data.skillCoolTimePer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -150,6 +192,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[8];
                     DataController.Instance.data.AirJumpCountMaxPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 
@@ -158,6 +205,11 @@ public class ShopP : MonoBehaviour
                 {
                     DataController.Instance.data.PlayerPlat -= cost[9];
                     DataController.Instance.data.HpPotionMaxPer += 1;
+                    SS.Sucess();
+                }
+                else
+                {
+                    SS.Fail();
                 }
                 break;
 

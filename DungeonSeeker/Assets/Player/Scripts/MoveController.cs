@@ -44,6 +44,8 @@ public class MoveController : MonoBehaviour
     public bool IsSkillMotion;
     public PlayerStat playerStat;
     public Image Timer;
+    public SoundController sound;
+    public GameObject TimerSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -185,16 +187,19 @@ public class MoveController : MonoBehaviour
                 if (AirJumpCount > 0)
                 {
                     rigid.velocity = new Vector2(rigid.velocity.x, 6f * TM);
-
+                    sound.Jump();
                     if (IsGround == false && IsWall == false)
                     {
                         AirJumpCount--;
                     }
+
+                    
                 }
 
                 if (IsWall == true)
                 {
                     rigid.AddForce(new Vector2(-1 * Hor * 5f * TM, 6f * TM), ForceMode2D.Impulse);
+                    //sound.Jump();
                     StartCoroutine(WallJump());
                 }
             }
@@ -251,6 +256,7 @@ public class MoveController : MonoBehaviour
                     IsDash = true;
                     Hor = 0;
                     dashDirection = LastHor;
+                    sound.Dash();
                     StartCoroutine(Dash());
                     StartCoroutine(DashCoolTime());
                     StartCoroutine(DashCoolTimeBar());
@@ -404,7 +410,7 @@ public class MoveController : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonDown("Skill1") && IsDash == false && IsSkillCoolTime == false && TM == 1)
+            if (Input.GetButtonDown("Skill1") && IsDash == false && IsSkillCoolTime == false && TM == 1 && IsAttack == false && IsAttack2 == false)
             {
                 rigid.velocity = new Vector3(0, 0, 0);
                 TM = 1000;
@@ -655,9 +661,21 @@ public class MoveController : MonoBehaviour
 
     IEnumerator TheWorld()
     {
-       
+        HitBox.SetActive(false);
+        WallHitBox.SetActive(false);
+        UpHitBox.SetActive(false);
+        DownHitBox.SetActive(false);
+        IsAttack = false;
+        IsAttack2 = false;
+        IsJumpAttack = false;
+        IsWallAttack = false;
+        IsUpAttack = false;
+        readyAttack = false;
+
         GameObject.Find("Main Camera").GetComponent<FadeController>().TheWorldOn();
         TM = 10;
+
+        TimerSound.SetActive(true);
 
         Time.timeScale = 1f / TM;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
@@ -675,6 +693,7 @@ public class MoveController : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
         Gravity.force = new Vector2(0, -9.8f * TM);
 
+        TimerSound.SetActive(false);
 
         MaxSpeedX = 5 * TM;
         MaxSpeedY = 10 * TM;
@@ -776,7 +795,6 @@ public class MoveController : MonoBehaviour
 
     //}
 
-    
     
 }
 
