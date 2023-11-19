@@ -3925,6 +3925,7 @@ MonoBehaviour:
   bossHpBar: {fileID: 3704854890589594376}
   mapCon: {fileID: 7197845055418589050}
   IsFix: 1
+  IsFixCall: 0
 --- !u!114 &3704854890589594376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4333,6 +4334,10 @@ PrefabInstance:
       propertyPath: m_Bounds.m_Extent.y
       value: 0.1274916
       objectReference: {fileID: 0}
+    - target: {fileID: 4738618136981462385, guid: 78131743d578ed24fb2a3b14c256cce5, type: 3}
+      propertyPath: bossHpbar
+      value: 
+      objectReference: {fileID: 3704854890589594376}
     - target: {fileID: 5054511893112918781, guid: 78131743d578ed24fb2a3b14c256cce5, type: 3}
       propertyPath: m_Name
       value: GiantSpider
@@ -4687,11 +4692,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2112313120963534335, guid: 13ed196f0d7667645b944b58c4b9ca99, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2112313120963534335, guid: 13ed196f0d7667645b944b58c4b9ca99, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2112313120963534335, guid: 13ed196f0d7667645b944b58c4b9ca99, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4723,7 +4728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2112313120963534335, guid: 13ed196f0d7667645b944b58c4b9ca99, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -31
+      value: -67
       objectReference: {fileID: 0}
     - target: {fileID: 2112313120963534335, guid: 13ed196f0d7667645b944b58c4b9ca99, type: 3}
       propertyPath: m_AnchoredPosition.y

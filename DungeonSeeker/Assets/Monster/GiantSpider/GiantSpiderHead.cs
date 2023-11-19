@@ -26,9 +26,15 @@ public class GiantSpiderHead : MonoBehaviour
     {
         if (col.CompareTag("Attack"))
         {
-            giantSpider.GetComponent<GiantSpider>().damaged = col.gameObject.GetComponent<HitBox>().Dmg;
-            onFlash = true;
-            StartCoroutine(FlashWhite());
+            if (giantSpider.GetComponent<GiantSpider>().IsDie == false)
+            {
+                if (onFlash == false)
+                {
+                    giantSpider.GetComponent<GiantSpider>().damaged = col.gameObject.GetComponent<HitBox>().Dmg;
+                }
+                onFlash = true;
+                StartCoroutine(FlashWhite());
+            }
         }
     }
 

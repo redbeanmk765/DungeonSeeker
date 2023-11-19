@@ -22,7 +22,10 @@ public class GiantSpiderHitBox : MonoBehaviour
     {
         if (col.CompareTag("PlayerHitBox"))
         {
-            player.GetComponent<PlayerStat>().damaged = giantSpider.GetComponent<GiantSpider>().monsterStat.enemyDamage;
+            if (giantSpider.GetComponent<GiantSpider>().IsDie == false)
+            {
+                player.GetComponent<PlayerStat>().damaged = giantSpider.GetComponent<GiantSpider>().monsterStat.enemyDamage;
+            }
 
         }
     }
