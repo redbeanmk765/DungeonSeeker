@@ -112,6 +112,7 @@ public class FadeController : MonoBehaviour
         DestroyImmediate(stageController.GetComponent<StageController>().curRoom, true);
         stageController.GetComponent<StageController>().count = 2;
         nextRoom = Instantiate(stageController.GetComponent<StageController>().stage.roomList[1]);
+        stageController.GetComponent<StageController>().curRoom = nextRoom;
         stageController.GetComponent<StageController>().nextRoom = stageController.GetComponent<StageController>().stage.roomList[2];
         GetComponent<CameraController>().Retry();
         yield return new WaitForSecondsRealtime(0.5f);

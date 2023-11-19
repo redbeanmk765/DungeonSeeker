@@ -9,11 +9,14 @@ public class BossDoor : MonoBehaviour
     public GameObject Door;
     public BossHpBar bossHpBar;
     public mapContoller mapCon;
+    public bool IsFix;
+    public bool IsFixCall;
     // Start is called before the first frame update
     void Start()
     {
         Enemy = GameObject.Find("Enemy");
         playerStat = GameObject.Find("Player").GetComponent<PlayerStat>();
+        IsFixCall = false; 
     }
 
     // Update is called once per frame
@@ -23,14 +26,36 @@ public class BossDoor : MonoBehaviour
         {
             Door.SetActive(true);
             bossHpBar.SetTrue();
-            mapCon.BossCameraOn();
+            if (IsFix == false)
+            {
+                mapCon.BossCameraOn();
+            }
+            else
+            {
+                if (IsFixCall == false) 
+                { 
+                    mapCon.BossFixCameraOn();
+                }
+                IsFixCall = true;
+
+            }
 
         }
 
         if(Enemy.transform.childCount == 0)
         {
+            bossHpBar.SetFalse();
+            
+            if (IsFix == false)
+            {
+                mapCon.BossCameraOff();
+            }
+            else
+            {
+                mapCon.BossFixCameraOff();
+            }
             Destroy(this.gameObject);
-            mapCon.BossCameraOff();
+
         }
     }
 }

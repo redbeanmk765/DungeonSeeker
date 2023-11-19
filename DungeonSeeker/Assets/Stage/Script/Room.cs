@@ -13,6 +13,7 @@ public class Room : ScriptableObject
 
     public Vector2 BossMapCenter;
     public Vector2 BossMapSize;
+    public float BossCameraSize;
 
     public string Name;
 

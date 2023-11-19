@@ -65,12 +65,8 @@ public class GiantSpider : enemy
         nowHp = monsterStat.maxHp;
         animator = GetComponent<Animator>();
 
-        onFlash = false;
         IsDie = false;
         IsDelay = false;
-        IsCeiling = false;
-        IsJump = false;
-        IsFloor = false;
         IsLow = false;
         IsLeft = 0;
         IsDown = 0;

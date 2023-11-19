@@ -16,4 +16,5 @@ MonoBehaviour:
   MapSize: {x: 24, y: 8}
   BossMapCenter: {x: 0, y: 0}
   BossMapSize: {x: 0, y: 0}
+  BossCameraSize: 0
   Name: 1 - S

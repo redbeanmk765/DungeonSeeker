@@ -56,4 +56,19 @@ public class mapContoller : MonoBehaviour
         MainCamera.GetComponent<CameraController>().mapCenter = room.MapCenter;
         MainCamera.GetComponent<CameraController>().mapSize = room.MapSize;
     }
+
+    public void BossFixCameraOn()
+    {
+        MainCamera.GetComponent<CameraController>().mapCenter = room.BossMapCenter;
+        MainCamera.GetComponent<CameraController>().bossCameraSize = room.BossCameraSize;
+        MainCamera.GetComponent<CameraController>().IsFix = true;
+        MainCamera.GetComponent<CameraController>().IsStop = true;
+    }
+
+    public void BossFixCameraOff()
+    {
+        MainCamera.GetComponent<CameraController>().mapCenter = room.MapCenter;
+        MainCamera.GetComponent<CameraController>().IsFix = false;
+        MainCamera.GetComponent<CameraController>().IsStop = false;
+    }
 }

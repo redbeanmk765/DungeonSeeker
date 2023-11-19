@@ -12,6 +12,8 @@ public class CameraController : MonoBehaviour
     public Sprite result0;
     public Sprite result1;
     public GameObject player;
+    public float cameraSize;
+    public float bossCameraSize;
 
     public Vector2 mapCenter;
     public Vector2 mapSize;
@@ -24,8 +26,11 @@ public class CameraController : MonoBehaviour
     public bool IsStop;
     public bool IsResult;
     public bool IsClose;
+
+    public bool IsFix;
     void Start()
     {
+        cameraSize = 6f;
         player = GameObject.Find("Player");
         playerTransform = player.GetComponent<Transform>();
         Camera.main.orthographicSize = 6;
@@ -34,6 +39,7 @@ public class CameraController : MonoBehaviour
         IsStop = false;
         IsResult = false;
         IsClose = false;
+        IsFix = false ;
     }
 
     // Update is called once per frame
@@ -49,9 +55,9 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsStop == false)
+        if (IsStop == false )
         {
-            Camera.main.orthographicSize = 6f;
+            Camera.main.orthographicSize = cameraSize;
             transform.position = Vector3.Lerp(transform.position, playerTransform.position + new Vector3(0, 2f, 0), Time.unscaledDeltaTime * cameraMoveSpeed);
             float lx = mapSize.x - width;
             float clampX = Mathf.Clamp(transform.position.x, -lx + mapCenter.x, lx + mapCenter.x);
@@ -70,12 +76,20 @@ public class CameraController : MonoBehaviour
 
             
         }
+
+        if(IsFix == true)
+        {
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, bossCameraSize, Time.unscaledDeltaTime ); 
+            transform.position = Vector3.Lerp(transform.position,  new Vector3(mapCenter.x, mapCenter.y, -10f), Time.unscaledDeltaTime );
+
+        }
     }
 
     public void ResultCall ()
     {
         IsStop = true;
         IsResult = true;
+        IsFix = false;
 
         StartCoroutine(ShowResult());
         
