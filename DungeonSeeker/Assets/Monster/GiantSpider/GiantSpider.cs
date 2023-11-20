@@ -28,6 +28,9 @@ public class GiantSpider : enemy
     public List<SpriteRenderer> sprites;
     public int spritesCount;
 
+    public GameObject ICL;
+    public GameObject ICR;
+    public GameObject ICW;
 
     private enum State
     {
@@ -180,11 +183,41 @@ public class GiantSpider : enemy
 
     }
 
+    public void MagicCircle()
+    {
+        GameObject tmp;
+        tmp = Instantiate(monsterStat.projectile);
+        tmp.transform.position = new Vector3(4, 48, 0);
+    }
+
+    public void IceWall1()
+    {
+        ICL.SetActive(true);
+        ICR.SetActive(true);
+    }
+    public void IceWall2()
+    {
+        ICW.SetActive(true);
+    }
+
+    public void IceWall3()
+    {
+        ICW.transform.position += new Vector3(0, 0.25f, 0);
+    }
+
+    public void IceWall4()
+    {
+        ICL.SetActive(false);
+        ICR.SetActive(false);
+        ICW.transform.position += new Vector3(0, -1f, 0);
+        ICW.SetActive(false);
+    }
 
 
     public void Delay()
     {
         IsDelay = true;
+       
     }
 
     public void MotionDone()
@@ -281,7 +314,10 @@ public class GiantSpider : enemy
                     Okay = true;
             }
         }
-
+        for (int tmp = 0; tmp <= 4; tmp++)
+        {
+            coolTime[tmp]--;
+        }
         switch (i)
         {
             
@@ -292,12 +328,14 @@ public class GiantSpider : enemy
                     animator.SetInteger("State", 3);
                     IsDelay = true;
                     attackMotionDone = false;
+                    coolTime[i] = 3;
                 }
                 else
                 {
                     animator.SetInteger("State", 4);
                     IsDelay = true;
                     attackMotionDone = false;
+                    coolTime[i] = 3;
                 }
                 break;
 
@@ -305,6 +343,7 @@ public class GiantSpider : enemy
                 animator.SetInteger("State", 5);
                 IsDelay = true;
                 attackMotionDone = false;
+                coolTime[i] = 3;
                 break;
 
             case 2:
@@ -314,12 +353,14 @@ public class GiantSpider : enemy
                     animator.SetInteger("State", 6);
                     IsDelay = true;
                     attackMotionDone = false;
+                    coolTime[i] = 3;
                 }
                 else
                 {
                     animator.SetInteger("State", 7);
                     IsDelay = true;
                     attackMotionDone = false;
+                    coolTime[i] = 3;
                 }
                 break;
 
@@ -327,12 +368,14 @@ public class GiantSpider : enemy
                 animator.SetInteger("State", 8);
                 IsDelay = true;
                 attackMotionDone = false;
+                coolTime[i] = 5;
                 break;
 
             case 4:
                 animator.SetInteger("State", 9);
                 IsDelay = true;
                 attackMotionDone = false;
+                coolTime[i] = 3;
                 break;
 
         }

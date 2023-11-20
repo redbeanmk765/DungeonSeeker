@@ -30,6 +30,7 @@ public class SpawnPoint : MonoBehaviour
     {
        tmp = Instantiate(armadillo);
        tmp.transform.position = this.transform.position;
+       tmp.transform.parent = GameObject.Find("Enemy").transform;
         tmp.GetComponent<armadillo>().RollStart = true;
        if(IsLeft == true)
         {

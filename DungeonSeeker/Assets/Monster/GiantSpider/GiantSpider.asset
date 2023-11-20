@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: GiantSpider
   m_EditorClassIdentifier: 
   enemyName: GiantSpider
-  maxHp: 500
+  maxHp: 450
   level: 1
-  enemyDamage: 50
-  race: 6
+  enemyDamage: 40
+  race: 10
   moveSpeed: 0
-  projectileSpeed: 10
-  projectile: {fileID: 0}
+  projectileSpeed: 15
+  projectile: {fileID: 1556391107343860204, guid: a0990ecca468a034daa24efed483171c, type: 3}
   projectile2: {fileID: 0}
-  enemyGold: 0
+  enemyGold: 600
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}

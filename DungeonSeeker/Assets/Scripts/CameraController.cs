@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsStop == false )
+        if (IsStop == false && IsFix == false )
         {
             Camera.main.orthographicSize = cameraSize;
             transform.position = Vector3.Lerp(transform.position, playerTransform.position + new Vector3(0, 2f, 0), Time.unscaledDeltaTime * cameraMoveSpeed);
