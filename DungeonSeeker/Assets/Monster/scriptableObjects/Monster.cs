@@ -32,6 +32,8 @@ public enum Race
     magicBook,
     spider,
     golem,
-    slimeKing
+    slimeKing,
+    armadillo,
+    GiantSpider
 
 }

@@ -20,6 +20,7 @@ public class GiantSpider : enemy
     public int dmgCount;
     public bool IsLow;  
     public BossHpBar bossHpbar;
+    public GameObject SpawnPoint;
 
     public AudioSource audioSource;
     public AudioClip[] clip;
@@ -167,6 +168,19 @@ public class GiantSpider : enemy
     {
         IsDelay = false;
     }
+    public void Spawn()
+    {
+        SpawnPoint.SetActive(true);
+
+    }
+
+    public void DeSpawn()
+    {
+        SpawnPoint.SetActive(false);
+
+    }
+
+
 
     public void Delay()
     {
