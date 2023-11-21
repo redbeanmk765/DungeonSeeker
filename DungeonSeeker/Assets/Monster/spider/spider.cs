@@ -28,6 +28,7 @@ public class spider : enemy
     public int layermask;
     public float maxSpeedY;
     public bool right;
+    public bool IsHor;
 
     public AudioSource audioSource;
     public AudioClip[] clip;
@@ -60,6 +61,7 @@ public class spider : enemy
         IsDie = false;
 
         maxSpeedY = 4;
+        MaxSpeedX = 6;
 
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<EdgeCollider2D>(), true);
@@ -160,6 +162,16 @@ public class spider : enemy
         else if (rigid.velocity.y < -1 * maxSpeedY)
         {
             rigid.velocity = new Vector2(rigid.velocity.x, -1 * maxSpeedY);
+        }
+
+        if (rigid.velocity.x > MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(MaxSpeedX, rigid.velocity.y);
+        }
+
+        else if (rigid.velocity.x < -1 * MaxSpeedX)
+        {
+            rigid.velocity = new Vector2(-1 * MaxSpeedX, rigid.velocity.y);
         }
     }
 
@@ -309,18 +321,34 @@ public class spider : enemy
 
         public override void OnStateUpdate()
         {
-
-            int angle = 1;
-            if ((curEnemy.gameObject.transform.localEulerAngles.x == 0))
+            if (curEnemy.gameObject.GetComponent<spider>().IsHor == false)
             {
-                angle = 1;
+                int angle = 1;
+                if ((curEnemy.gameObject.transform.localEulerAngles.x == 0))
+                {
+                    angle = 1;
+                }
+                else
+                {
+                    angle = -1;
+                }
+
+                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
             }
             else
             {
-                angle = -1;
+                int angle = 1;
+                if ((curEnemy.gameObject.transform.localEulerAngles.y == 0))
+                {
+                    angle = 1;
+                }
+                else
+                {
+                    angle = -1;
+                }
+
+                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.right * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
             }
-  
-                curEnemy.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * angle * curEnemy.monsterStat.moveSpeed, ForceMode2D.Impulse);
             
         }
 
@@ -387,27 +415,46 @@ public class spider : enemy
 
         if (this.curState != State.die)
         {
-
-            if (col.CompareTag("Ground"))
+            if (IsHor == false)
             {
-
-                if(this.transform.localEulerAngles.x  == 0)
+                if (col.CompareTag("Ground"))
                 {
-                    this.transform.localEulerAngles = new Vector3(180, 0, rotation.z);
 
+                    if (this.transform.localEulerAngles.x == 0)
+                    {
+                        this.transform.localEulerAngles = new Vector3(180, 0, rotation.z);
+
+                    }
+                    else
+                    {
+                        this.transform.localEulerAngles = new Vector3(0, 0, rotation.z);
+                    }
+                    rigid.velocity = new Vector2(0, 0);
                 }
-                else
-                {
-                    this.transform.localEulerAngles = new Vector3(0, 0, rotation.z);
-                }
-                rigid.velocity = new Vector2(0, 0);
             }
-        }
+            else
+            {
+                if (col.CompareTag("Ground"))
+                {
 
-        if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
-        {
-            player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+                    if (this.transform.localEulerAngles.y == 0)
+                    {
+                        this.transform.localEulerAngles = new Vector3(0, 180, rotation.z);
 
+                    }
+                    else
+                    {
+                        this.transform.localEulerAngles = new Vector3(0, 0, rotation.z);
+                    }
+                    rigid.velocity = new Vector2(0, 0);
+                }
+            }
+
+            if (this.curState != State.die && col.CompareTag("PlayerHitBox"))
+            {
+                player.GetComponent<PlayerStat>().damaged = monsterStat.enemyDamage;
+
+            }
         }
     }
 

@@ -24711,6 +24711,8 @@ MonoBehaviour:
   Door: {fileID: 1117743534150124707}
   bossHpBar: {fileID: 3704854890589594376}
   mapCon: {fileID: 7197845055418589050}
+  IsFix: 0
+  IsFixCall: 0
 --- !u!114 &3704854890589594376
 MonoBehaviour:
   m_ObjectHideFlags: 0

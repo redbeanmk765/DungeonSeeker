@@ -187,9 +187,9 @@ public class armadillo : enemy
 
     private bool CanAttackPlayer()
     {
-        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 8
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 5
-            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -5)
+        if (Mathf.Abs(enemy.GetComponent<Transform>().position.x - player.GetComponent<Transform>().position.x) < 20
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y <= 2
+            && player.GetComponent<Transform>().position.y - enemy.GetComponent<Transform>().position.y >= -7)
         {
             return true;
         }

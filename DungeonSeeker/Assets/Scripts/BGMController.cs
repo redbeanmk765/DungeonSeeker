@@ -21,14 +21,18 @@ public class BGMController : MonoBehaviour
         lastStage = stage;
         switch(sCon.count - 1)
         {
-            case <= 1:
+            case int i when i <= 1:
                 stage = 0;
                 break;
 
-            case <= 2:
-            case >= 6:
+            case int i when i >= 2 && i <= 6 :
                 stage = 1;
                 break;
+
+            case int i when i >= 7 && i <= 20:
+                stage = 2;
+                break;
+            
         }
 
         if(lastStage != stage)

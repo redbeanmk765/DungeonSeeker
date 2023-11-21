@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6385421361357459936}
   m_Layer: 0
   m_Name: armadillo
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -233,6 +233,7 @@ MonoBehaviour:
   layermask: 0
   IsLeft: 0
   IsRoll: 0
+  RollStart: 0
   audioSource: {fileID: 0}
   clip: []
 --- !u!1 &6385421362550764006

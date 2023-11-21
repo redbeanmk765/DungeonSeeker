@@ -8,7 +8,9 @@ public class CameraController : MonoBehaviour
     public Transform playerTransform;
     public Vector3 cameraPosition;
     public Image Result;
+    public Image ResultClear;
     public GameObject Text;
+    public GameObject TextClear;
     public Sprite result0;
     public Sprite result1;
     public GameObject player;
@@ -26,6 +28,7 @@ public class CameraController : MonoBehaviour
     public bool IsStop;
     public bool IsResult;
     public bool IsClose;
+    public bool IsClear;
 
     public bool IsFix;
     void Start()
@@ -40,6 +43,7 @@ public class CameraController : MonoBehaviour
         IsResult = false;
         IsClose = false;
         IsFix = false ;
+        IsClear = false;
     }
 
     // Update is called once per frame
@@ -47,8 +51,15 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetButtonDown("Interaction") && IsClose == true)
         {
-            Debug.Log("push");
-            GetComponent<FadeController>().Retry();
+            if (IsClear == false)
+            {
+                GetComponent<FadeController>().Retry();
+            }
+            else if(IsClear == true)
+            {
+                GetComponent<FadeController>().Retry();
+                IsClear = false;
+            }
 
         }
     }
@@ -90,9 +101,16 @@ public class CameraController : MonoBehaviour
         IsStop = true;
         IsResult = true;
         IsFix = false;
+        if (IsClear == false)
+        {
+            StartCoroutine(ShowResult());
+        }
 
-        StartCoroutine(ShowResult());
-        
+        else if (IsClear == true)
+        {
+            StartCoroutine(ShowResultClear());
+        }
+
     }
 
     public void Retry()
@@ -102,8 +120,11 @@ public class CameraController : MonoBehaviour
         IsClose = false;
         Text.SetActive(false);
         Result.gameObject.SetActive(false);
-
+        TextClear.SetActive(false);
+        ResultClear.gameObject.SetActive(false);
     }
+
+
     IEnumerator ShowResult()
     {
         yield return new WaitForSecondsRealtime(1f);
@@ -114,6 +135,20 @@ public class CameraController : MonoBehaviour
         {
             Result.sprite = result1;
             Text.SetActive(true);
+            IsClose = true;
+        }
+    }
+
+    IEnumerator ShowResultClear()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        ResultClear.gameObject.SetActive(true);
+        ResultClear.sprite = result0;
+        yield return new WaitForSecondsRealtime(2f);
+        if (Vector2.Distance(transform.position, playerTransform.position) <= 2.417f)
+        {
+            ResultClear.sprite = result1;
+            TextClear.SetActive(true);
             IsClose = true;
         }
     }
