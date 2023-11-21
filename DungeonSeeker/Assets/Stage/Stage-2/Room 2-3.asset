@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 363c3ae4564df9f48a97fa586798ffc1, type: 3}
-  m_Name: Room 2-2
+  m_Name: Room 2-3
   m_EditorClassIdentifier: 
-  MapCenter: {x: 43, y: 9}
-  MapSize: {x: 55, y: 7}
+  MapCenter: {x: 20.5, y: 5}
+  MapSize: {x: 32.5, y: 20}
   BossMapCenter: {x: 0, y: 0}
   BossMapSize: {x: 0, y: 0}
   BossCameraSize: 0
-  Name: 2 - 2
+  Name: 2 - 3

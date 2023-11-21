@@ -169,7 +169,7 @@ public class MoveController : MonoBehaviour
             }
 
             RaycastHit2D WallHit = Physics2D.BoxCast(transform.position, new Vector2(0.01f, 1.70f), 0, Vector2.right * Hor, 0.4f, LayerMask);
-            if (WallHit != false && IsDash == false)
+            if (WallHit != false && IsDash == false && IsGround == false)
             {
                 IsWall = true;
                 AirJumpCount = playerStat.AirJumpCountMax;
@@ -204,7 +204,7 @@ public class MoveController : MonoBehaviour
                 }
             }
 
-            if (Input.GetButton("Horizontal") && (WallHit != false) && IsDash == false && IsAttack == false && IsAttack2 == false && IsJumpAttack == false)
+            if (Input.GetButton("Horizontal") && (WallHit != false) && IsDash == false && IsAttack == false && IsAttack2 == false && IsJumpAttack == false && IsGround == false)
             {
                 //rigid.velocity = new Vector2(0, 0);
                 //if (IsWallAttack == false) 
