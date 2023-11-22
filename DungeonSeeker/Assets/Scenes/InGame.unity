@@ -7532,6 +7532,42 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[1].Array.data[25].Y
       value: 80000000
       objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Parameters.textureMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Positions.Array.data[0].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679630842184838010, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ec3d3ba975f4a04083d218ef6663e7e, type: 3}
 --- !u!4 &5709105957526177297 stripped

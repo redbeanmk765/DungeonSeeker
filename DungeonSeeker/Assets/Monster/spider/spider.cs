@@ -29,6 +29,7 @@ public class spider : enemy
     public float maxSpeedY;
     public bool right;
     public bool IsHor;
+    public LineRenderer Trajectory;
 
     public AudioSource audioSource;
     public AudioClip[] clip;
@@ -71,6 +72,7 @@ public class spider : enemy
 
     private void Update()
     {
+        DrawTrajectory();
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.000001f, 0);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.000001f, 0);
         if (this.damaged != 0)
@@ -264,9 +266,11 @@ public class spider : enemy
     public void AttackShoot1()
     {       
         attackMotionDone = false;
+        Trajectory.enabled = true;
     }
     public void AttackShoot2()
     {
+        Trajectory.enabled = false;
         audioSource.PlayOneShot(clip[0]);
         enemyProjectile = Instantiate(monsterStat.projectile);
         enemyProjectile.transform.position = this.transform.position;
@@ -289,6 +293,12 @@ public class spider : enemy
         attackCoolTime = false;
         yield break;
 
+    }
+
+    public void DrawTrajectory()
+    {
+        Trajectory.SetPosition(0, this.transform.position + new Vector3(0, 0, -1f));
+        Trajectory.SetPosition(1, player.transform.position + new Vector3(0, 0, -1f));
     }
 
     public class IdleState : BaseState
