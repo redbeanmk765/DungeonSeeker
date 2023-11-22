@@ -6,19 +6,22 @@ public class GoddessStatue : MonoBehaviour
 {
     public GameObject keyUI;
     public bool IsNear;
+    public bool IsOpen;
     public GameObject playerUI;
     // Start is called before the first frame update
     void Start()
     {
         IsNear = false;
+        IsOpen = false;
         playerUI = GameObject.Find("PlayerUI");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interaction") &&  IsNear == true)
+        if (Input.GetButtonDown("Interaction") && IsNear == true && IsOpen == false)
         {
+            IsOpen = true;
             playerUI.GetComponent<ShopController>().OpenGoldShop();
             this.GetComponent<AudioSource>().Play();
         }
@@ -40,6 +43,7 @@ public class GoddessStatue : MonoBehaviour
         {
             keyUI.SetActive(false);
             IsNear = false;
+            IsOpen = false;
         }
     }
 }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GiantSpider
   m_EditorClassIdentifier: 
   enemyName: GiantSpider
-  maxHp: 450
+  maxHp: 650
   level: 1
-  enemyDamage: 40
+  enemyDamage: 60
   race: 10
   moveSpeed: 0
   projectileSpeed: 15

@@ -6,10 +6,9 @@ public class ShopController : MonoBehaviour
 {
     public GameObject goldShop;
     public GameObject platShop;
+    public bool IsOpen;
 
-
-
-   public void OpenGoldShop()
+        public void OpenGoldShop()
     {
         goldShop.SetActive(true);
         GameObject.Find("Player").GetComponent<MoveController>().IsFade = true ;

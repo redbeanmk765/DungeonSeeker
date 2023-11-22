@@ -21,6 +21,6 @@ MonoBehaviour:
   projectileSpeed: 10
   projectile: {fileID: 1556391107343860204, guid: 95e35388f53f713478cae2da54ba940a, type: 3}
   projectile2: {fileID: 0}
-  enemyGold: 20
+  enemyGold: 30
   originalMaterial: {fileID: 2100000, guid: 4ccb5f4248e5eb74085624dec92fdb1e, type: 2}
   flashMaterial: {fileID: 2100000, guid: 25dee93cbde919c4c827e5f3c10967f8, type: 2}

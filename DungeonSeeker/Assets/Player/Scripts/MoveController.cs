@@ -716,47 +716,6 @@ public class MoveController : MonoBehaviour
 
     }
 
-
-        //IEnumerator DashCooltime()
-        //{
-        //    float coolTime = 0;
-        //    float coolTImeRatio = 1;
-        //    while (coolTime <= this.gameObject.GetComponent<playerStat>().dashCooltime)
-        //    {
-        //        coolTime += Time.deltaTime;
-        //        coolTImeRatio = 1 - (coolTime / this.gameObject.GetComponent<playerStat>().dashCooltime);
-        //        this.gameObject.transform.Find("DashCooltime").GetComponent<RectTransform>().localScale = new Vector3(coolTImeRatio, 0.1f, 0);
-        //        yield return new WaitForFixedUpdate();
-        //    }
-        //}
-
-        //IEnumerator Attack()
-        //{
-        //    rigid.velocity = new Vector2(0, rigid.velocity.y);
-        //    IsAttack = true;
-        //    HitBox.SetActive(true);
-        //    yield return new WaitForSeconds(0.2f);
-        //    HitBox.SetActive(false);
-        //    readyAttack = true;
-        //    yield return new WaitForSeconds(0.2f);
-        //    IsAttack = false;
-        //    readyAttack = false;
-
-
-        //}
-
-        //IEnumerator Attack2()
-        //{
-        //    IsAttack = true;
-        //    IsAttack2 = true;
-        //    HitBox.SetActive(true);
-        //    yield return new WaitForSeconds(0.15f);
-        //    HitBox.SetActive(false);
-        //    IsAttack = false;
-        //    IsAttack2 = false;
-
-        //}
-
         IEnumerator ReadyAttack2()
     {
 
@@ -783,17 +742,6 @@ public class MoveController : MonoBehaviour
     }
 
   
-
-    //IEnumerator JumpAttack()
-    //{
-
-    //    IsJumpAttack = true;
-
-    //    yield return new WaitForSeconds(0.2f);
-
-    //    IsJumpAttack = false;
-
-    //}
 
     
 }

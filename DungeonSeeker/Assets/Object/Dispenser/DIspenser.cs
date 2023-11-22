@@ -26,6 +26,7 @@ public class DIspenser : MonoBehaviour
         {
             GetComponent<AudioSource>().Play();
             playerStat.HpPotionCount = playerStat.HpPotionMax;
+            playerStat.nowHp = playerStat.maxHp;
             this.GetComponent<SpriteRenderer>().sprite = empty;
             IsFull = false;
         }

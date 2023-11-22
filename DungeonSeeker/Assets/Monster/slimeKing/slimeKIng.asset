@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: slimeKIng
   m_EditorClassIdentifier: 
   enemyName: slimeKIng
-  maxHp: 300
+  maxHp: 400
   level: 1
   enemyDamage: 30
   race: 8

@@ -16,8 +16,9 @@ public class HitBox : MonoBehaviour
     }
 
     void OnEnable()
-    {
+    {   
         sCon.Swish();
+        StartCoroutine(Cancle());
     }
 
     // Update is called once per frame
@@ -37,5 +38,11 @@ public class HitBox : MonoBehaviour
         }
 
          
+    }
+
+    IEnumerator Cancle()
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        this.gameObject.SetActive(false);
     }
 }

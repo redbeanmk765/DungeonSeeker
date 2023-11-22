@@ -157,6 +157,7 @@ public class GiantSpider : enemy
                 break;
             case State.die:
                 fsm.ChangeState(new DieState(this, player));
+                audioSource.PlayOneShot(clip[0]);
                 animator.SetInteger("State", 12);
                 break;
         }
@@ -174,6 +175,7 @@ public class GiantSpider : enemy
     public void Spawn()
     {
         SpawnPoint.SetActive(true);
+        audioSource.PlayOneShot(clip[2]);
 
     }
 
@@ -194,6 +196,7 @@ public class GiantSpider : enemy
     {
         ICL.SetActive(true);
         ICR.SetActive(true);
+        audioSource.PlayOneShot(clip[3]);
     }
     public void IceWall2()
     {
@@ -218,6 +221,19 @@ public class GiantSpider : enemy
     {
         IsDelay = true;
        
+    }
+
+    public void SlamSound()
+    {
+        audioSource.PlayOneShot(clip[1]);
+
+    }
+
+
+    public void SlashSound()
+    {
+        audioSource.PlayOneShot(clip[2]);
+
     }
 
     public void MotionDone()
